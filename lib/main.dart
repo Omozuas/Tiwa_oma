@@ -1,4 +1,5 @@
 // import 'package:flutter/foundation.dart';
+import 'package:Tiwa_Oma/view/Signuo.view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,7 +48,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Tiwa Oma',
       debugShowCheckedModeBanner: false,
-      home: SplashView(),
+      home: Signup(
+        role: '',
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:Tiwa_Oma/widgets/dropDownBtn.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/Signup2.view.dart';
@@ -18,6 +19,17 @@ class _SignupState extends State<Signup> {
   TextEditingController countryController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   bool _isNotValidate = false;
+  // String valueChoose = 'lagos';
+  // List<dynamic> countries = [];
+  // String? countryId;
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   this.countries.add({'id': 1, "label": "nigeria"});
+  //   this.countries.add({'id': 2, "label": "uk"});
+  // }
 
   void create() async {
     if (emailController.text.isNotEmpty &&
