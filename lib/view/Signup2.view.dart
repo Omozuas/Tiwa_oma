@@ -34,8 +34,7 @@ class _Signup2State extends State<Signup2> {
   Future<void> signupUser() async {
     if (formKey.currentState!.validate() &&
         formKey1.currentState!.validate() &&
-        formKey2.currentState!.validate() &&
-        validatePassword()) {
+        formKey2.currentState!.validate()) {
       final snackBar = SnackBar(content: Text('proseed'));
       _scaffoldkey.currentState!.setState(() {
         snackBar;
@@ -46,32 +45,6 @@ class _Signup2State extends State<Signup2> {
               builder: (context) => VerifyEmail(
                     role: widget.role,
                   )));
-    }
-  }
-
-  String validationResult = '';
-  bool validatePassword() {
-    if (passwordController.text.isEmpty ||
-        confirmpasswordController.text.isEmpty) {
-      setState(() {
-        validationResult = 'Both fields are required.';
-      });
-      return false;
-    } else if (passwordController.text != confirmpasswordController.text) {
-      setState(() {
-        validationResult = 'Passwords do not match.';
-      });
-      return false;
-    } else if (RegExp(r'^.*$').hasMatch(passwordController.text)) {
-      setState(() {
-        validationResult = 'Passwords match and meet the basic requirement.';
-      });
-      return true;
-    } else {
-      setState(() {
-        validationResult = 'Passwords do not meet the basic requirement.';
-      });
-      return false;
     }
   }
 
@@ -165,6 +138,7 @@ class _Signup2State extends State<Signup2> {
                           }
                         }),
                     signupFiled(
+                        keys: formKey2,
                         label: "COMFIRMPASSWORD",
                         hintText: "ComfirmPassword",
                         obscureText: !_isVisible,
@@ -184,6 +158,12 @@ class _Signup2State extends State<Signup2> {
                           if (value!.isEmpty ||
                               !RegExp(r'^.*$').hasMatch(value!)) {
                             return "Enter Your ComfirmPassword";
+                          } else if (passwordController.text.isEmpty ||
+                              confirmpasswordController.text.isEmpty) {
+                            return 'Both fields are required.';
+                          } else if (passwordController.text !=
+                              confirmpasswordController.text) {
+                            return 'Passwords do not match.';
                           } else {
                             return null;
                           }
