@@ -1,5 +1,6 @@
 // import 'package:flutter/foundation.dart';
 import 'package:Tiwa_Oma/view/Signuo.view.dart';
+import 'package:Tiwa_Oma/view/Signup2.view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 // import 'package:Tiwa_Oma/view/Login.view.dart';
 // import 'package:Tiwa_Oma/view/Signuo.view.dart';
 // import 'package:Tiwa_Oma/providers/user_provider.dart';
-import 'package:Tiwa_Oma/view/Splash.view.dart';
+// import 'package:Tiwa_Oma/view/Splash.view.dart';
 // import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
 // import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
 // import 'package:provider/provider.dart';
@@ -48,7 +49,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Tiwa Oma',
       debugShowCheckedModeBanner: false,
-      home: Signup(
+      home: Signup2(
+        registerBody1: {},
         role: '',
       ),
     );

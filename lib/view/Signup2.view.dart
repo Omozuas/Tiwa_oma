@@ -25,53 +25,61 @@ class _Signup2State extends State<Signup2> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmpasswordController = TextEditingController();
   TextEditingController genderController = TextEditingController();
-
-  bool _isNotValidate = false;
+  final formKey = GlobalKey<FormState>();
+  final formKey1 = GlobalKey<FormState>();
+  final formKey2 = GlobalKey<FormState>();
+  // bool _isNotValidate = false;
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
 
   Future<void> signupUser() async {
-    if (passwordController.text.isNotEmpty &&
-        confirmpasswordController.text.isNotEmpty &&
-        genderController.text.isNotEmpty &&
-        widget.registerBody1.isNotEmpty) {
-      // var registerBody = {
-      //   "gender": genderController.text,
-      //   "password": passwordController.text,
-      //   "confirmPassword": confirmpasswordController.text,
-      //   "username": widget.registerBody1['username'] ?? '',
-      //   "email": widget.registerBody1['email'] ?? '',
-      //   "state": widget.registerBody1['state'] ?? '',
-      //   "country": widget.registerBody1['country'] ?? '',
-      //   "address": widget.registerBody1['address'] ?? '',
-      //   "role": widget.role,
-      // };
-
-      // var responsed = await http.post(Uri.parse(registration),
-      //     headers: {"Content-Type": "application/json"},
-      //     body: jsonEncode(registerBody));
-      // var jsonResponse = jsonDecode(responsed.body);
-      // print(jsonResponse["success"]);
-      // if (jsonResponse["status"]) {
+    if (formKey.currentState!.validate() &&
+        formKey1.currentState!.validate() &&
+        formKey2.currentState!.validate() &&
+        validatePassword()) {
+      final snackBar = SnackBar(content: Text('proseed'));
+      _scaffoldkey.currentState!.setState(() {
+        snackBar;
+      });
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => VerifyEmail(
                     role: widget.role,
                   )));
-      // } else {
-      //   print("someth went wrong");
-      // }
-      // Navigator.push(context,
-      //     MaterialPageRoute(builder: (context) => const VerifyEmail()));
-    } else {
-      setState(() {
-        _isNotValidate = true;
-      });
     }
   }
 
+  String validationResult = '';
+  bool validatePassword() {
+    if (passwordController.text.isEmpty ||
+        confirmpasswordController.text.isEmpty) {
+      setState(() {
+        validationResult = 'Both fields are required.';
+      });
+      return false;
+    } else if (passwordController.text != confirmpasswordController.text) {
+      setState(() {
+        validationResult = 'Passwords do not match.';
+      });
+      return false;
+    } else if (RegExp(r'^.*$').hasMatch(passwordController.text)) {
+      setState(() {
+        validationResult = 'Passwords match and meet the basic requirement.';
+      });
+      return true;
+    } else {
+      setState(() {
+        validationResult = 'Passwords do not meet the basic requirement.';
+      });
+      return false;
+    }
+  }
+
+  bool _isVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
@@ -119,29 +127,67 @@ class _Signup2State extends State<Signup2> {
                 child: Column(
                   children: [
                     signupFiled(
-                      label: "gender",
-                      hintText: "gender",
-                      controller2: genderController,
-                      err: _isNotValidate ? "Enter Proper info" : null,
-                    ),
+                        keys: formKey,
+                        label: "GENDER",
+                        hintText: "Gender",
+                        controller2: genderController,
+                        validate: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                            return "Enter Your Gender";
+                          } else {
+                            return null;
+                          }
+                        }),
                     signupFiled(
-                      label: "password",
-                      hintText: "Password",
-                      obscureText: true,
-                      suffixIcon2: const Icon(
-                        Icons.visibility_off_outlined,
-                      ),
-                      controller2: passwordController,
-                      err: _isNotValidate ? "Enter Proper info" : null,
-                    ),
+                        keys: formKey1,
+                        label: "PASSWORD",
+                        hintText: "Password",
+                        obscureText: !_isVisible,
+                        suffixIcon2: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isVisible = !_isVisible;
+                            });
+                          },
+                          icon: _isVisible
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off_outlined),
+                          color: GlobalColors.darkshadeblack,
+                        ),
+                        controller2: passwordController,
+                        validate: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^.*$').hasMatch(value!)) {
+                            return "Enter Your Password";
+                          } else {
+                            return null;
+                          }
+                        }),
                     signupFiled(
-                      label: "ComfirmPassword",
-                      hintText: "ComfirmPassword",
-                      obscureText: true,
-                      suffixIcon2: const Icon(Icons.visibility_off_outlined),
-                      controller2: confirmpasswordController,
-                      err: _isNotValidate ? "Enter Proper info" : null,
-                    ),
+                        label: "COMFIRMPASSWORD",
+                        hintText: "ComfirmPassword",
+                        obscureText: !_isVisible,
+                        suffixIcon2: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isVisible = !_isVisible;
+                            });
+                          },
+                          icon: _isVisible
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off_outlined),
+                          color: GlobalColors.darkshadeblack,
+                        ),
+                        controller2: confirmpasswordController,
+                        validate: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^.*$').hasMatch(value!)) {
+                            return "Enter Your ComfirmPassword";
+                          } else {
+                            return null;
+                          }
+                        }),
                   ],
                 ),
               ),
