@@ -20,29 +20,37 @@ class _AccountInfoState extends State<AccountInfo> {
   TextEditingController countryController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController genderController = TextEditingController();
-  bool _isNotValidate = false;
+
+  final formKey = GlobalKey<FormState>();
+  final formKey1 = GlobalKey<FormState>();
+  final formKey2 = GlobalKey<FormState>();
+  final formKey3 = GlobalKey<FormState>();
+  final formKey4 = GlobalKey<FormState>();
+  final formKey5 = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
 
   void UpDateAccount() async {
-    if (emailController.text.isNotEmpty &&
-        usernameController.text.isNotEmpty &&
-        genderController.text.isNotEmpty &&
-        stateController.text.isNotEmpty &&
-        countryController.text.isNotEmpty &&
-        addressController.text.isNotEmpty) {
-      // var responsed = await http.post(Uri.parse(registration),
-      //     headers: {"Content-Type": "application/json"},
-      //     body: jsonEncode(registerBody));
-      // print(responsed);
-    } else {
-      setState(() {
-        _isNotValidate = true;
+    if (formKey.currentState!.validate() &&
+        formKey1.currentState!.validate() &&
+        formKey2.currentState!.validate() &&
+        formKey3.currentState!.validate() &&
+        formKey4.currentState!.validate() &&
+        formKey5.currentState!.validate()) {
+      final snackBar = SnackBar(content: Text('proseed'));
+      _scaffoldkey.currentState!.setState(() {
+        snackBar;
       });
     }
+    // var responsed = await http.post(Uri.parse(registration),
+    //     headers: {"Content-Type": "application/json"},
+    //     body: jsonEncode(registerBody));
+    // print(responsed);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
@@ -72,41 +80,84 @@ class _AccountInfoState extends State<AccountInfo> {
               child: Column(
                 children: [
                   signupFiled(
-                    label: "Username",
-                    hintText: "Username",
-                    controller2: usernameController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey,
+                      label: "USERNAME",
+                      hintText: "Username",
+                      controller2: usernameController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                          return "Enter Your User Name";
+                        } else {
+                          return null;
+                        }
+                      }),
                   signupFiled(
-                    label: "Email",
-                    hintText: "Email",
-                    controller2: emailController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey1,
+                      label: "EMAIL",
+                      hintText: "Email",
+                      controller2: emailController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
+                                .hasMatch(value!)) {
+                          return "Enter Your email";
+                        } else {
+                          return null;
+                        }
+                      }),
                   signupFiled(
-                    label: "Gender",
-                    hintText: "Gender",
-                    controller2: genderController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey2,
+                      label: "GENDER",
+                      hintText: "Gender",
+                      controller2: genderController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                          return "Enter Your Gender";
+                        } else {
+                          return null;
+                        }
+                      }),
                   signupFiled(
-                    label: "Address",
-                    hintText: "Address",
-                    controller2: addressController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey3,
+                      label: "ADDRESS",
+                      hintText: "Address",
+                      controller2: addressController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                          return "Enter Your Address";
+                        } else {
+                          return null;
+                        }
+                      }),
                   signupFiled(
-                    label: "State",
-                    hintText: "State",
-                    controller2: stateController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey4,
+                      label: "State",
+                      hintText: "State",
+                      controller2: stateController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                          return "Enter Your State";
+                        } else {
+                          return null;
+                        }
+                      }),
                   signupFiled(
-                    label: "country",
-                    hintText: "Country",
-                    controller2: countryController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey5,
+                      label: "COUNTRY",
+                      hintText: "Country",
+                      controller2: countryController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                          return "Enter Your Country";
+                        } else {
+                          return null;
+                        }
+                      }),
                 ],
               ),
             ),
