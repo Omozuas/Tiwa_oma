@@ -1,3 +1,4 @@
+import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/client/views/accountInfo.dart';
 import 'package:Tiwa_Oma/client/views/AllBookings.dart';
@@ -7,6 +8,8 @@ import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:line_icons/line_icons.dart';
 
 import '../../widgets/profileMenue.dart';
 import '../../widgets/profilePix.dart';
@@ -54,7 +57,7 @@ class _MyProfileState extends State<MyProfile> {
                   height: 30,
                 ),
                 profileMenue(
-                  icon: FontAwesomeIcons.user,
+                  icon: Ionicons.person_outline,
                   text: 'Account Information',
                   press: () {
                     Navigator.push(
@@ -64,7 +67,7 @@ class _MyProfileState extends State<MyProfile> {
                   },
                 ),
                 profileMenue(
-                  icon: FontAwesomeIcons.book,
+                  icon: LineIcons.book,
                   text: 'All Bookings',
                   press: () {
                     Navigator.push(
@@ -74,7 +77,7 @@ class _MyProfileState extends State<MyProfile> {
                   },
                 ),
                 profileMenue(
-                  icon: FontAwesomeIcons.gear,
+                  icon: Ionicons.cog_outline,
                   text: 'Settings',
                   press: () {
                     Navigator.push(
@@ -84,17 +87,17 @@ class _MyProfileState extends State<MyProfile> {
                   },
                 ),
                 profileMenue(
-                  icon: FontAwesomeIcons.lock,
+                  icon: Ionicons.lock_closed_outline,
                   text: 'Privacy Policy',
                   press: () {},
                 ),
                 profileMenue(
-                  icon: FontAwesomeIcons.triangleExclamation,
+                  icon: Ionicons.warning_outline,
                   text: 'Help Center',
                   press: () {},
                 ),
                 profileMenue(
-                  icon: FontAwesomeIcons.rightFromBracket,
+                  icon: Ionicons.log_out_outline,
                   text: 'Log Out',
                   press: () {},
                 ),
@@ -124,7 +127,7 @@ class _MyProfileState extends State<MyProfile> {
                                   )));
                     },
                     icon: const Icon(
-                      Icons.home_filled,
+                      LineIcons.home,
                       size: 32,
                     ),
                   ),
@@ -144,8 +147,8 @@ class _MyProfileState extends State<MyProfile> {
                               builder: (context) => const Bookings()));
                     },
                     icon: const Icon(
-                      Icons.book_outlined,
-                      size: 32,
+                      LineIcons.book,
+                      size: 30,
                     ),
                   ),
                   const Text('Bookings'),
@@ -162,8 +165,8 @@ class _MyProfileState extends State<MyProfile> {
                               builder: (context) => const Stylist()));
                     },
                     icon: const Icon(
-                      Icons.style,
-                      size: 32,
+                      Ionicons.cut_outline,
+                      size: 30,
                     ),
                   ),
                   const Text('stylist'),
@@ -179,15 +182,15 @@ class _MyProfileState extends State<MyProfile> {
                           MaterialPageRoute(
                               builder: (context) => const MyProfile()));
                     },
-                    icon: const Icon(
-                      Icons.person_2_outlined,
-                      size: 32,
-                      color: Colors.yellow,
+                    icon: Icon(
+                      Ionicons.person_outline,
+                      size: 30,
+                      color: GlobalColors.yellow,
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Profile',
-                    style: TextStyle(color: Colors.yellow),
+                    style: TextStyle(color: GlobalColors.yellow),
                   ),
                 ],
               ),

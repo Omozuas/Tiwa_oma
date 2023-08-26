@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:Tiwa_Oma/view/Login.view.dart';
+// import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/view/verifyEmail.view.dart';
 // import 'package:Tiwa_Oma/services/auth_services.dart';
 // import 'package:Tiwa_Oma/view/verifyEmail.view.dart';
 // import 'package:Tiwa_Oma/view/config.dart';
 // import 'package:Tiwa_Oma/view/verifyEmail.view.dart';
-import 'dart:convert';
-import 'config.dart';
-import 'package:http/http.dart' as http;
+// import 'dart:convert';
+// import 'config.dart';
+// import 'package:http/http.dart' as http;
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/widgets/signUp_filed.dart';
 

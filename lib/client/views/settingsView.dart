@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:line_icons/line_icons.dart';
 
 import '../../utils/global.colors.dart';
 import 'Bookings.view.dart';
@@ -82,7 +84,7 @@ class _SettingsViewState extends State<SettingsView> {
                                   )));
                     },
                     icon: const Icon(
-                      Icons.home_filled,
+                      LineIcons.home,
                       size: 32,
                     ),
                   ),
@@ -102,8 +104,8 @@ class _SettingsViewState extends State<SettingsView> {
                               builder: (context) => const Bookings()));
                     },
                     icon: const Icon(
-                      Icons.book_outlined,
-                      size: 32,
+                      LineIcons.book,
+                      size: 30,
                     ),
                   ),
                   const Text('Bookings'),
@@ -120,8 +122,8 @@ class _SettingsViewState extends State<SettingsView> {
                               builder: (context) => const Stylist()));
                     },
                     icon: const Icon(
-                      Icons.style,
-                      size: 32,
+                      Ionicons.cut_outline,
+                      size: 30,
                     ),
                   ),
                   const Text('stylist'),
@@ -137,15 +139,15 @@ class _SettingsViewState extends State<SettingsView> {
                           MaterialPageRoute(
                               builder: (context) => const MyProfile()));
                     },
-                    icon: const Icon(
-                      Icons.person_2_outlined,
-                      size: 32,
-                      color: Colors.yellow,
+                    icon: Icon(
+                      Ionicons.person_outline,
+                      size: 30,
+                      color: GlobalColors.yellow,
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Profile',
-                    style: TextStyle(color: Colors.yellow),
+                    style: TextStyle(color: GlobalColors.yellow),
                   ),
                 ],
               ),

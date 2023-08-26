@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:line_icons/line_icons.dart';
 
 import '../../utils/global.colors.dart';
 import '../../widgets/BookingsViewsList.dart';
@@ -59,7 +61,7 @@ class _BookingsState extends State<Bookings> {
                                   )));
                     },
                     icon: const Icon(
-                      Icons.home_filled,
+                      LineIcons.home,
                       size: 32,
                     ),
                   ),
@@ -78,15 +80,15 @@ class _BookingsState extends State<Bookings> {
                           MaterialPageRoute(
                               builder: (context) => const Bookings()));
                     },
-                    icon: const Icon(
-                      Icons.book_outlined,
-                      size: 32,
-                      color: Colors.yellow,
+                    icon: Icon(
+                      LineIcons.book,
+                      size: 30,
+                      color: GlobalColors.yellow,
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Bookings',
-                    style: TextStyle(color: Colors.yellow),
+                    style: TextStyle(color: GlobalColors.yellow),
                   ),
                 ],
               ),
@@ -101,8 +103,8 @@ class _BookingsState extends State<Bookings> {
                               builder: (context) => const Stylist()));
                     },
                     icon: const Icon(
-                      Icons.style,
-                      size: 32,
+                      Ionicons.cut_outline,
+                      size: 30,
                     ),
                   ),
                   const Text('stylist'),
@@ -119,8 +121,8 @@ class _BookingsState extends State<Bookings> {
                               builder: (context) => const MyProfile()));
                     },
                     icon: const Icon(
-                      Icons.person_2_outlined,
-                      size: 32,
+                      Ionicons.person_outline,
+                      size: 30,
                     ),
                   ),
                   const Text('Profile'),

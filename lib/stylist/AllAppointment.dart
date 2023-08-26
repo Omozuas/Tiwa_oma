@@ -9,6 +9,8 @@ import 'package:Tiwa_Oma/stylist/widgets/TodaysAppointentList.dart';
 import 'package:Tiwa_Oma/stylist/widgets/TodaysAppointmentListAndCard.dart';
 import 'package:Tiwa_Oma/stylist/widgets/YestadayAppoinmentInnfo.dart';
 import 'package:Tiwa_Oma/stylist/widgets/YestadayAppointmentCardAndList.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:line_icons/line_icons.dart';
 // import 'package:http/http.dart';
 
 import '../utils/global.colors.dart';
@@ -133,8 +135,8 @@ class _AllAppointmentState extends State<AllAppointment> {
                               builder: (context) => const StylistDashboard()));
                     },
                     icon: const FaIcon(
-                      FontAwesomeIcons.house,
-                      size: 25,
+                      LineIcons.home,
+                      size: 30,
                       color: Colors.black,
                     ),
                   ),
@@ -155,8 +157,8 @@ class _AllAppointmentState extends State<AllAppointment> {
                               builder: (context) => const AllAppointment()));
                     },
                     icon: FaIcon(
-                      FontAwesomeIcons.book,
-                      size: 25,
+                      LineIcons.book,
+                      size: 30,
                       color: GlobalColors.yellow,
                     ),
                   ),
@@ -175,7 +177,7 @@ class _AllAppointmentState extends State<AllAppointment> {
                           MaterialPageRoute(builder: (context) => Clients()));
                     },
                     icon: const Icon(
-                      Icons.people_outline_sharp,
+                      Ionicons.people_outline,
                       size: 32,
                     ),
                   ),
@@ -192,10 +194,7 @@ class _AllAppointmentState extends State<AllAppointment> {
                           MaterialPageRoute(
                               builder: (context) => const MyProfile()));
                     },
-                    icon: const Icon(
-                      Icons.person_2_outlined,
-                      size: 25,
-                    ),
+                    icon: const Icon(Ionicons.person_outline, size: 30),
                   ),
                   const Text('Profile'),
                 ],

@@ -5,6 +5,8 @@ import 'package:Tiwa_Oma/stylist/Clients.dart';
 import 'package:Tiwa_Oma/stylist/stylistProfile.dart';
 import 'package:Tiwa_Oma/stylist/uploadPhotos.dart';
 import 'package:Tiwa_Oma/stylist/widgets/StylistProfilePix.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:line_icons/line_icons.dart';
 import '../utils/global.colors.dart';
 import '../widgets/ItemListAndCard.weidget.dart';
 import '../widgets/PhotoListAndCard.widget.dart';
@@ -259,8 +261,8 @@ class _StylistInfomationState extends State<StylistInfomation>
                               builder: (context) => const StylistDashboard()));
                     },
                     icon: const FaIcon(
-                      FontAwesomeIcons.house,
-                      size: 25,
+                      LineIcons.home,
+                      size: 30,
                     ),
                   ),
                   const Text(
@@ -280,8 +282,8 @@ class _StylistInfomationState extends State<StylistInfomation>
                               builder: (context) => const AllAppointment()));
                     },
                     icon: const FaIcon(
-                      FontAwesomeIcons.book,
-                      size: 25,
+                      LineIcons.book,
+                      size: 30,
                     ),
                   ),
                   const Text('Appointment'),
@@ -298,7 +300,7 @@ class _StylistInfomationState extends State<StylistInfomation>
                               builder: (context) => const Clients()));
                     },
                     icon: Icon(
-                      Icons.people_outline_sharp,
+                      Ionicons.people_outline,
                       size: 32,
                     ),
                   ),
@@ -319,8 +321,8 @@ class _StylistInfomationState extends State<StylistInfomation>
                               builder: (context) => const StylistProfile()));
                     },
                     icon: Icon(
-                      Icons.person_2_outlined,
-                      size: 25,
+                      Ionicons.person_outline,
+                      size: 30,
                       color: GlobalColors.yellow,
                     ),
                   ),

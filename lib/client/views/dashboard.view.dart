@@ -1,8 +1,11 @@
+import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/client/views/stylistReviews.view.dart';
+import 'package:line_icons/line_icons.dart';
 
 import 'Bookings.view.dart';
 import 'Profile.view.dart';
@@ -218,7 +221,7 @@ class _dashboardState extends State<Dashboard> {
                   child: Container(
                     padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 202, 157, 11),
+                      color: GlobalColors.yellow,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Icon(
@@ -308,7 +311,7 @@ class _dashboardState extends State<Dashboard> {
                                 ElevatedButton(
                                   onPressed: () {},
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.yellow,
+                                    backgroundColor: GlobalColors.yellow,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30),
                                     ),
@@ -577,15 +580,15 @@ class _dashboardState extends State<Dashboard> {
                                     token: '',
                                   )));
                     },
-                    icon: const Icon(
-                      Icons.home_filled,
+                    icon: Icon(
+                      LineIcons.home,
                       size: 32,
-                      color: Colors.yellow,
+                      color: GlobalColors.yellow,
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Home',
-                    style: TextStyle(color: Colors.yellow),
+                    style: TextStyle(color: GlobalColors.yellow),
                   ),
                 ],
               ),
@@ -599,9 +602,9 @@ class _dashboardState extends State<Dashboard> {
                           MaterialPageRoute(
                               builder: (context) => const Bookings()));
                     },
-                    icon: const Icon(
-                      Icons.book_outlined,
-                      size: 32,
+                    icon: Icon(
+                      LineIcons.book,
+                      size: 30,
                     ),
                   ),
                   const Text('Bookings'),
@@ -617,9 +620,9 @@ class _dashboardState extends State<Dashboard> {
                           MaterialPageRoute(
                               builder: (context) => const Stylist()));
                     },
-                    icon: const Icon(
-                      Icons.style,
-                      size: 32,
+                    icon: Icon(
+                      Ionicons.cut_outline,
+                      size: 30,
                     ),
                   ),
                   const Text('stylist'),
@@ -636,8 +639,8 @@ class _dashboardState extends State<Dashboard> {
                               builder: (context) => const MyProfile()));
                     },
                     icon: const Icon(
-                      Icons.person_2_outlined,
-                      size: 32,
+                      Ionicons.person_outline,
+                      size: 30,
                     ),
                   ),
                   const Text('Profile'),

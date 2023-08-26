@@ -1,7 +1,8 @@
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
-import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
+
 import 'package:lottie/lottie.dart';
 
 class passWordChanged extends StatefulWidget {
@@ -57,10 +58,7 @@ class _passWordChangedState extends State<passWordChanged> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const Dashboard(
-                              token: '',
-                            )),
+                    MaterialPageRoute(builder: (context) => const Login()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -71,7 +69,7 @@ class _passWordChangedState extends State<passWordChanged> {
                   minimumSize: const Size(370, 46),
                 ),
                 child: const Text(
-                  "Proceed",
+                  "Done",
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                 ),
               ),

@@ -4,6 +4,8 @@ import 'package:Tiwa_Oma/stylist/stylistProfile.dart';
 import 'package:Tiwa_Oma/stylist/widgets/ClientListAndCard.dart';
 import 'package:Tiwa_Oma/stylist/widgets/ClientsInfo.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:line_icons/line_icons.dart';
 
 import 'AllAppointment.dart';
 import 'StylistDashboard.dart';
@@ -58,8 +60,8 @@ class _ClientsState extends State<Clients> {
                               builder: (context) => const StylistDashboard()));
                     },
                     icon: const FaIcon(
-                      FontAwesomeIcons.house,
-                      size: 25,
+                      LineIcons.home,
+                      size: 30,
                     ),
                   ),
                   const Text(
@@ -79,8 +81,8 @@ class _ClientsState extends State<Clients> {
                               builder: (context) => const AllAppointment()));
                     },
                     icon: const FaIcon(
-                      FontAwesomeIcons.book,
-                      size: 25,
+                      LineIcons.book,
+                      size: 30,
                     ),
                   ),
                   const Text('Appointment'),
@@ -97,7 +99,7 @@ class _ClientsState extends State<Clients> {
                               builder: (context) => const Clients()));
                     },
                     icon: Icon(
-                      Icons.people_outline_sharp,
+                      Ionicons.people_outline,
                       size: 32,
                       color: GlobalColors.yellow,
                     ),
@@ -118,10 +120,7 @@ class _ClientsState extends State<Clients> {
                           MaterialPageRoute(
                               builder: (context) => const StylistProfile()));
                     },
-                    icon: const Icon(
-                      Icons.person_2_outlined,
-                      size: 25,
-                    ),
+                    icon: const Icon(Ionicons.person_outline, size: 30),
                   ),
                   const Text('Profile'),
                 ],

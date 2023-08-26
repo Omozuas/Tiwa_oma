@@ -1,4 +1,7 @@
 // import 'package:flutter/foundation.dart';
+import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
+import 'package:Tiwa_Oma/client/views/payWithCardPin.dart';
+import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
 import 'package:Tiwa_Oma/view/Signuo.view.dart';
 import 'package:Tiwa_Oma/view/Signup2.view.dart';
 import 'package:flutter/material.dart';
@@ -49,10 +52,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Tiwa Oma',
       debugShowCheckedModeBanner: false,
-      home: Signup2(
-        registerBody1: {},
-        role: '',
-      ),
+      home: StylistDashboard(),
     );
   }
 }

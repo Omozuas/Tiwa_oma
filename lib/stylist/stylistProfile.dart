@@ -7,6 +7,8 @@ import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
 import 'package:Tiwa_Oma/stylist/StylistInfomation.dart';
 import 'package:Tiwa_Oma/stylist/widgets/StylistProfileMenu.dart';
 import 'package:Tiwa_Oma/stylist/widgets/StylistProfilePix.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:line_icons/line_icons.dart';
 
 // import '../client/views/accountInfo.dart';
 import '../utils/global.colors.dart';
@@ -50,7 +52,7 @@ class _StylistProfileState extends State<StylistProfile> {
                   height: 20,
                 ),
                 StylistprofileMenue(
-                  icon: FontAwesomeIcons.user,
+                  icon: Ionicons.person_outline,
                   text: 'Account Information',
                   press: () {
                     Navigator.push(
@@ -60,7 +62,7 @@ class _StylistProfileState extends State<StylistProfile> {
                   },
                 ),
                 StylistprofileMenue(
-                  icon: FontAwesomeIcons.brush,
+                  icon: Ionicons.cut_outline,
                   text: 'Stylist Infomation',
                   press: () {
                     Navigator.push(
@@ -70,7 +72,7 @@ class _StylistProfileState extends State<StylistProfile> {
                   },
                 ),
                 StylistprofileMenue(
-                  icon: FontAwesomeIcons.book,
+                  icon: LineIcons.book,
                   text: 'All Bookings',
                   press: () {
                     Navigator.push(
@@ -80,7 +82,7 @@ class _StylistProfileState extends State<StylistProfile> {
                   },
                 ),
                 StylistprofileMenue(
-                  icon: FontAwesomeIcons.gear,
+                  icon: Ionicons.cog_outline,
                   text: 'Settings',
                   press: () {
                     // Navigator.push(
@@ -90,7 +92,7 @@ class _StylistProfileState extends State<StylistProfile> {
                   },
                 ),
                 StylistprofileMenue(
-                  icon: FontAwesomeIcons.lock,
+                  icon: Ionicons.lock_closed_outline,
                   text: 'Privacy Policy',
                   press: () {
                     // Navigator.push(
@@ -100,7 +102,7 @@ class _StylistProfileState extends State<StylistProfile> {
                   },
                 ),
                 StylistprofileMenue(
-                  icon: FontAwesomeIcons.triangleExclamation,
+                  icon: Ionicons.warning_outline,
                   text: 'Help Center',
                   press: () {
                     // Navigator.push(
@@ -110,7 +112,7 @@ class _StylistProfileState extends State<StylistProfile> {
                   },
                 ),
                 StylistprofileMenue(
-                  icon: FontAwesomeIcons.rightFromBracket,
+                  icon: Ionicons.log_out_outline,
                   text: 'Log Out',
                   press: () {
                     // Navigator.push(
@@ -143,8 +145,8 @@ class _StylistProfileState extends State<StylistProfile> {
                               builder: (context) => const StylistDashboard()));
                     },
                     icon: const FaIcon(
-                      FontAwesomeIcons.house,
-                      size: 25,
+                      LineIcons.home,
+                      size: 30,
                     ),
                   ),
                   const Text(
@@ -164,8 +166,8 @@ class _StylistProfileState extends State<StylistProfile> {
                               builder: (context) => const AllAppointment()));
                     },
                     icon: const FaIcon(
-                      FontAwesomeIcons.book,
-                      size: 25,
+                      LineIcons.book,
+                      size: 30,
                     ),
                   ),
                   const Text('Appointment'),
@@ -182,7 +184,7 @@ class _StylistProfileState extends State<StylistProfile> {
                               builder: (context) => const Clients()));
                     },
                     icon: Icon(
-                      Icons.people_outline_sharp,
+                      Ionicons.people_outline,
                       size: 32,
                     ),
                   ),
@@ -203,8 +205,8 @@ class _StylistProfileState extends State<StylistProfile> {
                               builder: (context) => const StylistProfile()));
                     },
                     icon: Icon(
-                      Icons.person_2_outlined,
-                      size: 25,
+                      Ionicons.person_outline,
+                      size: 30,
                       color: GlobalColors.yellow,
                     ),
                   ),

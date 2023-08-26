@@ -3,6 +3,8 @@ import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/client/views/Profile.view.dart';
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'Bookings.view.dart';
 import 'TransactionReview.dart';
 
@@ -176,7 +178,7 @@ class _payWithTranfarState extends State<payWithTranfar> {
                                   )));
                     },
                     icon: const Icon(
-                      Icons.home_filled,
+                      LineIcons.home,
                       size: 32,
                     ),
                   ),
@@ -196,8 +198,8 @@ class _payWithTranfarState extends State<payWithTranfar> {
                               builder: (context) => const Bookings()));
                     },
                     icon: const Icon(
-                      Icons.book_outlined,
-                      size: 32,
+                      LineIcons.book,
+                      size: 30,
                     ),
                   ),
                   const Text('Bookings'),
@@ -213,13 +215,13 @@ class _payWithTranfarState extends State<payWithTranfar> {
                           MaterialPageRoute(
                               builder: (context) => const Stylist()));
                     },
-                    icon: const Icon(
-                      Icons.style,
-                      size: 32,
-                      color: Colors.yellow,
+                    icon: Icon(
+                      Ionicons.cut_outline,
+                      size: 30,
+                      color: GlobalColors.yellow,
                     ),
                   ),
-                  const Text('stylist', style: TextStyle(color: Colors.yellow)),
+                  Text('stylist', style: TextStyle(color: GlobalColors.yellow)),
                 ],
               ),
               Column(
@@ -233,8 +235,8 @@ class _payWithTranfarState extends State<payWithTranfar> {
                               builder: (context) => const MyProfile()));
                     },
                     icon: const Icon(
-                      Icons.person_2_outlined,
-                      size: 32,
+                      Ionicons.person_outline,
+                      size: 30,
                     ),
                   ),
                   const Text('Profile'),

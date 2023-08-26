@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:line_icons/line_icons.dart';
 // import 'package:Tiwa_Oma/view/seeStylistLocation.view.dart';
 
 import 'BookedSuccess.view.dart';
@@ -284,7 +286,7 @@ class _transactionReviewState extends State<transactionReview> {
                                   )));
                     },
                     icon: const Icon(
-                      Icons.home_filled,
+                      LineIcons.home,
                       size: 32,
                     ),
                   ),
@@ -304,8 +306,8 @@ class _transactionReviewState extends State<transactionReview> {
                               builder: (context) => const Bookings()));
                     },
                     icon: const Icon(
-                      Icons.book_outlined,
-                      size: 32,
+                      LineIcons.book,
+                      size: 30,
                     ),
                   ),
                   const Text('Bookings'),
@@ -321,13 +323,13 @@ class _transactionReviewState extends State<transactionReview> {
                           MaterialPageRoute(
                               builder: (context) => const Stylist()));
                     },
-                    icon: const Icon(
-                      Icons.style,
-                      size: 32,
-                      color: Colors.yellow,
+                    icon: Icon(
+                      Ionicons.cut_outline,
+                      size: 30,
+                      color: GlobalColors.yellow,
                     ),
                   ),
-                  const Text('stylist', style: TextStyle(color: Colors.yellow)),
+                  Text('stylist', style: TextStyle(color: GlobalColors.yellow)),
                 ],
               ),
               Column(
@@ -341,8 +343,8 @@ class _transactionReviewState extends State<transactionReview> {
                               builder: (context) => const MyProfile()));
                     },
                     icon: const Icon(
-                      Icons.person_2_outlined,
-                      size: 32,
+                      Ionicons.person_outline,
+                      size: 30,
                     ),
                   ),
                   const Text('Profile'),

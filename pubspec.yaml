@@ -50,6 +50,8 @@ dependencies:
   path_provider: ^2.1.0
   provider: ^6.0.5
   snippet_coder_utils: ^1.0.14
+  ionicons: ^0.2.2
+  line_icons: ^2.0.3
  
 
 
