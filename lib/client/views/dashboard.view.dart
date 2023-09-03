@@ -1,10 +1,11 @@
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
+// import 'package:jwt_decoder/jwt_decoder.dart';
 
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/client/views/stylistReviews.view.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 
 import 'Bookings.view.dart';
@@ -27,21 +28,25 @@ class Dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<Dashboard> {
-  // late String email;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // String email;
-  //   Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-  //   // try {
-  //   email = jwtDecodedToken['email'] ?? '';
-  //   print(jwtDecodedToken['email']);
-  //   print(widget.token);
-  // } catch (e) {
-  // Handle token decoding errors here, e.g., log the error or show an error message.
-  // print('Error decoding token: $e');
-  // }
-  // }
+  late String email;
+  late final token;
+  late String username;
+  @override
+  void initState() {
+    super.initState();
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    try {
+      email = jwtDecodedToken['email'];
+      token = jwtDecodedToken['token'];
+      username = jwtDecodedToken['username'];
+      print(jwtDecodedToken['email']);
+      print(widget.token);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
+  }
 
   // Map<String, dynamic> userData = {};
   // @override
@@ -153,14 +158,15 @@ class _dashboardState extends State<Dashboard> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Welcome Back',
+                      Text(
+                        // 'Welcome Back'
+                        email,
                         style: TextStyle(color: Colors.grey),
                       ),
                       SizedBox(height: 5),
                       Text(
-                        'Alex Samuel',
-                        // email.toString(),
+                        // 'Alex Samuel',
+                        username,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),

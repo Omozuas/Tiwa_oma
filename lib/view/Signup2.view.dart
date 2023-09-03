@@ -1,3 +1,9 @@
+import 'dart:convert';
+
+import 'package:Tiwa_Oma/services/Api_service.dart';
+import 'package:Tiwa_Oma/services/api.dart';
+import 'package:Tiwa_Oma/view/config.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 // import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/view/verifyEmail.view.dart';
@@ -35,16 +41,41 @@ class _Signup2State extends State<Signup2> {
     if (formKey.currentState!.validate() &&
         formKey1.currentState!.validate() &&
         formKey2.currentState!.validate()) {
-      final snackBar = SnackBar(content: Text('proseed'));
-      _scaffoldkey.currentState!.setState(() {
-        snackBar;
+      // final snackBar = SnackBar(content: Text('proseed'));
+      // _scaffoldkey.currentState!.setState(() {
+      //   snackBar;
+      // });
+
+      var registerBody = {
+        "gender": genderController.text,
+        "password": passwordController.text,
+        "confirmPassword": confirmpasswordController.text,
+        ...widget.registerBody1
+      };
+      Api.addUser(registerBody).then((respons) {
+        if (respons.status == true) {
+          APIService.registerOpt(widget.registerBody1['email']!)
+              .then((response) async {
+            print(response.message);
+            print(response.data);
+            print(respons.token);
+
+            if (response.data != null) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => VerifyEmail(
+                            role: widget.role,
+                            registerBody1: widget.registerBody1,
+                            otphash: response.data,
+                            token: respons.token,
+                          )));
+            }
+          });
+        } else {
+          print('failed to register user');
+        }
       });
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => VerifyEmail(
-                    role: widget.role,
-                  )));
     }
   }
 

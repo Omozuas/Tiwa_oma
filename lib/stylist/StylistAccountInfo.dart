@@ -167,7 +167,9 @@ class _StylistAccountInfoState extends State<StylistAccountInfo> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistDashboard()));
+                              builder: (context) => const StylistDashboard(
+                                    token: '',
+                                  )));
                     },
                     icon: const FaIcon(
                       LineIcons.home,

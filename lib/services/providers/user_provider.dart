@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Tiwa_Oma/model/user.dart';
+import 'package:Tiwa_Oma/services/model/user.dart';
 // import 'package:Tiwa_Oma/model/user.dart';
 
 class UserProvider extends ChangeNotifier {

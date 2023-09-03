@@ -7,7 +7,7 @@ import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
 
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:line_icons/line_icons.dart';
 

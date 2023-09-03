@@ -7,11 +7,15 @@ import 'package:Tiwa_Oma/stylist/widgets/LastestAppointmentInfo.dart';
 import 'package:Tiwa_Oma/stylist/widgets/LatestAppointmentListAndCard.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 
 class StylistDashboard extends StatefulWidget {
-  const StylistDashboard({super.key});
-
+  const StylistDashboard({
+    super.key,
+    required this.token,
+  });
+  final token;
   @override
   State<StylistDashboard> createState() => _StylistDashboardState();
 }
@@ -46,6 +50,24 @@ class _StylistDashboardState extends State<StylistDashboard> {
   void displayListIndices(List<String> listName) {
     for (int index = 0; index < listName.length; index++) {
       print("Index $index: ${listName[index]}");
+    }
+  }
+
+  late String email;
+  late String username;
+  @override
+  void initState() {
+    super.initState();
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    try {
+      email = jwtDecodedToken['email'];
+      username = jwtDecodedToken['username'];
+      print(jwtDecodedToken['email']);
+      print(widget.token);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
     }
   }
 
@@ -85,7 +107,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -94,7 +116,8 @@ class _StylistDashboardState extends State<StylistDashboard> {
                           ),
                           SizedBox(height: 5),
                           Text(
-                            'Alex Samuel',
+                            // 'Alex Samuel',
+                            username,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
@@ -332,7 +355,9 @@ class _StylistDashboardState extends State<StylistDashboard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistDashboard()));
+                              builder: (context) => const StylistDashboard(
+                                    token: '',
+                                  )));
                     },
                     icon: FaIcon(
                       LineIcons.home,

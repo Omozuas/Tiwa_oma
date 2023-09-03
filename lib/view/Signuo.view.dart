@@ -48,6 +48,7 @@ class _SignupState extends State<Signup> {
                       "state": stateController.text,
                       "country": countryController.text,
                       "address": addressController.text,
+                      "role": 'client'
                     },
                     role: widget.role,
                   )));

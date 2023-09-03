@@ -132,7 +132,9 @@ class _AllAppointmentState extends State<AllAppointment> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistDashboard()));
+                              builder: (context) => const StylistDashboard(
+                                    token: '',
+                                  )));
                     },
                     icon: const FaIcon(
                       LineIcons.home,

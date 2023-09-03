@@ -1,18 +1,91 @@
+import 'dart:convert';
+
+import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
+import 'package:Tiwa_Oma/services/Api_service.dart';
+import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
+// import 'package:Tiwa_Oma/view/config.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
+
 import 'package:Tiwa_Oma/utils/global.colors.dart';
-import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyEmail extends StatefulWidget {
   final String role;
-  const VerifyEmail({super.key, required this.role});
+
+  final Map<String, String> registerBody1;
+  final String? otphash;
+  final token;
+  const VerifyEmail({
+    super.key,
+    required this.role,
+    required this.registerBody1,
+    this.otphash,
+    required this.token,
+  });
 
   @override
   State<VerifyEmail> createState() => _VerifyEmailState();
 }
 
 class _VerifyEmailState extends State<VerifyEmail> {
+  late Future<SharedPreferences> prefsFuture;
+
+  List<TextEditingController> otpControllers =
+      List.generate(4, (index) => TextEditingController());
+  @override
+  void initState() {
+    super.initState();
+    prefsFuture = initSharedPref();
+  }
+
+  Future<SharedPreferences> initSharedPref() async {
+    return await SharedPreferences.getInstance();
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the controllers to avoid memory leaks.
+    for (var controller in otpControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  Future<void> verifyOTP() async {
+    String otp = otpControllers.map((controller) => controller.text).join();
+    APIService.verifyOtp(widget.registerBody1['email']!, widget.otphash!, otp)
+        .then((response) async {
+      print(response.message);
+      print(response.data);
+      print(otp);
+      if (response.data != null) {
+        final prefs = await prefsFuture;
+        prefs.setString('token', widget.token);
+        Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+        print(prefs.toString());
+        print(jwtDecodedToken['email']);
+        if (widget.role == 'client') {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Dashboard(
+                        token: widget.token,
+                      )));
+        } else if (widget.role == 'stylist') {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => StylistDashboard(
+                        token: widget.token,
+                      )));
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,36 +144,54 @@ class _VerifyEmailState extends State<VerifyEmail> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    for (int i = 0; i < 4; i++)
-                      textFieldOpt(
-                          isFirst: i == 0, isLast: i == 3, context: context),
-                  ],
-                ),
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List.generate(4, (index) {
+                      return Expanded(
+                        child: SizedBox(
+                            height: 85,
+                            child: AspectRatio(
+                              aspectRatio: 0.9,
+                              child: TextField(
+                                controller: otpControllers[index],
+                                autofocus: index == 0,
+                                onChanged: (value) {
+                                  if (value.length == 1 && index < 3) {
+                                    FocusScope.of(context).nextFocus();
+                                  }
+                                  if (value.isEmpty && index > 0) {
+                                    FocusScope.of(context).previousFocus();
+                                  }
+                                },
+                                showCursor: false,
+                                readOnly: false,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 24),
+                                keyboardType: TextInputType.number,
+                                maxLength: 1,
+                                decoration: InputDecoration(
+                                    counter: const Offstage(),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            width: 2,
+                                            color: GlobalColors.gray)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            width: 2,
+                                            color: GlobalColors.green))),
+                              ),
+                            )),
+                      );
+                    })),
               ),
               const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
                 onPressed: () {
-                  if (widget.role == 'client') {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Dashboard(
-                                  token: '',
-                                  // token: myToken,
-                                )));
-                  } else if (widget.role == 'stylist') {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const StylistDashboard(
-                                // token: '',
-                                // token: myToken,
-                                )));
-                  }
+                  verifyOTP();
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
@@ -133,39 +224,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 )
               ])
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget textFieldOpt(
-      {required bool isFirst, isLast, required BuildContext context}) {
-    return SizedBox(
-      width: 50,
-      height: 85,
-      child: TextField(
-        onChanged: (value) {
-          if (value.isNotEmpty && !isLast) {
-            FocusScope.of(context).nextFocus();
-          }
-          if (value.isEmpty && !isFirst) {
-            FocusScope.of(context).previousFocus();
-          }
-        },
-        maxLength: 1,
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-        decoration: InputDecoration(
-          counter: const Offstage(),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(width: 2, color: GlobalColors.gray),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(width: 2, color: GlobalColors.green),
           ),
         ),
       ),

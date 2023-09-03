@@ -1,13 +1,19 @@
+import 'dart:convert';
+
+import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
+import 'package:Tiwa_Oma/services/api.dart';
+import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
+import 'package:Tiwa_Oma/view/config.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/ForgotPassword.view.dart';
 import 'package:Tiwa_Oma/view/Signuo.view.dart';
-import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
+// import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
 // import 'package:Tiwa_Oma/view/verifyEmail.view.dart';
 import 'package:Tiwa_Oma/widgets/text_field.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-import 'config.dart';
+
 import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
@@ -20,7 +26,10 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
-  bool _isNotValidate = false;
+  final formKey = GlobalKey<FormState>();
+  final formKey1 = GlobalKey<FormState>();
+
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
 
   late SharedPreferences prefs;
 
@@ -36,44 +45,59 @@ class _LoginState extends State<Login> {
   }
 
   void loginUsers() async {
-    if (passwordcontroller.text.isNotEmpty && emailcontroller.text.isNotEmpty) {
-      var registerBody2 = {
+    if (formKey.currentState!.validate() && formKey1.currentState!.validate()) {
+      var loginBody = {
         "password": passwordcontroller.text,
         "email": emailcontroller.text,
       };
       var response = await http.post(Uri.parse(loginUser),
           headers: {"Content-Type": "application/json"},
-          body: jsonEncode(registerBody2));
+          body: jsonEncode(loginBody));
 
       var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse['success']);
-      // print(jsonResponse['token']);
-      // print(emailcontroller.text);
-      print(prefs);
+
       if (jsonResponse['status']) {
         var myToken = jsonResponse['token'];
-        prefs.setString(jsonResponse['token'], myToken);
-        // print(myToken);
-        // ignore: use_build_context_synchronously
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Dashboard(
-                      token: myToken,
-                    )));
+
+        prefs.setString('token', myToken);
+        print(myToken);
+        print(jsonResponse['success']);
+        print(jsonResponse['token']);
+
+        Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(myToken);
+        // print(emailcontroller.text);
+        // print(prefs.toString());
+        if (jwtDecodedToken['role'] == 'client') {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Dashboard(
+                        token: myToken,
+                        // token: myToken,
+                      )));
+        } else if (jwtDecodedToken['role'] == 'stylist') {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => StylistDashboard(
+                        token: myToken,
+                      )));
+        }
+        // Api.loginUser(loginBody);
       } else {
         print("something went wrong");
       }
     } else {
-      setState(() {
-        _isNotValidate = true;
-      });
+      print("something went wrong");
     }
   }
+
+  bool _isVisible = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
@@ -116,19 +140,38 @@ class _LoginState extends State<Login> {
                 child: Column(
                   children: <Widget>[
                     textFiled(
+                        keys: formKey,
                         label: "Email",
                         hintText: "Email",
                         suffixIcon2: const Icon(Icons.email),
                         controller2: emailcontroller,
-                        err: _isNotValidate ? "Enter Proper info" : null,
-                        keyboardType4: TextInputType.emailAddress),
+                        keyboardType4: TextInputType.emailAddress,
+                        validate: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
+                                  .hasMatch(value!)) {
+                            return "Enter Your email";
+                          } else {
+                            return null;
+                          }
+                        }),
                     textFiled(
+                        keys: formKey1,
                         label: "Password",
                         hintText: "password",
-                        suffixIcon2: const Icon(Icons.visibility_off),
                         controller2: passwordcontroller,
-                        err: _isNotValidate ? "Enter Proper info" : null,
-                        obscureText: true,
+                        obscureText: !_isVisible,
+                        suffixIcon2: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isVisible = !_isVisible;
+                            });
+                          },
+                          icon: _isVisible
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off_outlined),
+                          color: GlobalColors.darkshadeblack,
+                        ),
                         keyboardType4: TextInputType.visiblePassword),
                     const SizedBox(
                       height: 0,
