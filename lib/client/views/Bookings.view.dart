@@ -1,6 +1,10 @@
+import 'package:Tiwa_Oma/services/bookApi.dart';
+import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
+import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../../utils/global.colors.dart';
@@ -9,21 +13,50 @@ import 'Profile.view.dart';
 import 'dashboard.view.dart';
 
 class Bookings extends StatefulWidget {
-  const Bookings({
+  Bookings({
     super.key,
+    required this.token,
   });
+  final token;
 
   @override
   State<Bookings> createState() => _BookingsState();
 }
 
 class _BookingsState extends State<Bookings> {
+  late final id;
+
+  List<BookinModel> bookings2 = [];
+  @override
+  void initState() {
+    super.initState();
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+
+    try {
+      id = jwtDecodedToken['id'];
+      fetchBookingData(id);
+      print(jwtDecodedToken['email'] + id);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
+  }
+
+  Future<void> fetchBookingData(id) async {
+    final respons = await BookingApi.fetchBookingData(widget.token, id);
+
+    setState(() {
+      bookings2 = respons;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Bookings"),
+        title: const Text("Bookings"),
         elevation: 0,
         backgroundColor: GlobalColors.mainColor,
         foregroundColor: Colors.black,
@@ -38,8 +71,7 @@ class _BookingsState extends State<Bookings> {
           ),
         ),
       ),
-      body:
-          SingleChildScrollView(child: BookingList(bookingReview: bookingList)),
+      body: SingleChildScrollView(child: BookingList(bookings2: bookings2)),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         elevation: 8,
@@ -56,8 +88,8 @@ class _BookingsState extends State<Bookings> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Dashboard(
-                                    token: '',
+                              builder: (context) => Dashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const Icon(
@@ -78,7 +110,9 @@ class _BookingsState extends State<Bookings> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Bookings()));
+                              builder: (context) => Bookings(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       LineIcons.book,
@@ -100,7 +134,9 @@ class _BookingsState extends State<Bookings> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Stylist()));
+                              builder: (context) => Stylist(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.cut_outline,
@@ -118,7 +154,9 @@ class _BookingsState extends State<Bookings> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyProfile()));
+                              builder: (context) => MyProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.person_outline,
@@ -137,27 +175,34 @@ class _BookingsState extends State<Bookings> {
 }
 
 class BookingList extends StatelessWidget {
-  const BookingList({required this.bookingReview, super.key});
-  final List<Bookingii> bookingReview;
+  BookingList({required this.bookings2, super.key});
+
+  List<BookinModel> bookings2 = [];
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: bookingReview.map((e) => BookingCard(bookings1: e)).toList(),
+      children: bookings2
+          .map((e) => BookingCard(
+                bookinModel: e,
+              ))
+          .toList(),
     );
   }
 }
 
 class BookingCard extends StatelessWidget {
-  const BookingCard({required this.bookings1, super.key});
-  final Bookingii bookings1;
+  BookingCard({super.key, required this.bookinModel});
+
+  final BookinModel bookinModel;
   @override
   Widget build(BuildContext context) {
+    // final date = DateFormat('yyyy-MM-dd').format(bookinModel.appointmentDate);
     return Column(
       children: [
         Container(
           child: Card(
             elevation: 1,
-            margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+            margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
             child: Row(
               children: [
                 Row(
@@ -170,26 +215,47 @@ class BookingCard extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          Container(
-                            width: 70,
-                            height: 70,
+                          bookinModel.hairImg.isEmpty
+                              ? Container(
+                                  width: 70,
+                                  height: 70,
 
-                            // padding: EdgeInsets.all(0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10.0),
-                                  topRight: Radius.circular(10.0),
-                                  bottomLeft: Radius.circular(10.0),
-                                  bottomRight: Radius.circular(10.0)),
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  bookings1.imgurl,
+                                  // padding: EdgeInsets.all(0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0),
+                                        bottomLeft: Radius.circular(10.0),
+                                        bottomRight: Radius.circular(10.0)),
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/rectangle-1047.png',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  width: 70,
+                                  height: 70,
+
+                                  // padding: EdgeInsets.all(0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0),
+                                        bottomLeft: Radius.circular(10.0),
+                                        bottomRight: Radius.circular(10.0)),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        '${bookinModel.hairImg}',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -208,15 +274,15 @@ class BookingCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                bookings1.name,
-                                style: TextStyle(
+                                '${bookinModel.hairName}',
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 16),
                               ),
-                              SizedBox(
-                                width: 80,
+                              const SizedBox(
+                                width: 150,
                               ),
                               Text(
-                                bookings1.date,
+                                bookinModel.appointmentDate,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 12,
@@ -236,7 +302,7 @@ class BookingCard extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    bookings1.time,
+                                    '${bookinModel.appointmentTime}',
                                     // maxLines: 1,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
@@ -244,7 +310,7 @@ class BookingCard extends StatelessWidget {
                                       color: GlobalColors.lightblack,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Row(
@@ -255,7 +321,7 @@ class BookingCard extends StatelessWidget {
                                         size: 17,
                                       ),
                                       Text(
-                                        bookings1.rating,
+                                        '${bookinModel.ratingId.rating}',
                                         // maxLines: 1,
                                         style: const TextStyle(
                                             // overflow: TextOverflow.ellipsis,
@@ -271,12 +337,12 @@ class BookingCard extends StatelessWidget {
                                   const SizedBox(
                                     width: 130,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.currency_pound_outlined,
                                     size: 17,
                                   ),
                                   Text(
-                                    bookings1.amount,
+                                    '${bookinModel.price}',
                                     // maxLines: 1,
                                     style: TextStyle(
                                         // overflow: TextOverflow.ellipsis,

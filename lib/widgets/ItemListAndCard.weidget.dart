@@ -1,22 +1,41 @@
+import 'package:Tiwa_Oma/services/model/review_model.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import '../utils/global.colors.dart';
-import 'Review.view.dart';
 
-class ItemList extends StatelessWidget {
-  const ItemList({required this.categoryReview, super.key});
-  final List<Review> categoryReview;
+class ItemListStateful extends StatefulWidget {
+  List<ReviewModel> user;
+
+  ItemListStateful({Key? key, required this.user}) : super(key: key);
+
+  @override
+  _ItemListState createState() => _ItemListState();
+}
+
+class _ItemListState extends State<ItemListStateful> {
+  @override
+  void initState() {
+    super.initState();
+    // fetchUserData();
+  }
+
+  List<ReviewModel> user = [];
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: categoryReview.map((e) => ItemCard(review: e)).toList(),
+      children: widget.user.map((e) => ItemCard(user1: e)).toList(),
     );
   }
 }
 
 class ItemCard extends StatelessWidget {
-  const ItemCard({required this.review, super.key});
-  final Review review;
+  ItemCard({Key? key, required this.user1}) : super(key: key);
+
+  ReviewModel user1;
+
+  List<ReviewModel> user = [];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,21 +56,33 @@ class ItemCard extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          Container(
-                            width: 60,
-                            height: 60,
-
-                            // padding: EdgeInsets.all(0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  review.imgurl,
+                          user1.userId.profileImg.isEmpty
+                              ? Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/cartoon.png',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        '${user1.userId.profileImg}',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -69,14 +100,16 @@ class ItemCard extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(review.name),
+                              Text(
+                                user1.userId.username,
+                              ),
                               Row(
                                 children: [
                                   Icon(
                                     Icons.star_outlined,
                                     color: GlobalColors.yellow,
                                   ),
-                                  Text(review.rating),
+                                  Text('${user1.rating}'),
                                   const SizedBox(
                                     width: 20,
                                   )
@@ -88,12 +121,11 @@ class ItemCard extends StatelessWidget {
                             height: 10,
                           ),
                           Text(
-                            review.description,
-                            // maxLines: 1,
+                            user1.feedback,
                             style: const TextStyle(
-                                // overflow: TextOverflow.ellipsis,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 17),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 17,
+                            ),
                             softWrap: true,
                           ),
                         ],

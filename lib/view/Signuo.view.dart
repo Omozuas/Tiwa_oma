@@ -4,8 +4,8 @@ import 'package:Tiwa_Oma/view/Signup2.view.dart';
 import 'package:Tiwa_Oma/widgets/signUp_filed.dart';
 
 class Signup extends StatefulWidget {
-  const Signup({super.key, required this.role});
-  final String role;
+  const Signup({super.key, required this.accountType});
+  final String accountType;
 
   @override
   State<Signup> createState() => _SignupState();
@@ -34,7 +34,7 @@ class _SignupState extends State<Signup> {
         formKey3.currentState!.validate() &&
         formKey4.currentState!.validate() &&
         formKey5.currentState!.validate()) {
-      final snackBar = SnackBar(content: Text('proseed'));
+      const snackBar = SnackBar(content: Text('proseed'));
       _scaffoldkey.currentState!.setState(() {
         snackBar;
       });
@@ -48,9 +48,9 @@ class _SignupState extends State<Signup> {
                       "state": stateController.text,
                       "country": countryController.text,
                       "address": addressController.text,
-                      "role": 'client'
+                      "accountType": widget.accountType
                     },
-                    role: widget.role,
+                    accountType: widget.accountType,
                   )));
     }
   }
@@ -198,7 +198,7 @@ class _SignupState extends State<Signup> {
                         ElevatedButton(
                           onPressed: () {
                             create();
-                            print(widget.role);
+                            print(widget.accountType);
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,

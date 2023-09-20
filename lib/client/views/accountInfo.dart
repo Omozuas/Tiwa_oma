@@ -1,6 +1,9 @@
+import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
+import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../../widgets/signUp_filed.dart';
@@ -9,8 +12,8 @@ import 'Profile.view.dart';
 import 'dashboard.view.dart';
 
 class AccountInfo extends StatefulWidget {
-  const AccountInfo({super.key});
-
+  const AccountInfo({super.key, this.token});
+  final token;
   @override
   State<AccountInfo> createState() => _AccountInfoState();
 }
@@ -30,23 +33,116 @@ class _AccountInfoState extends State<AccountInfo> {
   final formKey4 = GlobalKey<FormState>();
   final formKey5 = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  String email = '';
+  String username = '';
+  String gender = '';
+  String address = '';
+  String state = '';
+  String country = '';
+  late final id;
 
-  void UpDateAccount() async {
+  @override
+  void initState() {
+    super.initState();
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    try {
+      id = jwtDecodedToken['id'];
+      getuserById(id);
+      print(jwtDecodedToken['email']);
+      print(widget.token);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
+  }
+
+  Future<void> getuserById(id) async {
+    GetUsers.fetchStylistData(widget.token, id).then((res) {
+      setState(() {
+        email = res.data['email'];
+        username = res.data['username'];
+
+        gender = res.data['gender'];
+        address = res.data['address'];
+        state = res.data['state'];
+        country = res.data['country'];
+        emailController.text = email;
+        usernameController.text = username;
+        genderController.text = gender;
+        stateController.text = state;
+        addressController.text = address;
+        countryController.text = country;
+      });
+    });
+  }
+
+  void UpDateUsertAccount() async {
     if (formKey.currentState!.validate() &&
         formKey1.currentState!.validate() &&
         formKey2.currentState!.validate() &&
         formKey3.currentState!.validate() &&
         formKey4.currentState!.validate() &&
         formKey5.currentState!.validate()) {
-      final snackBar = SnackBar(content: Text('proseed'));
-      _scaffoldkey.currentState!.setState(() {
-        snackBar;
+      var updateUser = {
+        "email": emailController.text,
+        "username": usernameController.text,
+        "state": stateController.text,
+        "country": countryController.text,
+        "address": addressController.text,
+        "gender": genderController.text
+      };
+      print(updateUser);
+      UpdateuserInfoApi.updateUser(updateUser, widget.token, id).then((res) {
+        if (res.success == true) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              content: Row(
+                children: [
+                  Icon(
+                    Icons.check_circle_outline,
+                    size: 29,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '${res.message}',
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
+                ],
+              ),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Row(
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 29,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '${res.message}',
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
+                ],
+              ),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
       });
     }
-    // var responsed = await http.post(Uri.parse(registration),
-    //     headers: {"Content-Type": "application/json"},
-    //     body: jsonEncode(registerBody));
-    // print(responsed);
   }
 
   @override
@@ -74,7 +170,7 @@ class _AccountInfoState extends State<AccountInfo> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Padding(
@@ -178,7 +274,7 @@ class _AccountInfoState extends State<AccountInfo> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          UpDateAccount();
+                          UpDateUsertAccount();
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
@@ -216,8 +312,8 @@ class _AccountInfoState extends State<AccountInfo> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Dashboard(
-                                    token: '',
+                              builder: (context) => Dashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const Icon(
@@ -238,7 +334,9 @@ class _AccountInfoState extends State<AccountInfo> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Bookings()));
+                              builder: (context) => Bookings(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       LineIcons.book,
@@ -256,7 +354,9 @@ class _AccountInfoState extends State<AccountInfo> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Stylist()));
+                              builder: (context) => Stylist(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.cut_outline,
@@ -274,7 +374,9 @@ class _AccountInfoState extends State<AccountInfo> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyProfile()));
+                              builder: (context) => MyProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.person_outline,

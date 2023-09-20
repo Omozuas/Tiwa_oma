@@ -1,26 +1,25 @@
+import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/stylist/ClientsDetails.dart';
-import 'package:Tiwa_Oma/stylist/widgets/ClientsInfo.dart';
-
 import '../../utils/global.colors.dart';
-// import 'LastestAppointmentInfo.dart';
 
 class ClientstList extends StatelessWidget {
-  const ClientstList({required this.clientsReview, super.key});
-  final List<ClientInfo> clientsReview;
+  ClientstList({required this.userBooking, super.key});
+
+  List<BookinModel2> userBooking = [];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        children: clientsReview.map((e) => ClientCard(clients1: e)).toList(),
+        children: userBooking.map((e) => ClientCard(userBooking2: e)).toList(),
       ),
     );
   }
 }
 
 class ClientCard extends StatelessWidget {
-  const ClientCard({required this.clients1, super.key});
-  final ClientInfo clients1;
+  ClientCard({required this.userBooking2, super.key});
+  BookinModel2 userBooking2;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -42,26 +41,47 @@ class ClientCard extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          Container(
-                            width: 70,
-                            height: 70,
+                          userBooking2.userId.profileImg.isEmpty
+                              ? Container(
+                                  width: 70,
+                                  height: 70,
 
-                            // padding: EdgeInsets.all(0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10.0),
-                                  topRight: Radius.circular(10.0),
-                                  bottomLeft: Radius.circular(10.0),
-                                  bottomRight: Radius.circular(10.0)),
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  clients1.imgurl,
+                                  // padding: EdgeInsets.all(0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0),
+                                        bottomLeft: Radius.circular(10.0),
+                                        bottomRight: Radius.circular(10.0)),
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/cartoon.png',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  width: 70,
+                                  height: 70,
+
+                                  // padding: EdgeInsets.all(0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0),
+                                        bottomLeft: Radius.circular(10.0),
+                                        bottomRight: Radius.circular(10.0)),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        '${userBooking2.userId.profileImg}',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -80,8 +100,8 @@ class ClientCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                clients1.name,
-                                style: TextStyle(
+                                '${userBooking2.userId.username}',
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 16),
                               ),
                               Row(
@@ -92,19 +112,21 @@ class ClientCard extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const ClientsDetails()));
-                                      print(clients1.name +
-                                          clients1.gmail +
-                                          clients1.imgurl);
+                                                  ClientsDetails(
+                                                    userId:
+                                                        userBooking2.userId.id,
+                                                  )));
+                                      print(userBooking2.userId.id);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(5),
                                       width: 70,
                                       decoration: BoxDecoration(
                                         color: GlobalColors.yellow,
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(100),
-                                            bottom: Radius.circular(100)),
+                                        borderRadius:
+                                            const BorderRadius.vertical(
+                                                top: Radius.circular(100),
+                                                bottom: Radius.circular(100)),
                                       ),
                                       child: const Center(
                                         child: Text(
@@ -126,7 +148,7 @@ class ClientCard extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                clients1.gmail,
+                                '${userBooking2.userId.email}',
                                 // maxLines: 1,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,

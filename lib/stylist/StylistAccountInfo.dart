@@ -1,45 +1,147 @@
+import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
+import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/stylist/Clients.dart';
 import 'package:Tiwa_Oma/stylist/stylistProfile.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
-
 import '../utils/global.colors.dart';
 import '../widgets/signUp_filed.dart';
 import 'AllAppointment.dart';
 import 'StylistDashboard.dart';
 
 class StylistAccountInfo extends StatefulWidget {
-  const StylistAccountInfo({super.key});
-
+  StylistAccountInfo({super.key, this.token});
+  var token;
   @override
   State<StylistAccountInfo> createState() => _StylistAccountInfoState();
 }
 
 class _StylistAccountInfoState extends State<StylistAccountInfo> {
+  final formKey = GlobalKey<FormState>();
+  final formKey1 = GlobalKey<FormState>();
+  final formKey2 = GlobalKey<FormState>();
+  final formKey3 = GlobalKey<FormState>();
+  final formKey4 = GlobalKey<FormState>();
+  final formKey5 = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  String email = '';
+  String username = '';
+  String gender = '';
+  String address = '';
+  String state = '';
+  String country = '';
+  late final id;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    try {
+      id = jwtDecodedToken['id'];
+      getuserById(id);
+      print(jwtDecodedToken['email']);
+      print(widget.token);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
+  }
+
+  Future<void> getuserById(id) async {
+    GetUsers.fetchStylistData(widget.token, id).then((res) {
+      setState(() {
+        email = res.data['email'];
+        username = res.data['username'];
+
+        gender = res.data['gender'];
+        address = res.data['address'];
+        state = res.data['state'];
+        country = res.data['country'];
+        emailController.text = email;
+        usernameController.text = username;
+        genderController.text = gender;
+        stateController.text = state;
+        addressController.text = address;
+        countryController.text = country;
+      });
+    });
+  }
+
   TextEditingController emailController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController stateController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController genderController = TextEditingController();
-  bool _isNotValidate = false;
 
   void UpDateStylistAccount() async {
-    if (emailController.text.isNotEmpty &&
-        usernameController.text.isNotEmpty &&
-        genderController.text.isNotEmpty &&
-        stateController.text.isNotEmpty &&
-        countryController.text.isNotEmpty &&
-        addressController.text.isNotEmpty) {
-      // var responsed = await http.post(Uri.parse(registration),
-      //     headers: {"Content-Type": "application/json"},
-      //     body: jsonEncode(registerBody));
-      // print(responsed);
-    } else {
-      setState(() {
-        _isNotValidate = true;
+    if (formKey.currentState!.validate() &&
+        formKey1.currentState!.validate() &&
+        formKey2.currentState!.validate() &&
+        formKey3.currentState!.validate() &&
+        formKey4.currentState!.validate() &&
+        formKey5.currentState!.validate()) {
+      var updateUser = {
+        "email": emailController.text,
+        "username": usernameController.text,
+        "state": stateController.text,
+        "country": countryController.text,
+        "address": addressController.text,
+        "gender": genderController.text
+      };
+      print(updateUser);
+      UpdateuserInfoApi.updateUser(updateUser, widget.token, id).then((res) {
+        if (res.success == true) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              content: Row(
+                children: [
+                  Icon(
+                    Icons.check_circle_outline,
+                    size: 29,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '${res.message}',
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
+                ],
+              ),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Row(
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 29,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '${res.message}',
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
+                ],
+              ),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
       });
     }
   }
@@ -47,6 +149,7 @@ class _StylistAccountInfoState extends State<StylistAccountInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
@@ -68,7 +171,7 @@ class _StylistAccountInfoState extends State<StylistAccountInfo> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Padding(
@@ -76,41 +179,84 @@ class _StylistAccountInfoState extends State<StylistAccountInfo> {
               child: Column(
                 children: [
                   signupFiled(
-                    label: "Username",
-                    hintText: "Username",
-                    controller2: usernameController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey,
+                      label: "Username",
+                      hintText: "${username}",
+                      controller2: usernameController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                          return "Enter Your User Name";
+                        } else {
+                          return null;
+                        }
+                      }),
                   signupFiled(
-                    label: "Email",
-                    hintText: "Email",
-                    controller2: emailController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey1,
+                      label: "Email",
+                      hintText: "${email}",
+                      controller2: emailController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
+                                .hasMatch(value!)) {
+                          return "Enter Your email";
+                        } else {
+                          return null;
+                        }
+                      }),
                   signupFiled(
-                    label: "Gender",
-                    hintText: "Gender",
-                    controller2: genderController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey2,
+                      label: "Gender",
+                      hintText: "${gender}",
+                      controller2: genderController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                          return "Enter Your Gender";
+                        } else {
+                          return null;
+                        }
+                      }),
                   signupFiled(
-                    label: "Address",
-                    hintText: "Address",
-                    controller2: addressController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey3,
+                      label: "Address",
+                      hintText: "${address}",
+                      controller2: addressController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                          return "Enter Your Address";
+                        } else {
+                          return null;
+                        }
+                      }),
                   signupFiled(
-                    label: "State",
-                    hintText: "State",
-                    controller2: stateController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey4,
+                      label: "State",
+                      hintText: "${state}",
+                      controller2: stateController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                          return "Enter Your State";
+                        } else {
+                          return null;
+                        }
+                      }),
                   signupFiled(
-                    label: "country",
-                    hintText: "Country",
-                    controller2: countryController,
-                    err: _isNotValidate ? "Enter Proper info" : null,
-                  ),
+                      keys: formKey5,
+                      label: "Country",
+                      hintText: "${country}",
+                      controller2: countryController,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                          return "Enter Your Country";
+                        } else {
+                          return null;
+                        }
+                      }),
                 ],
               ),
             ),
@@ -167,8 +313,8 @@ class _StylistAccountInfoState extends State<StylistAccountInfo> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistDashboard(
-                                    token: '',
+                              builder: (context) => StylistDashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const FaIcon(
@@ -190,7 +336,9 @@ class _StylistAccountInfoState extends State<StylistAccountInfo> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AllAppointment()));
+                              builder: (context) => AllAppointment(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const FaIcon(
                       LineIcons.book,
@@ -208,9 +356,11 @@ class _StylistAccountInfoState extends State<StylistAccountInfo> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Clients()));
+                              builder: (context) => Clients(
+                                    token: widget.token,
+                                  )));
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Ionicons.people_outline,
                       size: 32,
                     ),
@@ -229,7 +379,9 @@ class _StylistAccountInfoState extends State<StylistAccountInfo> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistProfile()));
+                              builder: (context) => StylistProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       Ionicons.person_outline,

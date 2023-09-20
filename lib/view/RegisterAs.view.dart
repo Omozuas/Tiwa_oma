@@ -30,7 +30,7 @@ class RegisterAsView extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    LoginAndSignup(role: selectedRole)),
+                                    LoginAndSignup(accountType: selectedRole)),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -50,7 +50,7 @@ class RegisterAsView extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    LoginAndSignup(role: selectedRole)),
+                                    LoginAndSignup(accountType: selectedRole)),
                           );
                         },
                         style: ElevatedButton.styleFrom(

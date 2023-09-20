@@ -1,26 +1,19 @@
-import 'dart:convert';
-
-import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
 import 'package:Tiwa_Oma/services/Api_service.dart';
-import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
-// import 'package:Tiwa_Oma/view/config.dart';
-
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:Tiwa_Oma/utils/global.colors.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyEmail extends StatefulWidget {
-  final String role;
+  final String accountType;
 
   final Map<String, String> registerBody1;
   final String? otphash;
   final token;
   const VerifyEmail({
     super.key,
-    required this.role,
+    required this.accountType,
     required this.registerBody1,
     this.otphash,
     required this.token,
@@ -35,15 +28,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   List<TextEditingController> otpControllers =
       List.generate(4, (index) => TextEditingController());
-  @override
-  void initState() {
-    super.initState();
-    prefsFuture = initSharedPref();
-  }
-
-  Future<SharedPreferences> initSharedPref() async {
-    return await SharedPreferences.getInstance();
-  }
 
   @override
   void dispose() {
@@ -62,25 +46,12 @@ class _VerifyEmailState extends State<VerifyEmail> {
       print(response.data);
       print(otp);
       if (response.data != null) {
-        final prefs = await prefsFuture;
-        prefs.setString('token', widget.token);
-        Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-        print(prefs.toString());
-        print(jwtDecodedToken['email']);
-        if (widget.role == 'client') {
+        if (widget.accountType == 'client') {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Dashboard(
-                        token: widget.token,
-                      )));
-        } else if (widget.role == 'stylist') {
+              context, MaterialPageRoute(builder: (context) => const Login()));
+        } else if (widget.accountType == 'stylist') {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => StylistDashboard(
-                        token: widget.token,
-                      )));
+              context, MaterialPageRoute(builder: (context) => const Login()));
         }
       }
     });

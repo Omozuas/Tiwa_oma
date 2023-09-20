@@ -6,8 +6,8 @@ import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/view/Signuo.view.dart';
 
 class Onboarding extends StatefulWidget {
-  final String role;
-  const Onboarding({super.key, required this.role});
+  final String accountType;
+  const Onboarding({super.key, required this.accountType});
 
   @override
   _OnboardingState createState() => _OnboardingState();
@@ -121,11 +121,12 @@ class _OnboardingState extends State<Onboarding> {
                     const SizedBox(height: 15),
                     ElevatedButton(
                       onPressed: () {
-                        print(widget.role);
+                        print(widget.accountType);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Signup(role: widget.role)),
+                              builder: (context) =>
+                                  Signup(accountType: widget.accountType)),
                         );
                       },
                       style: ElevatedButton.styleFrom(

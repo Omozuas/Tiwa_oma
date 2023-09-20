@@ -57,7 +57,7 @@ class AddButtonCard extends StatelessWidget {
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           if (!(reviewAdded ?? false))
             SizedBox(
-              height: 70,
+              height: 30,
               child: Row(
                 children: [
                   Icon(

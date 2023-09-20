@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
+import 'package:Tiwa_Oma/services/updateApi.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/stylist/AllAppointment.dart';
@@ -6,27 +11,98 @@ import 'package:Tiwa_Oma/stylist/StylistAccountInfo.dart';
 import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
 import 'package:Tiwa_Oma/stylist/StylistInfomation.dart';
 import 'package:Tiwa_Oma/stylist/widgets/StylistProfileMenu.dart';
-import 'package:Tiwa_Oma/stylist/widgets/StylistProfilePix.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 
 // import '../client/views/accountInfo.dart';
 import '../utils/global.colors.dart';
 
 class StylistProfile extends StatefulWidget {
-  const StylistProfile({super.key});
-
+  const StylistProfile({super.key, required this.token});
+  final token;
   @override
   State<StylistProfile> createState() => _StylistProfileState();
 }
 
 class _StylistProfileState extends State<StylistProfile> {
+  String email = '';
+  String username = '';
+  String profileImg = '';
+  late final id;
+  File? _pickedImage;
+  final double profileHeiht = 120;
+  @override
+  void initState() {
+    super.initState();
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    try {
+      id = jwtDecodedToken['id'];
+
+      getuserById(id);
+      print(jwtDecodedToken['email']);
+      print(widget.token);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
+  }
+
+  Future<void> getuserById(id) async {
+    GetUsers.fetchStylistData(widget.token, id).then((res) {
+      setState(() {
+        email = res.data['email'];
+        username = res.data['username'];
+        profileImg = res.data['profileImg'];
+      });
+    });
+  }
+
+  Future<void> _imagePicker() async {
+    final ImagePicker picker = ImagePicker();
+    XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      final imageBytes = await image.readAsBytes();
+      final base64Image = base64Encode(imageBytes);
+      setState(() {
+        _pickedImage = File(image.path);
+      });
+
+      final url = Uri.parse('https://api.cloudinary.com/v1_1/ddxaoh6po/upload');
+      final requ = http.MultipartRequest("POST", url)
+        ..fields["upload_preset"] = "hhnrmunf"
+        ..files
+            .add(await http.MultipartFile.fromPath('file', _pickedImage!.path));
+      final res = await requ.send();
+      if (res.statusCode == 200) {
+        final resData = await res.stream.toBytes();
+        final resSt = String.fromCharCodes(resData);
+        final jmap = jsonDecode(resSt);
+        setState(() {
+          var url2 = jmap['url'];
+          print(url2);
+          UpdateuserInfoApi.updateUserImg(url2, widget.token, id);
+        });
+      }
+
+      setState(() {
+        _pickedImage = File(image.path);
+      });
+      print(image.path);
+    } else {
+      print("no image has been picked");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Profile"),
+        title: const Text("Profile"),
         elevation: 0,
         backgroundColor: GlobalColors.mainColor,
         foregroundColor: Colors.black,
@@ -47,8 +123,91 @@ class _StylistProfileState extends State<StylistProfile> {
           child: Center(
             child: Column(
               children: [
-                StylistproFilePix(),
-                SizedBox(
+                Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Column(
+                      children: [
+                        Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                _imagePicker();
+                              },
+                              child: profileImg.isEmpty
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                        color: GlobalColors.yellow,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        border: Border.all(
+                                          color: GlobalColors.blue,
+                                          width: 3,
+                                        ),
+                                      ),
+                                      width: 120,
+                                      height: 120,
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          child: Image.asset(
+                                            "assets/images/memoji-boys-5231.png",
+                                          )),
+                                    )
+                                  : Container(
+                                      width: 120,
+                                      height: 120,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        border: Border.all(
+                                          color: GlobalColors.blue,
+                                          width: 3,
+                                        ),
+                                      ),
+                                      child: CircleAvatar(
+                                        radius: profileHeiht / 2,
+                                        backgroundColor: Colors.white,
+                                        backgroundImage:
+                                            NetworkImage("${profileImg}"),
+                                      )),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  width: 35,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: GlobalColors.green,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: const Center(
+                                    child: FaIcon(FontAwesomeIcons.pencil,
+                                        size: 20, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Text(
+                      "${username}",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+                const SizedBox(
                   height: 20,
                 ),
                 StylistprofileMenue(
@@ -58,7 +217,9 @@ class _StylistProfileState extends State<StylistProfile> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const StylistAccountInfo()));
+                            builder: (context) => StylistAccountInfo(
+                                  token: widget.token,
+                                )));
                   },
                 ),
                 StylistprofileMenue(
@@ -68,7 +229,9 @@ class _StylistProfileState extends State<StylistProfile> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const StylistInfomation()));
+                            builder: (context) => StylistInfomation(
+                                  token: widget.token,
+                                )));
                   },
                 ),
                 StylistprofileMenue(
@@ -78,7 +241,9 @@ class _StylistProfileState extends State<StylistProfile> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AllAppointment()));
+                            builder: (context) => AllAppointment(
+                                  token: widget.token,
+                                )));
                   },
                 ),
                 StylistprofileMenue(
@@ -142,8 +307,8 @@ class _StylistProfileState extends State<StylistProfile> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistDashboard(
-                                    token: '',
+                              builder: (context) => StylistDashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const FaIcon(
@@ -165,7 +330,9 @@ class _StylistProfileState extends State<StylistProfile> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AllAppointment()));
+                              builder: (context) => AllAppointment(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const FaIcon(
                       LineIcons.book,
@@ -183,9 +350,11 @@ class _StylistProfileState extends State<StylistProfile> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Clients()));
+                              builder: (context) => Clients(
+                                    token: widget.token,
+                                  )));
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Ionicons.people_outline,
                       size: 32,
                     ),
@@ -204,7 +373,9 @@ class _StylistProfileState extends State<StylistProfile> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistProfile()));
+                              builder: (context) => StylistProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       Ionicons.person_outline,

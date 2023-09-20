@@ -1,11 +1,16 @@
+import 'package:Tiwa_Oma/services/model/review_model.dart';
+import 'package:Tiwa_Oma/services/model/vendo_Model.dart';
+import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
+import 'package:Tiwa_Oma/services/providers/reviewApi.dart';
+import 'package:Tiwa_Oma/services/providers/vendorApi.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/stylist/AllAppointment.dart';
 import 'package:Tiwa_Oma/stylist/Clients.dart';
 import 'package:Tiwa_Oma/stylist/stylistProfile.dart';
 import 'package:Tiwa_Oma/stylist/uploadPhotos.dart';
-import 'package:Tiwa_Oma/stylist/widgets/StylistProfilePix.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 import '../utils/global.colors.dart';
 import '../widgets/ItemListAndCard.weidget.dart';
@@ -15,25 +20,33 @@ import '../widgets/photos.widget.dart';
 import 'StylistDashboard.dart';
 
 class StylistInfomation extends StatefulWidget {
-  const StylistInfomation({super.key});
-
+  const StylistInfomation({super.key, this.token, this.photodetails});
+  final token;
+  final photodetails;
   @override
   State<StylistInfomation> createState() => _StylistInfomationState();
 }
 
 class _StylistInfomationState extends State<StylistInfomation>
     with AutomaticKeepAliveClientMixin<StylistInfomation> {
+  String email = '';
+  late final token;
+  String username = '';
+  String profileImg = '';
+  late final id;
+  List<ReviewModel> user = [];
+  List<VendorModel> vendorStylist = [];
   @override
   bool get wantKeepAlive => true; // Set to true to keep the state alive
 
   // Track the selected tab
-  bool _showItemList = true;
+  final bool _showItemList = true;
 
   int _currentSelection = 1;
   double _selectorPositionX = 9;
   final double _selectorWidth = 200.0;
 //need key
-
+  final double profileHeiht = 120;
   final GlobalKey _key1 = GlobalKey();
   final GlobalKey _key2 = GlobalKey();
 
@@ -74,8 +87,47 @@ class _StylistInfomationState extends State<StylistInfomation>
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    try {
+      id = jwtDecodedToken['id'];
+      getuserById(id);
+      fetchUserData(id);
+      fetchVendorData(id);
+      // print(id);
+      // print(jwtDecodedToken['email']);
+      // print(widget.token);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
+
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _setWidgetPositionx(_key1));
+  }
+
+  Future<void> fetchUserData(id) async {
+    final response = await ReviewApi.fetchUserData(widget.token, id);
+    setState(() {
+      user = response;
+    });
+  }
+
+  Future<void> getuserById(id) async {
+    GetUsers.fetchStylistData(widget.token, id).then((res) {
+      setState(() {
+        email = res.data['email'];
+        username = res.data['username'];
+        profileImg = res.data['profileImg'];
+      });
+    });
+  }
+
+  Future<void> fetchVendorData(id) async {
+    final response = await VendorApi.fetchVendorData(widget.token, id);
+    setState(() {
+      vendorStylist = response;
+    });
   }
 
   @override
@@ -84,7 +136,7 @@ class _StylistInfomationState extends State<StylistInfomation>
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Stylist Information"),
+        title: const Text("Stylist Information"),
         elevation: 0,
         backgroundColor: GlobalColors.mainColor,
         foregroundColor: Colors.black,
@@ -105,8 +157,86 @@ class _StylistInfomationState extends State<StylistInfomation>
           padding: const EdgeInsets.all(6.0),
           child: Center(
             child: Column(children: [
-              StylistproFilePix(),
-              SizedBox(
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    children: [
+                      Stack(
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: profileImg.isEmpty
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      color: GlobalColors.yellow,
+                                      borderRadius: BorderRadius.circular(100),
+                                      border: Border.all(
+                                        color: GlobalColors.blue,
+                                        width: 3,
+                                      ),
+                                    ),
+                                    width: 120,
+                                    height: 120,
+                                    child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: Image.asset(
+                                          "assets/images/memoji-boys-5231.png",
+                                        )),
+                                  )
+                                : Container(
+                                    width: 120,
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      border: Border.all(
+                                        color: GlobalColors.blue,
+                                        width: 3,
+                                      ),
+                                    ),
+                                    child: CircleAvatar(
+                                      radius: profileHeiht / 2,
+                                      backgroundColor: Colors.white,
+                                      backgroundImage:
+                                          NetworkImage("${profileImg}"),
+                                    )),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: InkWell(
+                              onTap: () {},
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  color: GlobalColors.green,
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: const Center(
+                                  child: FaIcon(FontAwesomeIcons.pencil,
+                                      size: 20, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Text(
+                    "${username}",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  )
+                ],
+              ),
+              const SizedBox(
                 height: 20,
               ),
               InkWell(
@@ -114,11 +244,13 @@ class _StylistInfomationState extends State<StylistInfomation>
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const UploadPhotos()));
+                          builder: (context) => UploadPhotos(
+                                token: widget.token,
+                              )));
                 },
                 splashColor: Colors.white,
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   width: 140,
                   decoration: BoxDecoration(
                       border: Border.all(
@@ -135,7 +267,7 @@ class _StylistInfomationState extends State<StylistInfomation>
                           color: GlobalColors.green,
                           size: 22,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Text(
@@ -150,7 +282,7 @@ class _StylistInfomationState extends State<StylistInfomation>
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
@@ -220,23 +352,25 @@ class _StylistInfomationState extends State<StylistInfomation>
               ),
               if (_showItemList) // Conditionally render the ItemList
                 Column(children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
-                  ItemList(
-                    categoryReview: reviewList
+                  ItemListStateful(
+                    user: user
                         .where(
-                          (element) => element.Category == _currentSelection,
+                          (element) => element.category == _currentSelection,
                         )
                         .toList(),
                   ),
                 ]),
               PhotoList(
-                categoryPhotos: photosList
+                vendorStylist: vendorStylist
                     .where(
-                      (element) => element.category2 == _currentSelection,
+                      (element) => element.category == _currentSelection,
                     )
                     .toList(),
+                token: widget.token,
+                onTap: null,
               ),
             ]),
           ),
@@ -258,8 +392,8 @@ class _StylistInfomationState extends State<StylistInfomation>
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistDashboard(
-                                    token: '',
+                              builder: (context) => StylistDashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const FaIcon(
@@ -281,7 +415,9 @@ class _StylistInfomationState extends State<StylistInfomation>
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AllAppointment()));
+                              builder: (context) => AllAppointment(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const FaIcon(
                       LineIcons.book,
@@ -299,9 +435,11 @@ class _StylistInfomationState extends State<StylistInfomation>
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Clients()));
+                              builder: (context) => Clients(
+                                    token: widget.token,
+                                  )));
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Ionicons.people_outline,
                       size: 32,
                     ),
@@ -320,7 +458,9 @@ class _StylistInfomationState extends State<StylistInfomation>
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistProfile()));
+                              builder: (context) => StylistProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       Ionicons.person_outline,

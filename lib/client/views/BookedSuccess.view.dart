@@ -13,8 +13,8 @@ import 'Bookings.view.dart';
 import 'Profile.view.dart';
 
 class BookinSuccess extends StatefulWidget {
-  const BookinSuccess({super.key});
-
+  const BookinSuccess({super.key, this.token});
+  final token;
   @override
   State<BookinSuccess> createState() => _BookinSuccessState();
 }
@@ -101,7 +101,7 @@ class _BookinSuccessState extends State<BookinSuccess> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Dashboard(
+                              builder: (context) => Dashboard(
                                     token: '',
                                   )));
                     },
@@ -123,7 +123,9 @@ class _BookinSuccessState extends State<BookinSuccess> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Bookings()));
+                              builder: (context) => Bookings(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       LineIcons.book,
@@ -141,7 +143,9 @@ class _BookinSuccessState extends State<BookinSuccess> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Stylist()));
+                              builder: (context) => Stylist(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       Ionicons.cut_outline,
@@ -160,7 +164,9 @@ class _BookinSuccessState extends State<BookinSuccess> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyProfile()));
+                              builder: (context) => MyProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.person_outline,

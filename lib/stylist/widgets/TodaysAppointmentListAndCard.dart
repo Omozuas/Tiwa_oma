@@ -86,7 +86,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                   children: [
                                     Text(
                                       todayappointment1.name,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
                                     ),
@@ -99,7 +99,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 7,
                                 ),
                                 Text(
@@ -133,7 +133,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                         color: GlobalColors.lightblack,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 9,
                                     ),
                                     Text(
@@ -151,7 +151,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                     const SizedBox(
                                       width: 75,
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.currency_pound_outlined,
                                       size: 17,
                                     ),

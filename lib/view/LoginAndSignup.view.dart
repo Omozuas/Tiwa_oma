@@ -4,14 +4,14 @@ import 'package:Tiwa_Oma/onboarding/onboard.model.dart';
 class LoginAndSignup extends StatelessWidget {
   const LoginAndSignup({
     super.key,
-    required this.role,
+    required this.accountType,
   });
-  final String role;
+  final String accountType;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Onboarding(
-        role: role,
+        accountType: accountType,
       ),
     );
   }

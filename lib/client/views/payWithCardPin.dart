@@ -38,7 +38,7 @@ class _payWithCardPinState extends State<payWithCardPin> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
               SvgPicture.asset(

@@ -41,3 +41,31 @@ class SigupresopnsMole {
     success = json['success'];
   }
 }
+
+UpdateResopnsMole updateResopnsMole(String str) =>
+    UpdateResopnsMole.fromJson(json.decode(str));
+
+class UpdateResopnsMole {
+  UpdateResopnsMole(
+      {required this.data,
+      required this.message,
+      required this.success,
+      required this.token,
+      required this.status});
+
+  late final status;
+  late final token;
+
+  late final data;
+  late final message;
+
+  late final success;
+
+  UpdateResopnsMole.fromJson(Map<String, dynamic> json) {
+    data = json['data'];
+    token = json['token'];
+    status = json['status'];
+    message = json['message'];
+    success = json['success'];
+  }
+}

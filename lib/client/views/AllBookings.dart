@@ -1,22 +1,57 @@
+import 'package:Tiwa_Oma/services/bookApi.dart';
+import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
-
-import '../../widgets/BookingsViewsList.dart';
 import 'Bookings.view.dart';
 import 'Profile.view.dart';
 import 'dashboard.view.dart';
 
 class AllBookings extends StatefulWidget {
-  const AllBookings({super.key});
-
+  const AllBookings({super.key, this.token});
+  final token;
   @override
   State<AllBookings> createState() => _AllBookingsState();
 }
 
 class _AllBookingsState extends State<AllBookings> {
+  late String email;
+  late final token;
+  late String username;
+  late final id;
+
+  List<BookinModel> bookings2 = [];
+  @override
+  void initState() {
+    super.initState();
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+
+    try {
+      email = jwtDecodedToken['email'];
+      token = jwtDecodedToken['token'];
+      username = jwtDecodedToken['username'];
+      id = jwtDecodedToken['id'];
+      fetchBookingData(id);
+      print(jwtDecodedToken['email'] + id);
+      print(widget.token);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
+  }
+
+  Future<void> fetchBookingData(id) async {
+    final respons = await BookingApi.fetchBookingData(widget.token, id);
+
+    setState(() {
+      bookings2 = respons;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,10 +129,10 @@ class _AllBookingsState extends State<AllBookings> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              BookingList(bookingReview: bookingList)
+              BookingList(bookings2: bookings2)
             ],
           ),
         ),
@@ -118,8 +153,8 @@ class _AllBookingsState extends State<AllBookings> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Dashboard(
-                                    token: '',
+                              builder: (context) => Dashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const Icon(
@@ -140,7 +175,9 @@ class _AllBookingsState extends State<AllBookings> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Bookings()));
+                              builder: (context) => Bookings(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       LineIcons.book,
@@ -158,7 +195,9 @@ class _AllBookingsState extends State<AllBookings> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Stylist()));
+                              builder: (context) => Stylist(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.cut_outline,
@@ -176,7 +215,9 @@ class _AllBookingsState extends State<AllBookings> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyProfile()));
+                              builder: (context) => MyProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       Ionicons.person_outline,

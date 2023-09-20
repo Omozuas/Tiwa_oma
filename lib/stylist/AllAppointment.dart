@@ -1,24 +1,21 @@
+import 'package:Tiwa_Oma/stylist/stylistProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:Tiwa_Oma/client/views/Profile.view.dart';
 import 'package:Tiwa_Oma/stylist/Clients.dart';
 import 'package:Tiwa_Oma/stylist/widgets/PreviousDaysAppointmentInfo.dart';
 import 'package:Tiwa_Oma/stylist/widgets/PreviousDaysAppointmentListAndCard.dart';
 import 'package:Tiwa_Oma/stylist/widgets/TodaysAppointentList.dart';
-
 import 'package:Tiwa_Oma/stylist/widgets/TodaysAppointmentListAndCard.dart';
 import 'package:Tiwa_Oma/stylist/widgets/YestadayAppoinmentInnfo.dart';
 import 'package:Tiwa_Oma/stylist/widgets/YestadayAppointmentCardAndList.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:line_icons/line_icons.dart';
-// import 'package:http/http.dart';
-
 import '../utils/global.colors.dart';
 import 'StylistDashboard.dart';
 
 class AllAppointment extends StatefulWidget {
-  const AllAppointment({super.key});
-
+  const AllAppointment({super.key, required this.token});
+  final token;
   @override
   State<AllAppointment> createState() => _AllAppointmentState();
 }
@@ -29,7 +26,7 @@ class _AllAppointmentState extends State<AllAppointment> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("All Appointment"),
+        title: const Text("All Appointment"),
         elevation: 0,
         backgroundColor: GlobalColors.mainColor,
         foregroundColor: Colors.black,
@@ -49,7 +46,7 @@ class _AllAppointmentState extends State<AllAppointment> {
           padding: const EdgeInsets.all(18.0),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
@@ -64,13 +61,13 @@ class _AllAppointmentState extends State<AllAppointment> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               TodayAppointmentList(
                 todayappoimentReview: todayappointmentList1,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
@@ -85,13 +82,13 @@ class _AllAppointmentState extends State<AllAppointment> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               YestadayAppointmentList(
                 yestadayappoimentReview: yestadayappointmentList1,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
@@ -106,7 +103,7 @@ class _AllAppointmentState extends State<AllAppointment> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               PriciousDaysAppointmentList(
@@ -132,8 +129,8 @@ class _AllAppointmentState extends State<AllAppointment> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistDashboard(
-                                    token: '',
+                              builder: (context) => StylistDashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const FaIcon(
@@ -156,7 +153,8 @@ class _AllAppointmentState extends State<AllAppointment> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AllAppointment()));
+                              builder: (context) =>
+                                  AllAppointment(token: widget.token)));
                     },
                     icon: FaIcon(
                       LineIcons.book,
@@ -175,8 +173,11 @@ class _AllAppointmentState extends State<AllAppointment> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Clients()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Clients(token: widget.token)));
                     },
                     icon: const Icon(
                       Ionicons.people_outline,
@@ -194,7 +195,9 @@ class _AllAppointmentState extends State<AllAppointment> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyProfile()));
+                              builder: (context) => StylistProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(Ionicons.person_outline, size: 30),
                   ),

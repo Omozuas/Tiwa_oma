@@ -1,126 +1,84 @@
+import 'package:Tiwa_Oma/services/model/stylist_model.dart';
+import 'package:Tiwa_Oma/services/model/vendo_Model.dart';
+import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
+import 'package:Tiwa_Oma/services/providers/stylistApi.dart';
+import 'package:Tiwa_Oma/services/providers/vendorApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
+import 'package:Tiwa_Oma/widgets/stylistItemListAndItemCard.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
-// import 'package:jwt_decoder/jwt_decoder.dart';
-
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/client/views/stylistReviews.view.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
-
 import 'Bookings.view.dart';
 import 'Profile.view.dart';
 
-// import '../widgets/newMethod2.file.dart';
-// import 'package:Tiwa_Oma/utils/global.colors.dart';
-// import 'package:Tiwa_Oma/utils/global.colors.dart';
-// import 'package:jwt_decoder/jwt_decoder.dart';
-
 class Dashboard extends StatefulWidget {
-  const Dashboard({
+  Dashboard({
     super.key,
     required this.token,
+    this.id,
   });
   final token;
+  var id;
 
   @override
   State<Dashboard> createState() => _dashboardState();
 }
 
 class _dashboardState extends State<Dashboard> {
-  late String email;
+  String email = '';
   late final token;
-  late String username;
+  String username = '';
+  late final id;
+  String profileImg = '';
+
   @override
   void initState() {
     super.initState();
-
+    fetchStylistData();
+    fetchStylistDataId();
     Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    widget.id = jwtDecodedToken['id'];
     try {
       email = jwtDecodedToken['email'];
       token = jwtDecodedToken['token'];
-      username = jwtDecodedToken['username'];
-      print(jwtDecodedToken['email']);
-      print(widget.token);
+      getuserById(widget.id);
+
+      print(widget.id);
     } catch (e) {
       // Handle token decoding errors here, e.g., log the error or show an error message.
       print('Error decoding token: $e');
     }
   }
 
-  // Map<String, dynamic> userData = {};
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   fetchUserData();
-  // }
-
-  // Future<void> fetchUserData() async {
-  //   try {
-  //     final response = await http.get(
-  //       Uri.parse(findUser),
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Authorization": "Bearer ${widget.token}",
-  //       },
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       final dynamic responseData = jsonDecode(response.body);
-
-  //       if (responseData is Map<String, dynamic>) {
-  //         // Handle the user data as a Map
-  //         setState(() {
-  //           userData = responseData;
-  //         });
-  //         // Now you can access userData as a Map
-  //       } else if (responseData is List<dynamic>) {
-  //         // Handle the response as a List if needed
-  //         print('Received a List in the response.');
-  //       }
-  //     } else if (response.statusCode == 404) {
-  //       // Handle the case where the user is not found
-  //       print('User not found');
-  //     } else {
-  //       // Handle other errors
-  //       print('Failed to load user data');
-  //     }
-  //   } catch (e) {
-  //     // Handle any exceptions that occur during the request
-  //     print('Error fetching user data: $e');
-  //   }
-  // }
-
-  List<String> popularHairSty = [
-    "portrait-of-young-woman-smiling-isolated.png",
-    "rectangle-1041.jpg",
-    "portrait-of-young-woman-smiling-isolated.png",
-    "rectangle-1041.jpg",
-    "portrait-of-young-woman-smiling-isolated.png",
-    "rectangle-1041.jpg",
-  ];
-
-  List<String> popularBraids = [
-    "Top Knot Braids",
-    "Pulled-Back Cornrow Braids",
-    "Top Knot Braids",
-    "Pulled-Back Cornrow Braids",
-    "Top Knot Braids",
-    "Pulled-Back Cornrow Braids",
-  ];
-  List<String> nameStylist = [
-    "Tolu",
-    "Tope",
-    "Bolu",
-    "Tobi",
-    "Joshua",
-    "Paul",
-  ];
-  void displayListIndices(List<String> listName) {
-    for (int index = 0; index < listName.length; index++) {
-      print("Index $index: ${listName[index]}");
-    }
+  Future<void> getuserById(id) async {
+    GetUsers.fetchStylistData(widget.token, id).then((res) {
+      setState(() {
+        email = res.data['email'];
+        username = res.data['username'];
+        profileImg = res.data['profileImg'];
+      });
+    });
   }
+
+  Future<void> fetchStylistData() async {
+    final response = await StylistApi.fetchStylistData(widget.token);
+    setState(() {
+      nameStylist = response;
+    });
+  }
+
+  Future<void> fetchStylistDataId() async {
+    final response = await VendorApi.fetchVendorDataImg(widget.token);
+    setState(() {
+      nameStylist2 = response;
+    });
+  }
+
+  List<StylistModel> nameStylist = [];
+  List<VendorModel> nameStylist2 = [];
 
   @override
   Widget build(BuildContext context) {
@@ -139,20 +97,35 @@ class _dashboardState extends State<Dashboard> {
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return MyProfile();
+                        return MyProfile(
+                          token: widget.token,
+                        );
                       }));
                     },
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/ellipse-117.jpg'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                    child: profileImg.isEmpty
+                        ? Container(
+                            width: 40,
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/images/ellipse-117.jpg'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage('${profileImg}'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                   ),
                   const SizedBox(width: 10),
                   Column(
@@ -161,9 +134,9 @@ class _dashboardState extends State<Dashboard> {
                       Text(
                         // 'Welcome Back'
                         email,
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(
                         // 'Alex Samuel',
                         username,
@@ -367,64 +340,11 @@ class _dashboardState extends State<Dashboard> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 150,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: popularHairSty.length & nameStylist.length,
-                itemBuilder: (
-                  context1,
-                  index1,
-                ) {
-                  return Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const stylistReview()));
-                          },
-                          child: Container(
-                            width: 82,
-                            height:
-                                82, // Adjust the size of the image container
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(82),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                    "assets/images/${popularHairSty[index1]}"),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                            height:
-                                8), // Adjust the spacing between image and text
-                        Text(
-                          nameStylist[index1],
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        const Text(
-                          "Hair Stylist",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: StylistItemList(
+                nameStylist: nameStylist,
+                token: widget.token,
               ),
             ),
             const SizedBox(
@@ -460,108 +380,78 @@ class _dashboardState extends State<Dashboard> {
                 ),
               ],
             ),
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: SizedBox(
-                  // height: ,
+            GridView.builder(
+              itemCount: nameStylist2.length,
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, int index) {
+                final item = nameStylist2[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 0),
                   child: Column(
-                    children: List.generate(
-                      (popularHairSty.length / 2).ceil(),
-                      (index) {
-                        int index1 = index * 2;
-                        int index2 = index * 2 + 1;
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 17),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 168,
-                                      height: 130,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(15),
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                            "assets/images/${popularHairSty[index1]}",
-                                          ),
-                                        ),
-                                      ),
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          print(item.stylistModel.runtimeType);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => stylistReview(
+                                        token: widget.token,
+                                        stylistModel: item.stylistModel,
+                                      )));
+                        },
+                        child: item.hairStyleImg == null
+                            ? Container(
+                                width: 168,
+                                height: 130,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(15),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                      "assets/images/cartoon.png",
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      popularBraids[index1],
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    const Text(
-                                      "Hair Stylist",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 15),
-                              if (index2 <
-                                  popularHairSty.length & popularBraids.length)
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        width: 168,
-                                        height: 130,
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                              "assets/images/${popularHairSty[index2]}",
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        popularBraids[index2],
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      const Text(
-                                        "Hair Stylist",
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ],
                                   ),
                                 ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                              )
+                            : Container(
+                                width: 168,
+                                height: 130,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(15),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage('${item.hairStyleImg}'),
+                                  ),
+                                ),
+                              ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        '${item.hairStlye}',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Text(
+                        "Hair Stylist",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
+                );
+              },
             )
           ],
         ),
@@ -582,8 +472,8 @@ class _dashboardState extends State<Dashboard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Dashboard(
-                                    token: '',
+                              builder: (context) => Dashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: Icon(
@@ -606,9 +496,11 @@ class _dashboardState extends State<Dashboard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Bookings()));
+                              builder: (context) => Bookings(
+                                    token: widget.token,
+                                  )));
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       LineIcons.book,
                       size: 30,
                     ),
@@ -624,9 +516,11 @@ class _dashboardState extends State<Dashboard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Stylist()));
+                              builder: (context) => Stylist(
+                                    token: widget.token,
+                                  )));
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Ionicons.cut_outline,
                       size: 30,
                     ),
@@ -642,7 +536,9 @@ class _dashboardState extends State<Dashboard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyProfile()));
+                              builder: (context) => MyProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.person_outline,
@@ -659,9 +555,3 @@ class _dashboardState extends State<Dashboard> {
     );
   }
 }
-
-// void main() {
-//   runApp(MaterialApp(
-//     home: Dashboard(),
-//   ));
-// }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 // import 'package:Tiwa_Oma/view/seeStylistLocation.view.dart';
 
@@ -11,13 +12,35 @@ import 'Profile.view.dart';
 import 'stylist.view.dart';
 
 class transactionReview extends StatefulWidget {
-  const transactionReview({super.key});
+  const transactionReview({super.key, this.token});
+  final token;
 
   @override
   State<transactionReview> createState() => _transactionReviewState();
 }
 
 class _transactionReviewState extends State<transactionReview> {
+  late String email;
+  late final token;
+  late String username;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+  //   try {
+  //     email = jwtDecodedToken['email'];
+  //     token = jwtDecodedToken['token'];
+  //     username = jwtDecodedToken['username'];
+  //     print(jwtDecodedToken['email']);
+  //     print(widget.token);
+  //   } catch (e) {
+  //     // Handle token decoding errors here, e.g., log the error or show an error message.
+  //     print('Error decoding token: $e');
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -281,8 +304,8 @@ class _transactionReviewState extends State<transactionReview> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Dashboard(
-                                    token: '',
+                              builder: (context) => Dashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const Icon(
@@ -303,7 +326,9 @@ class _transactionReviewState extends State<transactionReview> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Bookings()));
+                              builder: (context) => Bookings(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       LineIcons.book,
@@ -321,7 +346,9 @@ class _transactionReviewState extends State<transactionReview> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Stylist()));
+                              builder: (context) => Stylist(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       Ionicons.cut_outline,
@@ -340,7 +367,9 @@ class _transactionReviewState extends State<transactionReview> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyProfile()));
+                              builder: (context) => MyProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.person_outline,

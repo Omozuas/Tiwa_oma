@@ -1,9 +1,12 @@
+import 'package:Tiwa_Oma/services/bookApi.dart';
+import 'package:Tiwa_Oma/services/model/book_model.dart';
+import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
+import 'package:Tiwa_Oma/stylist/ClientsDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/stylist/AllAppointment.dart';
 import 'package:Tiwa_Oma/stylist/Clients.dart';
 import 'package:Tiwa_Oma/stylist/stylistProfile.dart';
-import 'package:Tiwa_Oma/stylist/widgets/LastestAppointmentInfo.dart';
 import 'package:Tiwa_Oma/stylist/widgets/LatestAppointmentListAndCard.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:ionicons/ionicons.dart';
@@ -20,55 +23,56 @@ class StylistDashboard extends StatefulWidget {
   State<StylistDashboard> createState() => _StylistDashboardState();
 }
 
-List<String> popularHairSty = [
-  "portrait-of-young-woman-smiling-isolated.png",
-  "rectangle-1041.jpg",
-  "portrait-of-young-woman-smiling-isolated.png",
-  "rectangle-1041.jpg",
-  "portrait-of-young-woman-smiling-isolated.png",
-  "rectangle-1041.jpg",
-];
-
-List<String> popularBraids = [
-  "Top Knot Braids",
-  "Pulled-Back Cornrow Braids",
-  "Top Knot Braids",
-  "Pulled-Back Cornrow Braids",
-  "Top Knot Braids",
-  "Pulled-Back Cornrow Braids",
-];
-List<String> nameStylist = [
-  "Tolu",
-  "Tope",
-  "Bolu",
-  "Tobi",
-  "Joshua",
-  "Paul",
-];
-
 class _StylistDashboardState extends State<StylistDashboard> {
-  void displayListIndices(List<String> listName) {
-    for (int index = 0; index < listName.length; index++) {
-      print("Index $index: ${listName[index]}");
-    }
-  }
-
-  late String email;
-  late String username;
+  List<BookinModel> userBooking = [];
+  List<BookinModel2> userBooking2 = [];
+  String email = '';
+  String username = '';
+  String profileImg = '';
+  late final id;
   @override
   void initState() {
     super.initState();
 
     Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
     try {
-      email = jwtDecodedToken['email'];
-      username = jwtDecodedToken['username'];
+      id = jwtDecodedToken['id'];
+      fetchBookingDataId(id);
+      fetchBookingDataIdFrequentUserId(id);
+      getuserById(id);
       print(jwtDecodedToken['email']);
       print(widget.token);
     } catch (e) {
       // Handle token decoding errors here, e.g., log the error or show an error message.
       print('Error decoding token: $e');
     }
+  }
+
+  Future<void> fetchBookingDataId(id) async {
+    final respons = await BookingApi.fetchBookingDataId(widget.token, id);
+
+    setState(() {
+      userBooking = respons;
+    });
+  }
+
+  Future<void> fetchBookingDataIdFrequentUserId(id) async {
+    final respons =
+        await BookingApi.fetchBookingDataIdFrequentUserId(widget.token, id);
+
+    setState(() {
+      userBooking2 = respons;
+    });
+  }
+
+  Future<void> getuserById(id) async {
+    GetUsers.fetchStylistData(widget.token, id).then((res) {
+      setState(() {
+        email = res.data['email'];
+        username = res.data['username'];
+        profileImg = res.data['profileImg'];
+      });
+    });
   }
 
   @override
@@ -93,32 +97,44 @@ class _StylistDashboardState extends State<StylistDashboard> {
                           //   return MyProfile();
                           // }));
                         },
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image:
-                                  AssetImage('assets/images/ellipse-117.jpg'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
+                        child: profileImg.isEmpty
+                            ? Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/ellipse-117.jpg'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: NetworkImage('${profileImg}'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
                       ),
                       const SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Welcome Back',
                             style: TextStyle(color: Colors.grey),
                           ),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           Text(
                             // 'Alex Samuel',
                             username,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                         ],
@@ -170,7 +186,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
                                   color: GlobalColors.green,
                                   borderRadius: BorderRadius.circular(100),
                                 ),
-                                child: Center(
+                                child: const Center(
                                   child: FaIcon(FontAwesomeIcons.info,
                                       size: 20, color: Colors.white),
                                 ),
@@ -178,7 +194,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
                               const SizedBox(
                                 width: 5,
                               ), // Add some spacing
-                              Expanded(
+                              const Expanded(
                                 // Expand to fill available space
                                 child: Row(
                                   children: [
@@ -201,7 +217,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
                           const SizedBox(
                             height: 6,
                           ),
-                          Row(
+                          const Row(
                             children: [
                               SizedBox(
                                 width: 30,
@@ -223,7 +239,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
                             mainAxisAlignment: MainAxisAlignment
                                 .start, // Align button to the right
                             children: [
-                              SizedBox(width: 29),
+                              const SizedBox(width: 29),
                               ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
@@ -244,12 +260,12 @@ class _StylistDashboardState extends State<StylistDashboard> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: const Text(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text(
                         'Frequent Clients',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w500),
@@ -257,7 +273,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 SizedBox(
@@ -265,22 +281,27 @@ class _StylistDashboardState extends State<StylistDashboard> {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    itemCount: popularHairSty.length & nameStylist.length,
+                    itemCount: userBooking2.length,
                     itemBuilder: (
                       context1,
                       index1,
                     ) {
+                      final bookingdata = userBooking2[index1];
                       return Padding(
                         padding: const EdgeInsets.all(15),
                         child: Column(
                           children: [
                             InkWell(
                               onTap: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             const stylistReview()));
+                                print(bookingdata.userId.username);
+                                print(bookingdata.userId.id);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ClientsDetails(
+                                              token: widget.token,
+                                              userId: bookingdata.userId.id,
+                                            )));
                               },
                               child: Container(
                                 width: 82,
@@ -292,7 +313,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: AssetImage(
-                                        "assets/images/${popularHairSty[index1]}"),
+                                        "assets/images/portrait-of-young-woman-smiling-isolated.png"),
                                   ),
                                 ),
                               ),
@@ -301,7 +322,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
                                 height:
                                     8), // Adjust the spacing between image and text
                             Text(
-                              nameStylist[index1],
+                              bookingdata.userId.username,
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,
@@ -316,12 +337,12 @@ class _StylistDashboardState extends State<StylistDashboard> {
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: const Text(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text(
                         'Latest Appointment',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w500),
@@ -333,7 +354,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
             ),
             SingleChildScrollView(
               child: AppointmentList(
-                appoimentReview: appointmentList,
+                userBooking: userBooking,
               ),
             )
           ],
@@ -355,8 +376,8 @@ class _StylistDashboardState extends State<StylistDashboard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistDashboard(
-                                    token: '',
+                              builder: (context) => StylistDashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: FaIcon(
@@ -379,7 +400,9 @@ class _StylistDashboardState extends State<StylistDashboard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AllAppointment()));
+                              builder: (context) => AllAppointment(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const FaIcon(
                       LineIcons.book,
@@ -397,7 +420,9 @@ class _StylistDashboardState extends State<StylistDashboard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Clients()));
+                              builder: (context) => Clients(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.people_outline,
@@ -415,7 +440,9 @@ class _StylistDashboardState extends State<StylistDashboard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistProfile()));
+                              builder: (context) => StylistProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(Ionicons.person_outline, size: 30),
                   ),

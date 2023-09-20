@@ -17,8 +17,8 @@ import 'TransactionReview.dart';
 import 'dashboard.view.dart';
 
 class payWithCard extends StatefulWidget {
-  const payWithCard({super.key});
-
+  const payWithCard({super.key, this.token});
+  final token;
   @override
   State<payWithCard> createState() => _payWithCardState();
 }
@@ -207,7 +207,7 @@ class _payWithCardState extends State<payWithCard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Dashboard(
+                              builder: (context) => Dashboard(
                                     token: '',
                                   )));
                     },
@@ -229,7 +229,9 @@ class _payWithCardState extends State<payWithCard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Bookings()));
+                              builder: (context) => Bookings(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       LineIcons.book,
@@ -247,7 +249,9 @@ class _payWithCardState extends State<payWithCard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Stylist()));
+                              builder: (context) => Stylist(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       Ionicons.cut_outline,
@@ -266,7 +270,9 @@ class _payWithCardState extends State<payWithCard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyProfile()));
+                              builder: (context) => MyProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.person_outline,

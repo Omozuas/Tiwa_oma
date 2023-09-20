@@ -1,25 +1,25 @@
+import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:flutter/material.dart';
-
 import '../../utils/global.colors.dart';
-import 'LastestAppointmentInfo.dart';
 
 class AppointmentList extends StatelessWidget {
-  const AppointmentList({required this.appoimentReview, super.key});
-  final List<LatestAppointment> appoimentReview;
+  AppointmentList({required this.userBooking, super.key});
+
+  List<BookinModel> userBooking = [];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children:
-            appoimentReview.map((e) => AppoimentCard(appointment1: e)).toList(),
+            userBooking.map((e) => AppoimentCard(userBooking2: e)).toList(),
       ),
     );
   }
 }
 
 class AppoimentCard extends StatelessWidget {
-  const AppoimentCard({required this.appointment1, super.key});
-  final LatestAppointment appointment1;
+  AppoimentCard({required this.userBooking2, super.key});
+  BookinModel userBooking2;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,9 +31,9 @@ class AppoimentCard extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 7, vertical: 9),
             child: InkWell(
               onTap: () {
-                print(appointment1.name +
-                    appointment1.amount +
-                    appointment1.hairname);
+                print(userBooking2.hairName);
+                print(userBooking2.appointmentTime);
+                print(userBooking2.userId);
               },
               child: Row(
                 children: [
@@ -57,7 +57,7 @@ class AppoimentCard extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(54),
                                 image: DecorationImage(
                                   image: AssetImage(
-                                    appointment1.imgurl,
+                                    "assets/images/rectangle-1041.jpg",
                                   ),
                                   fit: BoxFit.cover,
                                 ),
@@ -83,13 +83,13 @@ class AppoimentCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      appointment1.name,
-                                      style: TextStyle(
+                                      '${userBooking2.userId.username}',
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
                                     ),
                                     Text(
-                                      appointment1.hairname,
+                                      '${userBooking2.hairName}',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
@@ -97,18 +97,29 @@ class AppoimentCard extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  width: 7,
+                                const SizedBox(
+                                  width: 87,
                                 ),
-                                Text(
-                                  appointment1.status,
-                                  // maxLines: 1,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    color: GlobalColors.green,
+                                if (userBooking2.showStatus == 'paid')
+                                  Text(
+                                    '${userBooking2.showStatus}',
+                                    // maxLines: 1,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: GlobalColors.green,
+                                    ),
                                   ),
-                                ),
+                                if (userBooking2.showStatus == null)
+                                  Text(
+                                    '${userBooking2.showStatus}',
+                                    // maxLines: 1,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: Colors.red,
+                                    ),
+                                  ),
                                 const SizedBox(
                                   width: 0,
                                 ),
@@ -123,7 +134,7 @@ class AppoimentCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      appointment1.date,
+                                      '${userBooking2.appointmentDate}',
                                       // maxLines: 1,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
@@ -131,11 +142,11 @@ class AppoimentCard extends StatelessWidget {
                                         color: GlobalColors.lightblack,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 9,
                                     ),
                                     Text(
-                                      appointment1.time,
+                                      '${userBooking2.appointmentTime}',
                                       // maxLines: 1,
                                       style: const TextStyle(
                                           // overflow: TextOverflow.ellipsis,
@@ -149,12 +160,12 @@ class AppoimentCard extends StatelessWidget {
                                     const SizedBox(
                                       width: 90,
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.currency_pound_outlined,
                                       size: 17,
                                     ),
                                     Text(
-                                      appointment1.amount,
+                                      '${userBooking2.price}',
                                       // maxLines: 1,
                                       style: TextStyle(
                                           // overflow: TextOverflow.ellipsis,

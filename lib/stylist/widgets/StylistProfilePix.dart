@@ -12,7 +12,7 @@ class StylistproFilePix extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Column(
@@ -51,7 +51,7 @@ class StylistproFilePix extends StatelessWidget {
                         color: GlobalColors.green,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: FaIcon(FontAwesomeIcons.pencil,
                             size: 20, color: Colors.white),
                       ),
@@ -62,10 +62,10 @@ class StylistproFilePix extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 25,
         ),
-        Text(
+        const Text(
           "Alex Samuel",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         )

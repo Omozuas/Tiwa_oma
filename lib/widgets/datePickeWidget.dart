@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import '../utils/global.colors.dart';
 
 class DatePickerWidget extends StatelessWidget {
-  const DatePickerWidget({
-    Key? key,
-    required this.isWeekend,
-    required this.currentIndex4,
-    required this.onTimeSelected,
-  }) : super(key: key);
+  const DatePickerWidget(
+      {Key? key,
+      required this.isWeekend,
+      required this.currentIndex4,
+      required this.onTimeSelected,
+      this.photodetsils})
+      : super(key: key);
 
   final bool isWeekend;
   final int? currentIndex4;
   final void Function(int index)? onTimeSelected;
-
+  final photodetsils;
   @override
   Widget build(BuildContext context) {
     if (isWeekend) {
@@ -53,7 +54,7 @@ class DatePickerWidget extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  "${index + 9}:00 ${index + 9 > 11 ? "PM" : "AM"}",
+                  ("${index + 9}:00 ${index + 9 > 11 ? "PM" : "AM"}"),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: currentIndex4 == index

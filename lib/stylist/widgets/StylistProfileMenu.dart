@@ -17,7 +17,7 @@ class StylistprofileMenue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 1, vertical: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 0),
       child: Card(
         elevation: 1,
 
@@ -34,7 +34,7 @@ class StylistprofileMenue extends StatelessWidget {
                     Row(
                       children: [
                         FaIcon(icon, size: 27, color: GlobalColors.yellow),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
                         Text(

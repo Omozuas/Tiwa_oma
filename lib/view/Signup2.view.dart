@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:Tiwa_Oma/services/Api_service.dart';
 import 'package:Tiwa_Oma/services/api.dart';
-import 'package:Tiwa_Oma/view/config.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 // import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/view/verifyEmail.view.dart';
@@ -18,10 +14,11 @@ import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/widgets/signUp_filed.dart';
 
 class Signup2 extends StatefulWidget {
-  final String role;
+  final String accountType;
   final Map<String, String> registerBody1;
 
-  const Signup2({super.key, required this.registerBody1, required this.role});
+  const Signup2(
+      {super.key, required this.registerBody1, required this.accountType});
 
   @override
   State<Signup2> createState() => _Signup2State();
@@ -54,9 +51,55 @@ class _Signup2State extends State<Signup2> {
       };
       Api.addUser(registerBody).then((respons) {
         if (respons.status == true) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              content: Row(
+                children: [
+                  Icon(
+                    Icons.check_circle_outline,
+                    size: 29,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    respons.success,
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
+                ],
+              ),
+              duration: Duration(seconds: 3),
+            ),
+          );
+
           APIService.registerOpt(widget.registerBody1['email']!)
               .then((response) async {
             print(response.message);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.green,
+                content: Row(
+                  children: [
+                    Icon(
+                      Icons.check_circle_outline,
+                      size: 29,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      response.message,
+                      style: TextStyle(fontSize: 15, color: Colors.white),
+                    ),
+                  ],
+                ),
+                duration: Duration(seconds: 3),
+              ),
+            );
+
             print(response.data);
             print(respons.token);
 
@@ -65,7 +108,7 @@ class _Signup2State extends State<Signup2> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => VerifyEmail(
-                            role: widget.role,
+                            accountType: widget.accountType,
                             registerBody1: widget.registerBody1,
                             otphash: response.data,
                             token: respons.token,
@@ -75,6 +118,29 @@ class _Signup2State extends State<Signup2> {
         } else {
           print('failed to register user');
         }
+      }).catchError((onError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Row(
+              children: [
+                Icon(
+                  Icons.check_circle_outline,
+                  size: 29,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  onError,
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+              ],
+            ),
+            duration: Duration(seconds: 3),
+          ),
+        );
       });
     }
   }
@@ -213,7 +279,8 @@ class _Signup2State extends State<Signup2> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          print(widget.role);
+                          _successMessage(context);
+                          print(widget.accountType);
                           signupUser();
                         },
                         style: ElevatedButton.styleFrom(
@@ -237,5 +304,101 @@ class _Signup2State extends State<Signup2> {
         ),
       ),
     );
+  }
+
+  _successMessage(BuildContext context) {
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Container(
+        padding: const EdgeInsets.all(8),
+        height: 80,
+        decoration: BoxDecoration(
+          color: GlobalColors.green,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+        child: const Row(
+          children: [
+            Icon(
+              Icons.check_circle,
+              color: Colors.white,
+              size: 40,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'success',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+                Spacer(),
+                Text('bfbfbfbbb',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ))
+              ],
+            ))
+          ],
+        ),
+      ),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+    ));
+  }
+
+  _errorMessage(BuildContext context) {
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Card(
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          height: 80,
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 227, 163, 170),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          child: const Row(
+            children: [
+              Icon(
+                Icons.error_outline_sharp,
+                color: Colors.white,
+                size: 40,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'failed',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Spacer(),
+                  Text('bfbfbfbbb',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ))
+                ],
+              ))
+            ],
+          ),
+        ),
+      ),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+    ));
   }
 }

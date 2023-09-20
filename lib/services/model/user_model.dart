@@ -1,26 +1,24 @@
-class Register {
-  final String? username;
-  final String? email;
-  final String? address;
-  final String? country;
-  final String? state;
-  final String? role;
-  final String? gender;
-  final String? number;
-  final String? password;
-  final String? confirmPassword;
-  final String? profileImg;
+class UserModel {
+  final username;
+  final email;
+  final address;
+  final country;
+  final state;
+  final accountType;
+  final gender;
+  final number;
+  final id;
+  final profileImg;
 
-  Register(
-      this.username,
-      this.email,
-      this.address,
-      this.country,
-      this.state,
-      this.role,
-      this.gender,
-      this.number,
-      this.password,
-      this.confirmPassword,
-      this.profileImg);
+  UserModel(
+      {required this.username,
+      required this.email,
+      required this.address,
+      required this.country,
+      required this.state,
+      required this.accountType,
+      required this.gender,
+      required this.number,
+      required this.id,
+      this.profileImg});
 }

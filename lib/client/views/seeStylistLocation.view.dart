@@ -56,7 +56,7 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           centerTitle: true,
-          title: Text("Stylist Location"),
+          title: const Text("Stylist Location"),
           elevation: 0,
           backgroundColor: GlobalColors.mainColor,
           foregroundColor: Colors.black,
@@ -88,7 +88,7 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
             child: Container(
               child: Column(children: [
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(50.0),
                       topRight: Radius.circular(50.0),
@@ -97,7 +97,7 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Text(
@@ -119,7 +119,7 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                             ),
                             Expanded(
@@ -147,7 +147,7 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
                                       )
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -166,7 +166,7 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -211,8 +211,7 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Dashboard(
+                                            builder: (context) => Dashboard(
                                                   token: '',
                                                 )));
                                   },
@@ -222,7 +221,7 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
                                         borderRadius:
                                             BorderRadius.circular(29.0),
                                       ),
-                                      minimumSize: Size(379, 50)),
+                                      minimumSize: const Size(379, 50)),
                                   child: const Text(
                                     "Go Home",
                                     style: TextStyle(
@@ -255,7 +254,7 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
           markerId: MarkerId(i.toString()),
           position: data[i]['position'],
           icon: markerIcon,
-          infoWindow: InfoWindow(
+          infoWindow: const InfoWindow(
             title: 'your location',
           ));
       setState(() {});

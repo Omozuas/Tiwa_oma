@@ -12,8 +12,8 @@ import 'Bookings.view.dart';
 import 'PayWithCard.dart';
 
 class payMenthod extends StatefulWidget {
-  const payMenthod({super.key});
-
+  const payMenthod({super.key, this.token});
+  final token;
   @override
   State<payMenthod> createState() => _payMenthodState();
 }
@@ -236,8 +236,8 @@ class _payMenthodState extends State<payMenthod> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Dashboard(
-                                    token: '',
+                              builder: (context) => Dashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const Icon(
@@ -258,7 +258,9 @@ class _payMenthodState extends State<payMenthod> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Bookings()));
+                              builder: (context) => Bookings(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       LineIcons.book,
@@ -276,7 +278,9 @@ class _payMenthodState extends State<payMenthod> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Stylist()));
+                              builder: (context) => Stylist(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       Ionicons.cut_outline,
@@ -295,7 +299,9 @@ class _payMenthodState extends State<payMenthod> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyProfile()));
+                              builder: (context) => MyProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.person_outline,

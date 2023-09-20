@@ -1,29 +1,61 @@
+import 'package:Tiwa_Oma/services/bookApi.dart';
+import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/stylist/stylistProfile.dart';
 import 'package:Tiwa_Oma/stylist/widgets/ClientListAndCard.dart';
-import 'package:Tiwa_Oma/stylist/widgets/ClientsInfo.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 
 import 'AllAppointment.dart';
 import 'StylistDashboard.dart';
 
 class Clients extends StatefulWidget {
-  const Clients({super.key});
-
+  const Clients({super.key, required this.token});
+  final token;
   @override
   State<Clients> createState() => _ClientsState();
 }
 
 class _ClientsState extends State<Clients> {
+  List<BookinModel2> userBooking = [];
+  late String email;
+  late String username;
+  late final id;
+  @override
+  void initState() {
+    super.initState();
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    try {
+      email = jwtDecodedToken['email'];
+      username = jwtDecodedToken['username'];
+      id = jwtDecodedToken['id'];
+      fetchBookingDataIdUserId(id);
+      print(jwtDecodedToken['email']);
+      print(widget.token);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
+  }
+
+  Future<void> fetchBookingDataIdUserId(id) async {
+    final respons = await BookingApi.fetchBookingDataIdUserId(widget.token, id);
+
+    setState(() {
+      userBooking = respons;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Clients"),
+        title: const Text("Clients"),
         elevation: 0,
         backgroundColor: GlobalColors.mainColor,
         foregroundColor: Colors.black,
@@ -39,7 +71,7 @@ class _ClientsState extends State<Clients> {
         ),
       ),
       body: ClientstList(
-        clientsReview: clientstList,
+        userBooking: userBooking,
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
@@ -57,8 +89,8 @@ class _ClientsState extends State<Clients> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistDashboard(
-                                    token: '',
+                              builder: (context) => StylistDashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const FaIcon(
@@ -80,7 +112,9 @@ class _ClientsState extends State<Clients> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AllAppointment()));
+                              builder: (context) => AllAppointment(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const FaIcon(
                       LineIcons.book,
@@ -98,7 +132,9 @@ class _ClientsState extends State<Clients> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Clients()));
+                              builder: (context) => Clients(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       Ionicons.people_outline,
@@ -120,7 +156,8 @@ class _ClientsState extends State<Clients> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const StylistProfile()));
+                              builder: (context) =>
+                                  StylistProfile(token: widget.token)));
                     },
                     icon: const Icon(Ionicons.person_outline, size: 30),
                   ),

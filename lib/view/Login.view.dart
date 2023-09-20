@@ -1,19 +1,14 @@
 import 'dart:convert';
-
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
-import 'package:Tiwa_Oma/services/api.dart';
 import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
 import 'package:Tiwa_Oma/view/config.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/ForgotPassword.view.dart';
 import 'package:Tiwa_Oma/view/Signuo.view.dart';
-// import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
-// import 'package:Tiwa_Oma/view/verifyEmail.view.dart';
 import 'package:Tiwa_Oma/widgets/text_field.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
@@ -56,18 +51,40 @@ class _LoginState extends State<Login> {
 
       var jsonResponse = jsonDecode(response.body);
 
-      if (jsonResponse['status']) {
+      if (jsonResponse['status'] == true) {
         var myToken = jsonResponse['token'];
 
         prefs.setString('token', myToken);
         print(myToken);
         print(jsonResponse['success']);
         print(jsonResponse['token']);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Row(
+              children: [
+                Icon(
+                  Icons.check_circle_outline,
+                  size: 29,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  jsonResponse['success'],
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+              ],
+            ),
+            duration: Duration(seconds: 3),
+          ),
+        );
 
         Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(myToken);
-        // print(emailcontroller.text);
+        print(jsonResponse['accountType']);
         // print(prefs.toString());
-        if (jwtDecodedToken['role'] == 'client') {
+        if (jwtDecodedToken['accountType'] == 'client') {
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -75,7 +92,7 @@ class _LoginState extends State<Login> {
                         token: myToken,
                         // token: myToken,
                       )));
-        } else if (jwtDecodedToken['role'] == 'stylist') {
+        } else if (jwtDecodedToken['accountType'] == 'stylist') {
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -85,7 +102,28 @@ class _LoginState extends State<Login> {
         }
         // Api.loginUser(loginBody);
       } else {
-        print("something went wrong");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Row(
+              children: [
+                Icon(
+                  Icons.check_circle_outline,
+                  size: 29,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  jsonResponse['message'],
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+              ],
+            ),
+            duration: Duration(seconds: 3),
+          ),
+        );
       }
     } else {
       print("something went wrong");
@@ -161,6 +199,14 @@ class _LoginState extends State<Login> {
                         hintText: "password",
                         controller2: passwordcontroller,
                         obscureText: !_isVisible,
+                        validate: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^.*$').hasMatch(value!)) {
+                            return "Enter Your Password";
+                          } else {
+                            return null;
+                          }
+                        },
                         suffixIcon2: IconButton(
                           onPressed: () {
                             setState(() {
@@ -255,7 +301,7 @@ class _LoginState extends State<Login> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const Signup(
-                                      role: '',
+                                      accountType: '',
                                     )));
                       }),
                 ],

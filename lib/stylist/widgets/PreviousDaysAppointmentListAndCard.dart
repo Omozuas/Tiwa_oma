@@ -89,7 +89,7 @@ class PriviousDaysAppoimentCard extends StatelessWidget {
                                   children: [
                                     Text(
                                       priviousdayappointment1.name,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
                                     ),
@@ -102,7 +102,7 @@ class PriviousDaysAppoimentCard extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 7,
                                 ),
                                 Text(
@@ -136,7 +136,7 @@ class PriviousDaysAppoimentCard extends StatelessWidget {
                                         color: GlobalColors.lightblack,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 9,
                                     ),
                                     Text(
@@ -154,7 +154,7 @@ class PriviousDaysAppoimentCard extends StatelessWidget {
                                     const SizedBox(
                                       width: 75,
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.currency_pound_outlined,
                                       size: 17,
                                     ),

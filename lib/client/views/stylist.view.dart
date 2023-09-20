@@ -1,52 +1,52 @@
+import 'package:Tiwa_Oma/client/views/stylistReviews.view.dart';
+import 'package:Tiwa_Oma/services/model/stylist_model.dart';
+import 'package:Tiwa_Oma/services/providers/stylistApi.dart';
 import 'package:flutter/material.dart';
-// import 'package:Tiwa_Oma/Nave_Bar/main_page.dart';
-// import 'package:get/get.dart';
-// import 'package:get/get.dart';
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
-
 import 'Bookings.view.dart';
 import 'Profile.view.dart';
 
 class Stylist extends StatefulWidget {
-  const Stylist({
+  Stylist({
     super.key,
+    required this.token,
   });
-
+  final token;
   @override
   State<Stylist> createState() => _StylistState();
 }
 
 class _StylistState extends State<Stylist> {
-  List<String> popularHairStyl = [
-    "portrait-of-young-woman-smiling-isolated.png",
-    "rectangle-1041.jpg",
-    "portrait-of-young-woman-smiling-isolated.png",
-    "rectangle-1041.jpg",
-    "portrait-of-young-woman-smiling-isolated.png",
-    "rectangle-1041.jpg",
-    "portrait-of-young-woman-smiling-isolated.png",
-    "rectangle-1041.jpg",
-  ];
+  late String email;
+  late final token;
+  late String username;
 
-  List<String> popularBraids = [
-    "Top Knot Braids",
-    "Pulled-Back Cornrow Braids",
-    "Top Knot Braids",
-    "Pulled-Back Cornrow Braids",
-    "Top Knot Braids",
-    "Pulled-Back Cornrow Braids",
-    "Top Knot Braids",
-    "Pulled-Back Cornrow Braids",
-  ];
-
-  void displayListIndices(List<String> listName) {
-    for (int index = 0; index < listName.length; index++) {
-      print("Index $index: ${listName[index]}");
+  @override
+  void initState() {
+    super.initState();
+    fetchStylistData();
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    try {
+      print(jwtDecodedToken['email']);
+      print(widget.token);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
     }
   }
+
+  Future<void> fetchStylistData() async {
+    final response = await StylistApi.fetchStylistData(widget.token);
+    setState(() {
+      nameStylist = response;
+    });
+  }
+
+  List<StylistModel> nameStylist = [];
 
   @override
   Widget build(BuildContext context) {
@@ -124,31 +124,36 @@ class _StylistState extends State<Stylist> {
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(10),
-                child: SizedBox(
-                  // height: 968,
-                  child: Column(
-                    children: List.generate(
-                      (popularHairStyl.length / 2).ceil(),
-                      (index) {
-                        int index1 = index * 2;
-                        int index2 = index * 2 + 1;
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 17),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, mainAxisSpacing: 19),
+                        itemCount: nameStylist.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, int index) {
+                          final item = nameStylist[index];
+                          return Column(
                             children: [
-                              Expanded(
-                                child: Column(
+                              InkWell(
+                                onTap: () {
+                                  print(item.username);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => stylistReview(
+                                                token: widget.token,
+                                                stylistModel: item,
+                                              )));
+                                },
+                                child: Stack(
                                   children: [
-                                    InkWell(
-                                      onTap: () {
-                                        print(popularBraids[index1]);
-                                      },
-                                      child: Stack(
-                                        children: [
-                                          Container(
+                                    item.profileImg == null
+                                        ? Container(
                                             width: 168,
-                                            height: 169,
+                                            height: 156,
                                             decoration: BoxDecoration(
                                               color: Colors.black,
                                               borderRadius:
@@ -156,156 +161,171 @@ class _StylistState extends State<Stylist> {
                                               image: DecorationImage(
                                                 fit: BoxFit.cover,
                                                 image: AssetImage(
-                                                  "assets/images/${popularHairStyl[index1]}",
+                                                  "assets/images/cartoon.png",
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            width: 168,
+                                            height: 156,
+                                            decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                  "${item.profileImg}",
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          Positioned(
-                                            bottom: 8,
-                                            right: 8,
-                                            child: Container(
-                                              padding: const EdgeInsets.all(2),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(0),
-                                              ),
-                                              child: const Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.star,
-                                                    color: Colors.yellow,
-                                                    size: 15,
-                                                  ),
-                                                  SizedBox(width: 3),
-                                                  Text(
-                                                    "4.5",
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      popularBraids[index1],
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    const Text(
-                                      "Hair Stylist",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 15),
-                              if (index2 <
-                                  popularHairStyl.length & popularBraids.length)
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      // Similar implementation for the second image
-                                      InkWell(
-                                        onTap: () {
-                                          print(popularBraids[index2]);
-                                        },
-                                        child: Stack(
+                                    Positioned(
+                                      bottom: 8,
+                                      right: 8,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(2),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(0),
+                                        ),
+                                        child: const Row(
                                           children: [
-                                            Container(
-                                              width: 168,
-                                              height: 169,
-                                              decoration: BoxDecoration(
-                                                color: Colors.black,
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: AssetImage(
-                                                    "assets/images/${popularHairStyl[index2]}",
-                                                  ),
-                                                ),
-                                              ),
+                                            Icon(
+                                              Icons.star,
+                                              color: Colors.yellow,
+                                              size: 15,
                                             ),
-                                            Positioned(
-                                              bottom: 8,
-                                              right: 8,
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(3),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(0),
-                                                ),
-                                                child: const Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.star,
-                                                      color: Colors.yellow,
-                                                      size: 15,
-                                                    ),
-                                                    SizedBox(width: 3),
-                                                    Text(
-                                                      "4.5",
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                            SizedBox(width: 3),
+                                            Text(
+                                              "4.5",
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        popularBraids[index2],
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        softWrap: true,
-                                      ),
-                                      const Text(
-                                        "Hair Stylist",
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                item.username,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const Text(
+                                "Hair Stylist",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                             ],
-                          ),
-                        );
-                      },
-                    ),
+                          );
+                        }),
                   ),
-                ),
+
+                  //           const SizedBox(width: 15),
+                  //           if (index2 <
+                  //               popularHairStyl.length & popularBraids.length)
+                  //             Expanded(
+                  //               child: Column(
+                  //                 children: [
+                  //                   // Similar implementation for the second image
+                  //                   InkWell(
+                  //                     onTap: () {
+                  //                       print(popularBraids[index2]);
+                  //                     },
+                  //                     child: Stack(
+                  //                       children: [
+                  //                         Container(
+                  //                           width: 168,
+                  //                           height: 169,
+                  //                           decoration: BoxDecoration(
+                  //                             color: Colors.black,
+                  //                             borderRadius:
+                  //                                 BorderRadius.circular(15),
+                  //                             image: DecorationImage(
+                  //                               fit: BoxFit.cover,
+                  //                               image: AssetImage(
+                  //                                 "assets/images/${popularHairStyl[index2]}",
+                  //                               ),
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                         Positioned(
+                  //                           bottom: 8,
+                  //                           right: 8,
+                  //                           child: Container(
+                  //                             padding:
+                  //                                 const EdgeInsets.all(3),
+                  //                             decoration: BoxDecoration(
+                  //                               color: Colors.white,
+                  //                               borderRadius:
+                  //                                   BorderRadius.circular(0),
+                  //                             ),
+                  //                             child: const Row(
+                  //                               children: [
+                  //                                 Icon(
+                  //                                   Icons.star,
+                  //                                   color: Colors.yellow,
+                  //                                   size: 15,
+                  //                                 ),
+                  //                                 SizedBox(width: 3),
+                  //                                 Text(
+                  //                                   "4.5",
+                  //                                   style: TextStyle(
+                  //                                     color: Colors.black,
+                  //                                     fontSize: 15,
+                  //                                     fontWeight:
+                  //                                         FontWeight.w500,
+                  //                                   ),
+                  //                                 ),
+                  //                               ],
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                   const SizedBox(height: 8),
+                  //                   Text(
+                  //                     popularBraids[index2],
+                  //                     style: const TextStyle(
+                  //                       color: Colors.black,
+                  //                       fontSize: 14,
+                  //                       fontWeight: FontWeight.w500,
+                  //                     ),
+                  //                     softWrap: true,
+                  //                   ),
+                  //                   const Text(
+                  //                     "Hair Stylist",
+                  //                     style: TextStyle(
+                  //                       color: Colors.grey,
+                  //                       fontSize: 12,
+                  //                       fontWeight: FontWeight.w400,
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //         ],
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+                ]),
               ),
             )
           ],
@@ -327,8 +347,8 @@ class _StylistState extends State<Stylist> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Dashboard(
-                                    token: '',
+                              builder: (context) => Dashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const Icon(
@@ -349,7 +369,9 @@ class _StylistState extends State<Stylist> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Bookings()));
+                              builder: (context) => Bookings(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       LineIcons.book,
@@ -367,7 +389,9 @@ class _StylistState extends State<Stylist> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Stylist()));
+                              builder: (context) => Stylist(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       Ionicons.cut_outline,
@@ -389,7 +413,9 @@ class _StylistState extends State<Stylist> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyProfile()));
+                              builder: (context) => MyProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.person_outline,

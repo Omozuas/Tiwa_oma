@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../../utils/global.colors.dart';
@@ -10,13 +11,35 @@ import 'Profile.view.dart';
 import 'dashboard.view.dart';
 
 class SettingsView extends StatefulWidget {
-  const SettingsView({super.key});
+  final token;
+  SettingsView({super.key, this.token});
 
   @override
   State<SettingsView> createState() => _SettingsViewState();
 }
 
 class _SettingsViewState extends State<SettingsView> {
+  late String email;
+  late final token;
+  late String username;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    try {
+      email = jwtDecodedToken['email'];
+      token = jwtDecodedToken['token'];
+      username = jwtDecodedToken['username'];
+      print(jwtDecodedToken['email']);
+      print(widget.token);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +67,7 @@ class _SettingsViewState extends State<SettingsView> {
         child: Center(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SettingsMenue(
@@ -79,8 +102,8 @@ class _SettingsViewState extends State<SettingsView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Dashboard(
-                                    token: '',
+                              builder: (context) => Dashboard(
+                                    token: widget.token,
                                   )));
                     },
                     icon: const Icon(
@@ -101,7 +124,8 @@ class _SettingsViewState extends State<SettingsView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Bookings()));
+                              builder: (context) =>
+                                  Bookings(token: widget.token)));
                     },
                     icon: const Icon(
                       LineIcons.book,
@@ -119,7 +143,9 @@ class _SettingsViewState extends State<SettingsView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Stylist()));
+                              builder: (context) => Stylist(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: const Icon(
                       Ionicons.cut_outline,
@@ -137,7 +163,8 @@ class _SettingsViewState extends State<SettingsView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyProfile()));
+                              builder: (context) =>
+                                  MyProfile(token: widget.token)));
                     },
                     icon: Icon(
                       Ionicons.person_outline,
@@ -170,7 +197,7 @@ class SettingsMenue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 1, vertical: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 0),
       child: Card(
         elevation: 1,
 

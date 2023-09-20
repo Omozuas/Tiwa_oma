@@ -4,43 +4,42 @@ class Review {
   final String name;
   final String description;
   final String imgurl;
-  final String rating;
+  final rating;
   final Category;
-  const Review(
-      this.name, this.description, this.imgurl, this.rating, this.Category);
+  Review(this.name, this.description, this.imgurl, this.rating, this.Category);
 }
 
 //sample data
 List<Review> reviewList = [
-  const Review(
+  Review(
       "Alex Samuel",
       "I enjoyed the braiding you guys did, it magnifies mybeauty above expectation",
       "assets/images/ellipse-117.jpg",
-      "4.9",
+      4.9,
       1),
-  const Review(
+  Review(
       "Alex Samuel",
       "I enjoyed the braiding you guys did, it magnifies mybeauty above expectation",
       "assets/images/ellipse-117.jpg",
-      "4.9",
+      4.9,
       1),
-  const Review(
+  Review(
       "Alex Samuel",
       "I enjoyed the braiding you guys did, it magnifies mybeauty above expectation",
       "assets/images/ellipse-117.jpg",
-      "4.9",
+      4.9,
       1),
-  const Review(
+  Review(
       "Alex Samuel",
       "I enjoyed the braiding you guys did, it magnifies mybeauty above expectation",
       "assets/images/ellipse-117.jpg",
-      "4.9",
+      4.9,
       1),
-  const Review(
+  Review(
       "Alex Samuel",
       "I enjoyed the braiding you guys did, it magnifies mybeauty above expectation",
       "assets/images/ellipse-117.jpg",
-      "4.9",
+      4.9,
       1),
 ];
 
@@ -48,7 +47,7 @@ List<Review> reviewList = [
 //   final String name;
 //   final category;
 
-//   const Button(this.name, this.category);
+//    Button(this.name, this.category);
 // }
 
 // List<Button> buttonAdd = [Button("Alex Samuel", 1)];
@@ -58,7 +57,7 @@ List<Review> reviewList = [
 //   final String imagurl;
 //   final String amount;
 //   final category2;
-//   const Photos(this.name, this.imagurl, this.amount, this.category2);
+//    Photos(this.name, this.imagurl, this.amount, this.category2);
 // }
 
 // //sample data
