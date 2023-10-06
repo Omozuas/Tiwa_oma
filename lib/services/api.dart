@@ -73,4 +73,49 @@ class Api {
     }
     return getreviewresopnsMole(respons.body);
   }
+
+  static Future<OtpTransactionresopnsMole> transactionOtp(number) async {
+    const url = 'http://192.168.178.188:5000/';
+    var trsactionotp = "${url}apiTermiiOtp/sentOtp";
+    var respons = Uri.parse(trsactionotp);
+    print(number);
+    var res = await http.post(respons,
+        headers: {'Content-Type': "application/json"},
+        body: jsonEncode(number));
+    print(res);
+    if (res.statusCode == 200) {
+      var jsonres = jsonDecode(res.body);
+      print(jsonres);
+      // print(jsonres['token']);
+      // print(registerBody);
+      // print(jsonres);
+    } else {
+      print('failed to register user');
+    }
+
+    return otpTransactionresopnsMole(res.body);
+  }
+
+  static Future<OtpTransactionVerifyresopnsMole> verifyTransactionOtp(
+      number) async {
+    const url = 'http://192.168.178.188:5000/';
+    var trsactionotp = "${url}apiTermiiOtp/verfySentOtp";
+    var respons = Uri.parse(trsactionotp);
+    print(number);
+    var res = await http.post(respons,
+        headers: {'Content-Type': "application/json"},
+        body: jsonEncode(number));
+    print(res);
+    if (res.statusCode == 200) {
+      var jsonres = jsonDecode(res.body);
+      print(jsonres);
+      // print(jsonres['token']);
+      // print(registerBody);
+      // print(jsonres);
+    } else {
+      print('failed to register user');
+    }
+
+    return otpTransactionVerifyresopnsMole(res.body);
+  }
 }

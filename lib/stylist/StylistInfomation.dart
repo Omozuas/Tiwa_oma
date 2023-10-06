@@ -15,8 +15,6 @@ import 'package:line_icons/line_icons.dart';
 import '../utils/global.colors.dart';
 import '../widgets/ItemListAndCard.weidget.dart';
 import '../widgets/PhotoListAndCard.widget.dart';
-import '../widgets/Review.view.dart';
-import '../widgets/photos.widget.dart';
 import 'StylistDashboard.dart';
 
 class StylistInfomation extends StatefulWidget {

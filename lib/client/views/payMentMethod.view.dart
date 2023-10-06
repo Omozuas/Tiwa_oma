@@ -6,28 +6,65 @@ import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
 import 'package:Tiwa_Oma/client/views/payWithTransfar.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 
 import 'Bookings.view.dart';
 import 'PayWithCard.dart';
 
 class payMenthod extends StatefulWidget {
-  const payMenthod({super.key, this.token});
+  payMenthod({super.key, required this.token, this.bookDetails});
   final token;
+  final bookDetails;
   @override
   State<payMenthod> createState() => _payMenthodState();
 }
 
 class _payMenthodState extends State<payMenthod> {
   int _type = 1;
+  String email = '';
+  late final token1;
+  String username = '';
+  String number = '';
+  late final id;
   void _handleRadion(Object? e) => setState(() {
         _type = e as int;
       });
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    print(widget.token);
+    print(widget.bookDetails);
+    // Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    // try {
+    //   email = jwtDecodedToken['email'];
+    //   token1 = jwtDecodedToken['token'];
+    //   username = jwtDecodedToken['username'];
+    //   number = jwtDecodedToken['number'];
+    //   id = jwtDecodedToken['id'];
+    //   print(id);
+    //   // print(id);
+    //   // print(jwtDecodedToken['email']);
+    //   // print(widget.token);
+    // } catch (e) {
+    //   // Handle token decoding errors here, e.g., log the error or show an error message.
+    //   print('Error decoding token: $e');
+    // }
+
+    try {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+      print(widget.token);
+      email = jwtDecodedToken['email'];
+      print(email);
+      // username = jwtDecodedToken['username'];
+      // number = jwtDecodedToken['number'];
+      // id = jwtDecodedToken['id'];
+      print(jwtDecodedToken['id']);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
   }
 
   @override
@@ -196,7 +233,10 @@ class _payMenthodState extends State<payMenthod> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const payWithCard()),
+                                  builder: (context) => payWithCard(
+                                        token: widget.token,
+                                        bookingDetails: widget.bookDetails,
+                                      )),
                             );
                           }
                         },

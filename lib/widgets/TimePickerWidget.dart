@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
-import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class DateTimePickerWidget extends StatelessWidget {

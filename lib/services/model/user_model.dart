@@ -9,6 +9,7 @@ class UserModel {
   final number;
   final id;
   final profileImg;
+  final stripeCostormerId;
 
   UserModel(
       {required this.username,
@@ -20,5 +21,6 @@ class UserModel {
       required this.gender,
       required this.number,
       required this.id,
-      this.profileImg});
+      this.profileImg,
+      this.stripeCostormerId});
 }

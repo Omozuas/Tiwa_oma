@@ -1,8 +1,13 @@
+import 'package:Tiwa_Oma/client/views/clientNotification.dart';
+import 'package:Tiwa_Oma/services/Api_service.dart';
+import 'package:Tiwa_Oma/services/api.dart';
 import 'package:Tiwa_Oma/services/model/stylist_model.dart';
 import 'package:Tiwa_Oma/services/model/vendo_Model.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
+import 'package:Tiwa_Oma/services/providers/searchApi.dart';
 import 'package:Tiwa_Oma/services/providers/stylistApi.dart';
 import 'package:Tiwa_Oma/services/providers/vendorApi.dart';
+import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/widgets/stylistItemListAndItemCard.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +16,7 @@ import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/client/views/stylistReviews.view.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Bookings.view.dart';
 import 'Profile.view.dart';
 
@@ -28,33 +34,84 @@ class Dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<Dashboard> {
+  final formKey = GlobalKey<FormState>();
   String email = '';
   late final token;
   String username = '';
+  late String fcmToken = '';
   late final id;
   String profileImg = '';
+  TextEditingController searchController = TextEditingController();
+  late SharedPreferences prefsDevice;
 
   @override
   void initState() {
     super.initState();
+
     fetchStylistData();
     fetchStylistDataId();
+
     Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
     widget.id = jwtDecodedToken['id'];
     try {
       email = jwtDecodedToken['email'];
       token = jwtDecodedToken['token'];
+
       getuserById(widget.id);
 
-      print(widget.id);
+      print("see $fcmToken");
+      print(widget.token);
     } catch (e) {
       // Handle token decoding errors here, e.g., log the error or show an error message.
       print('Error decoding token: $e');
     }
   }
 
+  void cheackSearch() {
+    if (searchController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Row(
+            children: [
+              Icon(
+                Icons.question_mark_outlined,
+                size: 29,
+                color: Colors.white,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                'you havent search for any thing',
+                style: TextStyle(fontSize: 15, color: Colors.white),
+              ),
+            ],
+          ),
+          duration: Duration(seconds: 1),
+        ),
+      );
+    } else {
+      fetchSearchStylistData();
+      print(searchController.text);
+    }
+  }
+
+  Future<void> fetchSearchStylistData() async {
+    final res = await SearchApi.fetchSearchStylistData(
+        widget.token, searchController.text);
+    setState(() {
+      nameStylist2 = res;
+    });
+  }
+
   Future<void> getuserById(id) async {
     GetUsers.fetchStylistData(widget.token, id).then((res) {
+      if (res.data['firebaseToken'] == null) {
+        initSharedPref();
+      } else {
+        print(res.data['firebaseToken']);
+      }
       setState(() {
         email = res.data['email'];
         username = res.data['username'];
@@ -74,6 +131,26 @@ class _dashboardState extends State<Dashboard> {
     final response = await VendorApi.fetchVendorDataImg(widget.token);
     setState(() {
       nameStylist2 = response;
+    });
+  }
+
+  void initSharedPref() async {
+    prefsDevice = await SharedPreferences.getInstance();
+    var tokend = prefsDevice.getString('deviceToken');
+    print("device$tokend");
+    if (fcmToken.isEmpty) {
+      updateDeviceToken(tokend, widget.token, widget.id);
+    } else {
+      print(fcmToken);
+    }
+  }
+
+  Future<void> updateDeviceToken(tokend, token, id) async {
+    await UpdateuserInfoApi.updateUserDeviceToken(tokend, token, id)
+        .then((value) {
+      if (value.status == true) {
+        print("success: ${value.message}");
+      }
     });
   }
 
@@ -147,7 +224,12 @@ class _dashboardState extends State<Dashboard> {
                   ),
                   const Spacer(),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ClientNotification(token: widget.token);
+                      }));
+                    },
                     child: const Icon(
                       Icons.notifications_outlined,
                       size: 35,
@@ -179,11 +261,13 @@ class _dashboardState extends State<Dashboard> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: TextField(
+                          key: formKey,
+                          controller: searchController,
                           decoration: InputDecoration(
                             hintText: 'Search...',
                             border: InputBorder.none,
@@ -196,7 +280,9 @@ class _dashboardState extends State<Dashboard> {
                 ),
                 const SizedBox(width: 10),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    cheackSearch();
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(

@@ -1,6 +1,7 @@
 import 'package:Tiwa_Oma/services/bookApi.dart';
 import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
+import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:Tiwa_Oma/stylist/ClientsDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,6 +13,7 @@ import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StylistDashboard extends StatefulWidget {
   const StylistDashboard({
@@ -30,6 +32,8 @@ class _StylistDashboardState extends State<StylistDashboard> {
   String username = '';
   String profileImg = '';
   late final id;
+  late String fcmToken = '';
+  late SharedPreferences prefsDevice;
   @override
   void initState() {
     super.initState();
@@ -37,15 +41,36 @@ class _StylistDashboardState extends State<StylistDashboard> {
     Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
     try {
       id = jwtDecodedToken['id'];
+
       fetchBookingDataId(id);
       fetchBookingDataIdFrequentUserId(id);
       getuserById(id);
+
       print(jwtDecodedToken['email']);
+
       print(widget.token);
+      print("see $fcmToken");
     } catch (e) {
       // Handle token decoding errors here, e.g., log the error or show an error message.
       print('Error decoding token: $e');
     }
+  }
+
+  Future<void> initSharedPref() async {
+    prefsDevice = await SharedPreferences.getInstance();
+    var tokend = prefsDevice.getString('deviceToken');
+    print("device$tokend");
+
+    updateDeviceToken(tokend, widget.token, id);
+  }
+
+  Future<void> updateDeviceToken(tokend, token, id) async {
+    await UpdateuserInfoApi.updateUserDeviceToken(tokend, token, id)
+        .then((value) {
+      if (value.status == true) {
+        print("success: ${value.message}");
+      }
+    });
   }
 
   Future<void> fetchBookingDataId(id) async {
@@ -67,6 +92,12 @@ class _StylistDashboardState extends State<StylistDashboard> {
 
   Future<void> getuserById(id) async {
     GetUsers.fetchStylistData(widget.token, id).then((res) {
+      if (res.data['firebaseToken'] == null) {
+        initSharedPref();
+      } else {
+        print(res.data['firebaseToken']);
+      }
+
       setState(() {
         email = res.data['email'];
         username = res.data['username'];
@@ -303,20 +334,35 @@ class _StylistDashboardState extends State<StylistDashboard> {
                                               userId: bookingdata.userId.id,
                                             )));
                               },
-                              child: Container(
-                                width: 82,
-                                height:
-                                    82, // Adjust the size of the image container
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(82),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        "assets/images/portrait-of-young-woman-smiling-isolated.png"),
-                                  ),
-                                ),
-                              ),
+                              child: bookingdata.userId.profileImg.isEmpty
+                                  ? Container(
+                                      width: 82,
+                                      height:
+                                          82, // Adjust the size of the image container
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(82),
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              "assets/images/portrait-of-young-woman-smiling-isolated.png"),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 82,
+                                      height:
+                                          82, // Adjust the size of the image container
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(82),
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              "${bookingdata.userId.profileImg}"),
+                                        ),
+                                      ),
+                                    ),
                             ),
                             const SizedBox(
                                 height:

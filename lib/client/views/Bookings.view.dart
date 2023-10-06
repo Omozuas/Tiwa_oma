@@ -2,13 +2,10 @@ import 'package:Tiwa_Oma/services/bookApi.dart';
 import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
-import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
-
 import '../../utils/global.colors.dart';
-import '../../widgets/BookingsViewsList.dart';
 import 'Profile.view.dart';
 import 'dashboard.view.dart';
 
@@ -178,6 +175,7 @@ class BookingList extends StatelessWidget {
   BookingList({required this.bookings2, super.key});
 
   List<BookinModel> bookings2 = [];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -191,9 +189,13 @@ class BookingList extends StatelessWidget {
 }
 
 class BookingCard extends StatelessWidget {
-  BookingCard({super.key, required this.bookinModel});
+  BookingCard({
+    super.key,
+    required this.bookinModel,
+  });
 
   final BookinModel bookinModel;
+
   @override
   Widget build(BuildContext context) {
     // final date = DateFormat('yyyy-MM-dd').format(bookinModel.appointmentDate);
@@ -202,7 +204,7 @@ class BookingCard extends StatelessWidget {
         Container(
           child: Card(
             elevation: 1,
-            margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+            margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 1),
             child: Row(
               children: [
                 Row(
@@ -279,7 +281,7 @@ class BookingCard extends StatelessWidget {
                                     fontWeight: FontWeight.w600, fontSize: 16),
                               ),
                               const SizedBox(
-                                width: 150,
+                                width: 110,
                               ),
                               Text(
                                 bookinModel.appointmentDate,
@@ -311,38 +313,56 @@ class BookingCard extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 5,
+                                    width: 1,
                                   ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: GlobalColors.yellow,
-                                        size: 17,
-                                      ),
-                                      Text(
-                                        '${bookinModel.ratingId.rating}',
-                                        // maxLines: 1,
-                                        style: const TextStyle(
-                                            // overflow: TextOverflow.ellipsis,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 11),
-                                      ),
-                                    ],
-                                  ),
+                                  bookinModel.ratingId.rating == null
+                                      ? Row(
+                                          children: [
+                                            Icon(
+                                              Icons.star,
+                                              color: GlobalColors.yellow,
+                                              size: 17,
+                                            ),
+                                            Text(
+                                              '0',
+                                              // maxLines: 1,
+                                              style: const TextStyle(
+                                                  // overflow: TextOverflow.ellipsis,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 11),
+                                            ),
+                                          ],
+                                        )
+                                      : Row(
+                                          children: [
+                                            Icon(
+                                              Icons.star,
+                                              color: GlobalColors.yellow,
+                                              size: 17,
+                                            ),
+                                            Text(
+                                              '${bookinModel.ratingId.rating}',
+                                              // maxLines: 1,
+                                              style: const TextStyle(
+                                                  // overflow: TextOverflow.ellipsis,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 11),
+                                            ),
+                                          ],
+                                        ),
                                 ],
                               ),
                               Row(
                                 children: [
                                   const SizedBox(
-                                    width: 130,
+                                    width: 120,
                                   ),
                                   const Icon(
                                     Icons.currency_pound_outlined,
                                     size: 17,
                                   ),
                                   Text(
-                                    '${bookinModel.price}',
+                                    '${bookinModel.amount}',
                                     // maxLines: 1,
                                     style: TextStyle(
                                         // overflow: TextOverflow.ellipsis,

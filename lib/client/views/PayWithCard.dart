@@ -1,3 +1,7 @@
+import 'package:Tiwa_Oma/client/views/payWithCardPin.dart';
+import 'package:Tiwa_Oma/services/Api_service.dart';
+import 'package:Tiwa_Oma/services/api.dart';
+import 'package:Tiwa_Oma/services/pushNotificationApi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
@@ -9,16 +13,20 @@ import 'package:Tiwa_Oma/client/views/Profile.view.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:Tiwa_Oma/widgets/FormCardText.dart';
+// import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Bookings.view.dart';
 import 'TransactionReview.dart';
 import 'dashboard.view.dart';
 
 class payWithCard extends StatefulWidget {
-  const payWithCard({super.key, this.token});
+  const payWithCard({super.key, this.token, this.bookingDetails});
   final token;
+  final bookingDetails;
   @override
   State<payWithCard> createState() => _payWithCardState();
 }
@@ -27,6 +35,47 @@ class _payWithCardState extends State<payWithCard> {
   bool isChecked = false; // Initial state of the checkbox
 
   TextEditingController cardNumberController = TextEditingController();
+  TextEditingController cardNameController = TextEditingController();
+  TextEditingController cardExpiryMonthController = TextEditingController();
+  TextEditingController cardExpiryYearController = TextEditingController();
+  TextEditingController cardCVCController = TextEditingController();
+  late String email = '';
+  late final token;
+  String? deviceToken = '';
+  String username = '';
+  late final number;
+  late final id;
+  late SharedPreferences prefsDevice;
+  @override
+  void initState() {
+    super.initState();
+    print(widget.token);
+    print(widget.bookingDetails);
+    initSharedPref();
+    try {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+      print(widget.token);
+      email = jwtDecodedToken['email'];
+      username = jwtDecodedToken['username'];
+      number = jwtDecodedToken['number'];
+      print(number);
+
+      // id = jwtDecodedToken['id'];
+      print(jwtDecodedToken['id']);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
+  }
+
+  void initSharedPref() async {
+    prefsDevice = await SharedPreferences.getInstance();
+    var tokend = prefsDevice.getString('deviceToken');
+    setState(() {
+      deviceToken = tokend;
+    });
+    print("device$deviceToken");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +110,21 @@ class _payWithCardState extends State<payWithCard> {
                       height: 30,
                     ),
                     formCardFiled(
+                        label: "Card Name",
+                        hintText: "Card Name",
+                        keybordtype1: TextInputType.name,
+                        onchange3: (value) {
+                          print(value);
+                        },
+                        controller2: cardNameController),
+                    formCardFiled(
                         label: "Card number",
                         hintText: "Card number",
                         keybordtype1: TextInputType.number,
                         inputeformat1: [
                           FilteringTextInputFormatter.digitsOnly,
                           LengthLimitingTextInputFormatter(19),
-                          CardNumberInputForm(),
+                          // CardNumberInputForm(),
                         ],
                         onchange3: (value) {
                           print(value);
@@ -76,9 +133,9 @@ class _payWithCardState extends State<payWithCard> {
                     const SizedBox(
                       height: 0,
                     ),
-                    const Row(
+                    Row(
                       children: [
-                        Text('Alex Samuel'),
+                        Text('$username'),
                       ],
                     ),
                     const SizedBox(
@@ -89,10 +146,26 @@ class _payWithCardState extends State<payWithCard> {
                       children: [
                         Expanded(
                           child: formCardFiled(
-                              label: 'Expiry Date',
-                              hintText: 'Expiry Date',
+                              controller2: cardExpiryMonthController,
+                              label: 'Expiry Month',
+                              hintText: 'Expiry Month',
                               inputeformat1: [
-                                LengthLimitingTextInputFormatter(5),
+                                LengthLimitingTextInputFormatter(2),
+                                FilteringTextInputFormatter.digitsOnly,
+                                CardMonthInputForm()
+                              ],
+                              keybordtype1: TextInputType.number),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: formCardFiled(
+                              controller2: cardExpiryYearController,
+                              label: 'Expiry Year',
+                              hintText: 'Expiry Year',
+                              inputeformat1: [
+                                LengthLimitingTextInputFormatter(2),
                                 FilteringTextInputFormatter.digitsOnly,
                                 CardMonthInputForm()
                               ],
@@ -103,6 +176,7 @@ class _payWithCardState extends State<payWithCard> {
                         ),
                         Expanded(
                           child: formCardFiled(
+                              controller2: cardCVCController,
                               label: 'CVV',
                               hintText: 'CVV',
                               inputeformat1: [
@@ -149,7 +223,7 @@ class _payWithCardState extends State<payWithCard> {
                 ),
               ),
               const SizedBox(
-                height: 250,
+                height: 230,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -163,12 +237,70 @@ class _payWithCardState extends State<payWithCard> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const transactionReview()),
-                            );
+                            print(cardNumberController.text);
+                            print(cardExpiryMonthController.text);
+                            print(cardExpiryYearController.text);
+                            print(cardCVCController.text);
+
+                            var cardAndBookingDetails = {
+                              "card_Name": cardNameController.text,
+                              "card_Number": cardNumberController.text,
+                              "card_ExpMonth": cardExpiryMonthController.text,
+                              "card_ExpYear": cardExpiryYearController.text,
+                              "card_CVC": cardCVCController.text,
+                              ...widget.bookingDetails
+                            };
+                            var userNum = {"number": number};
+                            print(cardAndBookingDetails);
+                            print(number);
+
+                            Api.transactionOtp(userNum).then((res) => {
+                                  if (res.message == "sussess")
+                                    {
+                                      PushNotificationApi.pushNotificationPin(
+                                          "OTP CODE",
+                                          res.otp,
+                                          widget.token,
+                                          deviceToken),
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          backgroundColor: Colors.green,
+                                          content: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.check,
+                                                size: 29,
+                                                color: Colors.white,
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                'You will get an Otp PIN',
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
+                                          duration: Duration(seconds: 3),
+                                        ),
+                                      ),
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                payWithCardPin(
+                                                  pin: res.otp,
+                                                  pinId: res.pin_id,
+                                                  token: widget.token,
+                                                  cardDetails1:
+                                                      cardAndBookingDetails,
+                                                )),
+                                      )
+                                    }
+                                });
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
@@ -208,7 +340,7 @@ class _payWithCardState extends State<payWithCard> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Dashboard(
-                                    token: '',
+                                    token: widget.token,
                                   )));
                     },
                     icon: const Icon(

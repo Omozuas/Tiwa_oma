@@ -75,7 +75,7 @@ class _AllBookingsState extends State<AllBookings> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(1.0),
           child: Column(
             children: [
               Row(

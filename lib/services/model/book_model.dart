@@ -7,12 +7,12 @@ class BookinModel {
   final hairImg;
   final hairName;
   final appointmentTime;
-  final price;
+  final amount;
   final showStatus;
   final bookingCount;
   final UserModel userId;
   final StylistModel stylistId;
-  final feature;
+  final transactionId;
   final ReviewModel ratingId;
 
   BookinModel({
@@ -20,12 +20,12 @@ class BookinModel {
     required this.hairImg,
     required this.hairName,
     required this.appointmentTime,
-    required this.price,
+    required this.amount,
     required this.bookingCount,
     required this.showStatus,
     required this.userId,
     required this.stylistId,
-    required this.feature,
+    required this.transactionId,
     required this.ratingId,
   });
 }
@@ -35,12 +35,12 @@ class BookinModel2 {
   final hairImg;
   final hairName;
   final appointmentTime;
-  final price;
+  final amount;
   final showStatus;
   final bookingCount;
   final UserModel userId;
   final stylistId;
-  final feature;
+  final transactionId;
   final ratingId;
 
   BookinModel2({
@@ -48,12 +48,12 @@ class BookinModel2 {
     required this.hairImg,
     required this.hairName,
     required this.appointmentTime,
-    required this.price,
+    required this.amount,
     required this.bookingCount,
     required this.showStatus,
     required this.userId,
     required this.stylistId,
-    required this.feature,
+    required this.transactionId,
     required this.ratingId,
   });
 }

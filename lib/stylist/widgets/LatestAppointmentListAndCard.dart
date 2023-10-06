@@ -47,22 +47,39 @@ class AppoimentCard extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            Container(
-                              width: 70,
-                              height: 70,
+                            userBooking2.userId.profileImg.isEmpty
+                                ? Container(
+                                    width: 70,
+                                    height: 70,
 
-                              // padding: EdgeInsets.all(0),
-                              decoration: BoxDecoration(
-                                // shape: BoxShape.circle,
-                                borderRadius: BorderRadius.circular(54),
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    "assets/images/rectangle-1041.jpg",
+                                    // padding: EdgeInsets.all(0),
+                                    decoration: BoxDecoration(
+                                      // shape: BoxShape.circle,
+                                      borderRadius: BorderRadius.circular(54),
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          "assets/images/rectangle-1041.jpg",
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    width: 70,
+                                    height: 70,
+
+                                    // padding: EdgeInsets.all(0),
+                                    decoration: BoxDecoration(
+                                      // shape: BoxShape.circle,
+                                      borderRadius: BorderRadius.circular(54),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          "${userBooking2.userId.profileImg}",
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -110,7 +127,7 @@ class AppoimentCard extends StatelessWidget {
                                       color: GlobalColors.green,
                                     ),
                                   ),
-                                if (userBooking2.showStatus == null)
+                                if (userBooking2.showStatus == "Pending")
                                   Text(
                                     '${userBooking2.showStatus}',
                                     // maxLines: 1,
@@ -158,14 +175,14 @@ class AppoimentCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     const SizedBox(
-                                      width: 90,
+                                      width: 80,
                                     ),
                                     const Icon(
                                       Icons.currency_pound_outlined,
                                       size: 17,
                                     ),
                                     Text(
-                                      '${userBooking2.price}',
+                                      '${userBooking2.amount}',
                                       // maxLines: 1,
                                       style: TextStyle(
                                           // overflow: TextOverflow.ellipsis,

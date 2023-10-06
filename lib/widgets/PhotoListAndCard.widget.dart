@@ -1,7 +1,3 @@
-// import 'package:flutter/foundation.dart';
-
-import 'package:Tiwa_Oma/client/views/stylistReviews.view.dart';
-import 'package:Tiwa_Oma/services/model/stylist_model.dart';
 import 'package:Tiwa_Oma/services/model/vendo_Model.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:flutter/material.dart';
@@ -147,7 +143,6 @@ class _PhotoListState extends State<PhotoList> {
   late String username;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     // VendorApi.fetchVendorData(widget.token, widget.stylistModel.id);
@@ -170,12 +165,12 @@ class _PhotoListState extends State<PhotoList> {
   bool isSelected2 = false; // Track whether the card is selected
   @override
   Widget build(BuildContext context) {
-    var detais = widget.photodetails;
+    // var detais = widget.photodetails;
 
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(6),
           child: GridView.builder(
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
@@ -212,7 +207,7 @@ class _PhotoListState extends State<PhotoList> {
                                   elevation: isSelected ? 0.9 : 0.8,
                                   color:
                                       isSelected ? GlobalColors.yellow : null,
-                                  child: pix.hairStyleImg == null
+                                  child: pix.hairStyleImg.isEmpty
                                       ? Container(
                                           width: 172,
                                           height: 129,

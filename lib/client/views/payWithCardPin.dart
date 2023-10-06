@@ -1,18 +1,80 @@
 import 'package:Tiwa_Oma/client/views/TransactionReview.dart';
+import 'package:Tiwa_Oma/services/Api_service.dart';
+import 'package:Tiwa_Oma/services/api.dart';
+import 'package:Tiwa_Oma/services/pushNotificationApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:Tiwa_Oma/services/Api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class payWithCardPin extends StatefulWidget {
-  const payWithCardPin({super.key});
-
+  const payWithCardPin(
+      {super.key, this.pin, this.pinId, this.token, this.cardDetails1});
+  final pin;
+  final pinId;
+  final token;
+  final cardDetails1;
   @override
   State<payWithCardPin> createState() => _payWithCardPinState();
 }
 
 class _payWithCardPinState extends State<payWithCardPin> {
+  List<TextEditingController> otpControllers =
+      List.generate(4, (index) => TextEditingController());
+
+  @override
+  void dispose() {
+    // Dispose of the controllers to avoid memory leaks.
+    for (var controller in otpControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  late String email = '';
+  late final token;
+  String username = '';
+  late final number;
+  late final id;
+  String? deviceToken = '';
+  late SharedPreferences prefsDevice;
+  @override
+  void initState() {
+    super.initState();
+    print(widget.pin);
+    print(widget.pinId);
+    print(widget.token);
+    initSharedPref();
+    try {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+      print(widget.token);
+      email = jwtDecodedToken['email'];
+      username = jwtDecodedToken['username'];
+      number = jwtDecodedToken['number'];
+      print(number);
+      print(widget.cardDetails1);
+      // id = jwtDecodedToken['id'];
+      print(jwtDecodedToken['id']);
+    } catch (e) {
+      // Handle token decoding errors here, e.g., log the error or show an error message.
+      print('Error decoding token: $e');
+    }
+  }
+
+  void initSharedPref() async {
+    prefsDevice = await SharedPreferences.getInstance();
+    var tokend = prefsDevice.getString('deviceToken');
+    setState(() {
+      deviceToken = tokend;
+    });
+    print("device$deviceToken");
+  }
+
   @override
   Widget build(BuildContext context) {
+    String otp = otpControllers.map((controller) => controller.text).join();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -49,7 +111,7 @@ class _payWithCardPinState extends State<payWithCardPin> {
                 height: 16,
               ),
               const Text(
-                "Enter Pin",
+                "Enter OTP Pin",
                 style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
@@ -76,7 +138,10 @@ class _payWithCardPinState extends State<payWithCardPin> {
                   children: [
                     for (int i = 0; i < 4; i++)
                       textFieldOpt(
-                          isFirst: i == 0, isLast: i == 3, context: context),
+                          isFirst: i == 0,
+                          isLast: i == 3,
+                          context: context,
+                          controller: otpControllers[i]),
                   ],
                 ),
               ),
@@ -85,13 +150,83 @@ class _payWithCardPinState extends State<payWithCardPin> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const transactionReview(
-                              // token: '',
-                              // token: myToken,
-                              )));
+                  print(otp);
+                  print(widget.cardDetails1);
+                  var cardDetails = {"pin": otp, "pin_id": widget.pinId};
+                  Api.verifyTransactionOtp(cardDetails).then((res) => {
+                        if (res.verified == true)
+                          {
+                            APIService.bookingApp(
+                                    widget.cardDetails1, widget.token)
+                                .then((respons) {
+                              if (respons.success == true) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.check,
+                                          size: 29,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          '${respons.message}',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                    duration: Duration(seconds: 3),
+                                  ),
+                                );
+                                print(respons.data);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => transactionReview(
+                                            token: widget.token,
+                                          )),
+                                );
+                              }
+                            }),
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.check,
+                                      size: 29,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      '${res.message}',
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                                duration: Duration(seconds: 3),
+                              ),
+                            ),
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => const transactionReview(
+                            //             // token: '',
+                            //             // token: myToken,
+                            //             )));
+                          }
+                      });
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
@@ -115,12 +250,62 @@ class _payWithCardPinState extends State<payWithCardPin> {
                       fontSize: 14,
                       color: GlobalColors.gray),
                 ),
-                Text(
-                  "Resend",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                      color: GlobalColors.blue),
+                InkWell(
+                  onTap: () {
+                    var userNum = {"number": number};
+                    print(number);
+                    Api.transactionOtp(userNum).then((res) => {
+                          if (res.message == "sussess")
+                            {
+                              PushNotificationApi.pushNotificationPin(
+                                  "OTP CODE",
+                                  res.otp,
+                                  widget.token,
+                                  deviceToken),
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.check,
+                                        size: 29,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'You will recive An OTP',
+                                        style: TextStyle(
+                                            fontSize: 15, color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                  duration: Duration(seconds: 3),
+                                ),
+                              ),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => payWithCardPin(
+                                          pin: res.otp,
+                                          pinId: res.pin_id,
+                                          token: widget.token,
+                                          cardDetails1: widget.cardDetails1,
+                                        )),
+                              )
+                            }
+                        });
+                    print(widget.cardDetails1);
+                  },
+                  child: Text(
+                    "Resend",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        color: GlobalColors.blue),
+                  ),
                 )
               ])
             ],
@@ -132,7 +317,10 @@ class _payWithCardPinState extends State<payWithCardPin> {
 }
 
 Widget textFieldOpt(
-    {required bool isFirst, isLast, required BuildContext context}) {
+    {required bool isFirst,
+    isLast,
+    required BuildContext context,
+    required controller}) {
   return SizedBox(
     width: 50,
     height: 85,
@@ -145,6 +333,7 @@ Widget textFieldOpt(
           FocusScope.of(context).previousFocus();
         }
       },
+      controller: controller,
       maxLength: 1,
       keyboardType: TextInputType.number,
       textAlign: TextAlign.center,

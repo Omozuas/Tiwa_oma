@@ -65,8 +65,6 @@ class _StylistProfileState extends State<StylistProfile> {
     XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
-      final imageBytes = await image.readAsBytes();
-      final base64Image = base64Encode(imageBytes);
       setState(() {
         _pickedImage = File(image.path);
       });

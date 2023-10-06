@@ -1,6 +1,5 @@
 import 'package:Tiwa_Oma/services/model/review_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../utils/global.colors.dart';
 
 class ItemListStateful extends StatefulWidget {

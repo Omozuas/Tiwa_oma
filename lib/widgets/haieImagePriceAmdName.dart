@@ -1,5 +1,4 @@
 import 'package:Tiwa_Oma/services/model/vendo_Model.dart';
-import 'package:Tiwa_Oma/services/providers/vendorApi.dart';
 import 'package:flutter/material.dart';
 
 class DstylistItemdetails extends StatefulWidget {

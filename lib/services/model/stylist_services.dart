@@ -1,27 +1,6 @@
 import 'dart:io';
 
 import 'package:Tiwa_Oma/services/model/review_model.dart';
-import 'package:cloudinary_public/cloudinary_public.dart';
-
-class Stylistservices {
-  void StylistId({
-    required Stylistddetailinfo,
-    required String hairstylname,
-    required amount,
-    required Stylistreviwe,
-    required List<File> hairImage,
-  }) async {
-    try {
-      final cloudinary = CloudinaryPublic('ddxaoh6po', 'dkxovy0z');
-      List<String> images = [];
-      for (int i = 0; i < hairImage.length; i++) {
-        CloudinaryResponse resp = await cloudinary.uploadFile(
-            CloudinaryFile.fromFile(hairImage[i].path, folder: hairstylname));
-        images.add(resp.secureUrl);
-      }
-    } catch (e) {}
-  }
-}
 
 class Stylistddetailinfo {
   final String username;

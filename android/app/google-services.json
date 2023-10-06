@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "694556485705",
+    "project_id": "tiwa-oma",
+    "storage_bucket": "tiwa-oma.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694556485705:android:90c78beb0a30681a4d7798",
+        "android_client_info": {
+          "package_name": "com.example.Tiwa_Oma"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaqn8MKgaOw0eShSzIJBwO1W6hObA0E1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

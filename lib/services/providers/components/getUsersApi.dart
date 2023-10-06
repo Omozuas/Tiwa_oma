@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class GetUsers {
   static Future<ReviewpresopnsMole> fetchStylistData(
       String token, stylistId) async {
-    const url = 'http://192.168.208.188:5000/';
+    const url = 'http://192.168.178.188:5000/';
     var getUserById = "${url}auth/find/${stylistId}";
     final response = await http.get(
       Uri.parse(getUserById),

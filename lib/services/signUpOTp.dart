@@ -15,6 +15,53 @@ class OtpSigupresopnsMole {
   }
 }
 
+OtpTransactionresopnsMole otpTransactionresopnsMole(String str) =>
+    OtpTransactionresopnsMole.fromJson(json.decode(str));
+
+class OtpTransactionresopnsMole {
+  OtpTransactionresopnsMole(
+      {required this.message,
+      required this.data,
+      required this.data1,
+      required this.otp,
+      required this.pin_id});
+
+  late final String message;
+  late final data;
+  late final data1;
+  late final otp;
+  late final pin_id;
+
+  OtpTransactionresopnsMole.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+    data = json['data'];
+    otp = data["otp"];
+    pin_id = data['pin_id'];
+  }
+}
+
+OtpTransactionVerifyresopnsMole otpTransactionVerifyresopnsMole(String str) =>
+    OtpTransactionVerifyresopnsMole.fromJson(json.decode(str));
+
+class OtpTransactionVerifyresopnsMole {
+  OtpTransactionVerifyresopnsMole({
+    required this.message,
+    required this.data,
+    required this.verified,
+  });
+
+  late final String message;
+  late final data;
+
+  late final verified;
+
+  OtpTransactionVerifyresopnsMole.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+    data = json['data'];
+    verified = data["verified"];
+  }
+}
+
 SigupresopnsMole wSigupresopnsMole(String str) =>
     SigupresopnsMole.fromJson(json.decode(str));
 
@@ -62,6 +109,34 @@ class UpdateResopnsMole {
   late final success;
 
   UpdateResopnsMole.fromJson(Map<String, dynamic> json) {
+    data = json['data'];
+    token = json['token'];
+    status = json['status'];
+    message = json['message'];
+    success = json['success'];
+  }
+}
+
+PushNotificationResopnsMole pushNotificationResopnsMole(String str) =>
+    PushNotificationResopnsMole.fromJson(json.decode(str));
+
+class PushNotificationResopnsMole {
+  PushNotificationResopnsMole(
+      {required this.data,
+      required this.message,
+      required this.success,
+      required this.token,
+      required this.status});
+
+  late final status;
+  late final token;
+
+  late final data;
+  late final message;
+
+  late final success;
+
+  PushNotificationResopnsMole.fromJson(Map<String, dynamic> json) {
     data = json['data'];
     token = json['token'];
     status = json['status'];

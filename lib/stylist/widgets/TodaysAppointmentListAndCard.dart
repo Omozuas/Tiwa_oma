@@ -1,3 +1,4 @@
+import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/global.colors.dart';
@@ -6,7 +7,7 @@ import 'TodaysAppointentList.dart';
 
 class TodayAppointmentList extends StatelessWidget {
   const TodayAppointmentList({required this.todayappoimentReview, super.key});
-  final List<TodaysAppointment> todayappoimentReview;
+  final List<BookinModel> todayappoimentReview;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -20,8 +21,8 @@ class TodayAppointmentList extends StatelessWidget {
 }
 
 class TodayAppoimentCard extends StatelessWidget {
-  const TodayAppoimentCard({required this.todayappointment1, super.key});
-  final TodaysAppointment todayappointment1;
+  TodayAppoimentCard({required this.todayappointment1, super.key});
+  final BookinModel todayappointment1;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,12 +31,10 @@ class TodayAppoimentCard extends StatelessWidget {
         Container(
           child: Card(
             elevation: 4,
-            margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
+            margin: EdgeInsets.symmetric(horizontal: 0, vertical: 9),
             child: InkWell(
               onTap: () {
-                print(todayappointment1.name +
-                    todayappointment1.amount +
-                    todayappointment1.hairname);
+                print(todayappointment1.userId.username);
               },
               child: Row(
                 children: [
@@ -58,9 +57,8 @@ class TodayAppoimentCard extends StatelessWidget {
                                 // shape: BoxShape.circle,
                                 borderRadius: BorderRadius.circular(54),
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                    todayappointment1.imgurl,
-                                  ),
+                                  image: NetworkImage(
+                                      "${todayappointment1.hairImg}"),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -85,13 +83,16 @@ class TodayAppoimentCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      todayappointment1.name,
+                                      todayappointment1.userId.username,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
                                     ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
                                     Text(
-                                      todayappointment1.hairname,
+                                      todayappointment1.hairName,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
@@ -100,10 +101,10 @@ class TodayAppoimentCard extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(
-                                  width: 7,
+                                  width: 50,
                                 ),
                                 Text(
-                                  todayappointment1.status,
+                                  todayappointment1.showStatus,
                                   // maxLines: 1,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
@@ -125,7 +126,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      todayappointment1.date,
+                                      todayappointment1.appointmentDate,
                                       // maxLines: 1,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
@@ -137,7 +138,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                       width: 9,
                                     ),
                                     Text(
-                                      todayappointment1.time,
+                                      todayappointment1.appointmentTime,
                                       // maxLines: 1,
                                       style: const TextStyle(
                                           // overflow: TextOverflow.ellipsis,
@@ -156,7 +157,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                       size: 17,
                                     ),
                                     Text(
-                                      todayappointment1.amount,
+                                      "${todayappointment1.amount}",
                                       // maxLines: 1,
                                       style: TextStyle(
                                           // overflow: TextOverflow.ellipsis,

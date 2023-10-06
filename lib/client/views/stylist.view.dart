@@ -24,7 +24,7 @@ class _StylistState extends State<Stylist> {
   late String email;
   late final token;
   late String username;
-
+  TextEditingController searchController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -39,11 +39,49 @@ class _StylistState extends State<Stylist> {
     }
   }
 
+  Future<void> fetchSearchedStylistData() async {
+    final response = await StylistApi.fetchSearchedStylistData(
+        widget.token, searchController.text);
+    setState(() {
+      nameStylist = response;
+    });
+  }
+
   Future<void> fetchStylistData() async {
     final response = await StylistApi.fetchStylistData(widget.token);
     setState(() {
       nameStylist = response;
     });
+  }
+
+  void cheackSearch() {
+    if (searchController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Row(
+            children: [
+              Icon(
+                Icons.question_mark_outlined,
+                size: 29,
+                color: Colors.white,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                'you havent search for any thing',
+                style: TextStyle(fontSize: 15, color: Colors.white),
+              ),
+            ],
+          ),
+          duration: Duration(seconds: 1),
+        ),
+      );
+    } else {
+      fetchSearchedStylistData();
+      print(searchController.text);
+    }
   }
 
   List<StylistModel> nameStylist = [];
@@ -88,11 +126,12 @@ class _StylistState extends State<Stylist> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: TextField(
+                          controller: searchController,
                           decoration: InputDecoration(
                             hintText: 'Search...',
                             border: InputBorder.none,
@@ -105,7 +144,9 @@ class _StylistState extends State<Stylist> {
                 ),
                 const SizedBox(width: 10),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    cheackSearch();
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
@@ -123,209 +164,113 @@ class _StylistState extends State<Stylist> {
             ),
             SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, mainAxisSpacing: 19),
-                        itemCount: nameStylist.length,
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, int index) {
-                          final item = nameStylist[index];
-                          return Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  print(item.username);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => stylistReview(
-                                                token: widget.token,
-                                                stylistModel: item,
-                                              )));
-                                },
-                                child: Stack(
-                                  children: [
-                                    item.profileImg == null
-                                        ? Container(
-                                            width: 168,
-                                            height: 156,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: AssetImage(
-                                                  "assets/images/cartoon.png",
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : Container(
-                                            width: 168,
-                                            height: 156,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(
-                                                  "${item.profileImg}",
-                                                ),
-                                              ),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, mainAxisSpacing: 19),
+                    itemCount: nameStylist.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, int index) {
+                      final item = nameStylist[index];
+                      return Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              print(item.username);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => stylistReview(
+                                            token: widget.token,
+                                            stylistModel: item,
+                                          )));
+                            },
+                            child: Stack(
+                              children: [
+                                item.profileImg == null
+                                    ? Container(
+                                        width: 168,
+                                        height: 156,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                              "assets/images/cartoon.png",
                                             ),
                                           ),
-                                    Positioned(
-                                      bottom: 8,
-                                      right: 8,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(2),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(0),
                                         ),
-                                        child: const Row(
-                                          children: [
-                                            Icon(
-                                              Icons.star,
-                                              color: Colors.yellow,
-                                              size: 15,
+                                      )
+                                    : Container(
+                                        width: 168,
+                                        height: 156,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                              "${item.profileImg}",
                                             ),
-                                            SizedBox(width: 3),
-                                            Text(
-                                              "4.5",
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
+                                          ),
                                         ),
                                       ),
+                                Positioned(
+                                  bottom: 8,
+                                  right: 8,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(0),
                                     ),
-                                  ],
+                                    child: const Row(
+                                      children: [
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.yellow,
+                                          size: 15,
+                                        ),
+                                        SizedBox(width: 3),
+                                        Text(
+                                          "4.5",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                item.username,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const Text(
-                                "Hair Stylist",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          );
-                        }),
-                  ),
-
-                  //           const SizedBox(width: 15),
-                  //           if (index2 <
-                  //               popularHairStyl.length & popularBraids.length)
-                  //             Expanded(
-                  //               child: Column(
-                  //                 children: [
-                  //                   // Similar implementation for the second image
-                  //                   InkWell(
-                  //                     onTap: () {
-                  //                       print(popularBraids[index2]);
-                  //                     },
-                  //                     child: Stack(
-                  //                       children: [
-                  //                         Container(
-                  //                           width: 168,
-                  //                           height: 169,
-                  //                           decoration: BoxDecoration(
-                  //                             color: Colors.black,
-                  //                             borderRadius:
-                  //                                 BorderRadius.circular(15),
-                  //                             image: DecorationImage(
-                  //                               fit: BoxFit.cover,
-                  //                               image: AssetImage(
-                  //                                 "assets/images/${popularHairStyl[index2]}",
-                  //                               ),
-                  //                             ),
-                  //                           ),
-                  //                         ),
-                  //                         Positioned(
-                  //                           bottom: 8,
-                  //                           right: 8,
-                  //                           child: Container(
-                  //                             padding:
-                  //                                 const EdgeInsets.all(3),
-                  //                             decoration: BoxDecoration(
-                  //                               color: Colors.white,
-                  //                               borderRadius:
-                  //                                   BorderRadius.circular(0),
-                  //                             ),
-                  //                             child: const Row(
-                  //                               children: [
-                  //                                 Icon(
-                  //                                   Icons.star,
-                  //                                   color: Colors.yellow,
-                  //                                   size: 15,
-                  //                                 ),
-                  //                                 SizedBox(width: 3),
-                  //                                 Text(
-                  //                                   "4.5",
-                  //                                   style: TextStyle(
-                  //                                     color: Colors.black,
-                  //                                     fontSize: 15,
-                  //                                     fontWeight:
-                  //                                         FontWeight.w500,
-                  //                                   ),
-                  //                                 ),
-                  //                               ],
-                  //                             ),
-                  //                           ),
-                  //                         ),
-                  //                       ],
-                  //                     ),
-                  //                   ),
-                  //                   const SizedBox(height: 8),
-                  //                   Text(
-                  //                     popularBraids[index2],
-                  //                     style: const TextStyle(
-                  //                       color: Colors.black,
-                  //                       fontSize: 14,
-                  //                       fontWeight: FontWeight.w500,
-                  //                     ),
-                  //                     softWrap: true,
-                  //                   ),
-                  //                   const Text(
-                  //                     "Hair Stylist",
-                  //                     style: TextStyle(
-                  //                       color: Colors.grey,
-                  //                       fontSize: 12,
-                  //                       fontWeight: FontWeight.w400,
-                  //                     ),
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ),
-                  //         ],
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
-                ]),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            item.username,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const Text(
+                            "Hair Stylist",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
               ),
             )
           ],

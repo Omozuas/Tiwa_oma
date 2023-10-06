@@ -9,8 +9,9 @@ import 'Bookings.view.dart';
 import 'TransactionReview.dart';
 
 class payWithTranfar extends StatefulWidget {
-  const payWithTranfar({super.key, this.token});
+  const payWithTranfar({super.key, this.token, this.bookingDetail});
   final token;
+  final bookingDetail;
   @override
   State<payWithTranfar> createState() => _payWithTranfarState();
 }

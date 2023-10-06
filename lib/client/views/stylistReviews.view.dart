@@ -379,9 +379,8 @@ class _stylistReviewState extends State<stylistReview>
                                           onTap: () {
                                             widget.photodetails = {
                                               'hairName': pix.hairStlye,
-                                              "price": pix.hartPrice,
+                                              "amount": pix.hartPrice,
                                               "hairImg": pix.hairStyleImg,
-                                              "showStatus": "paid"
                                             };
 
                                             print(widget.photodetails);
@@ -751,51 +750,17 @@ class _stylistReviewState extends State<stylistReview>
                                                     "ratingId": "${id}"
                                                   };
                                                   print(booking);
-                                                  APIService.bookingApp(
-                                                          booking, widget.token)
-                                                      .then((respons) {
-                                                    if (respons.success ==
-                                                        true) {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          backgroundColor:
-                                                              Colors.green,
-                                                          content: Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons.check,
-                                                                size: 29,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                              SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Text(
-                                                                '${respons.message}',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    color: Colors
-                                                                        .white),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          duration: Duration(
-                                                              seconds: 3),
-                                                        ),
-                                                      );
-                                                    }
-                                                  });
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              payMenthod(
+                                                                token: widget
+                                                                    .token,
+                                                                bookDetails:
+                                                                    booking,
+                                                              )));
                                                 }
-
-                                                // Navigator.push(
-                                                //     context,
-                                                //     MaterialPageRoute(
-                                                //         builder: (context) =>
-                                                //             const payMenthod()));
                                               },
                                               style: ElevatedButton.styleFrom(
                                                   backgroundColor: Colors.black,
