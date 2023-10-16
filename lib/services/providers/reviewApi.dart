@@ -43,6 +43,31 @@ class ReviewApi {
     return reviewmodeluser;
   }
 
+  static Future<List<AvrageReview>> fetchAvarageReview(
+      String token, String stylistId) async {
+    const url = 'http://192.168.178.188:5000/';
+    var getReviewFromClientToStylist =
+        "${url}review/average-rating-by-stylist/${stylistId}";
+    final response = await http.get(
+      Uri.parse(getReviewFromClientToStylist),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${token}",
+      },
+    );
+
+    // if (response.statusCode == 200) {
+    final responseData = jsonDecode(response.body);
+    print(responseData);
+    final results = responseData['data'] as List<dynamic>;
+    final reviewmodeluser = results.map((e) {
+      return AvrageReview(
+        avgRating: e['avgRating'],
+      );
+    }).toList();
+    return reviewmodeluser;
+  }
+
   static Future<List<ReviewModel>> fetch1UserData(
       String token, String userId) async {
     const url = 'http://192.168.178.188:5000/';

@@ -21,6 +21,13 @@ class BookinSuccess extends StatefulWidget {
 
 class _BookinSuccessState extends State<BookinSuccess> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("your token ${widget.token}");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -61,8 +68,9 @@ class _BookinSuccessState extends State<BookinSuccess> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const SeeLocationOfStylist()),
+                                builder: (context) => SeeLocationOfStylist(
+                                      token: widget.token,
+                                    )),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -102,7 +110,7 @@ class _BookinSuccessState extends State<BookinSuccess> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Dashboard(
-                                    token: '',
+                                    token: widget.token,
                                   )));
                     },
                     icon: const Icon(

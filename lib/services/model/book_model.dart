@@ -3,6 +3,7 @@ import 'package:Tiwa_Oma/services/model/stylist_model.dart';
 import 'package:Tiwa_Oma/services/model/user_model.dart';
 
 class BookinModel {
+  final id;
   final appointmentDate;
   final hairImg;
   final hairName;
@@ -16,6 +17,7 @@ class BookinModel {
   final ReviewModel ratingId;
 
   BookinModel({
+    required this.id,
     required this.appointmentDate,
     required this.hairImg,
     required this.hairName,
@@ -42,8 +44,10 @@ class BookinModel2 {
   final stylistId;
   final transactionId;
   final ratingId;
+  final id;
 
   BookinModel2({
+    required this.id,
     required this.appointmentDate,
     required this.hairImg,
     required this.hairName,
@@ -55,5 +59,27 @@ class BookinModel2 {
     required this.stylistId,
     required this.transactionId,
     required this.ratingId,
+  });
+}
+
+class StylistBookinModel {
+  num bookingCount;
+  int averageRating;
+  final StylistModel stylistId;
+
+  StylistBookinModel(
+      {required this.bookingCount,
+      required this.stylistId,
+      required this.averageRating});
+}
+
+class ClientBookinModel {
+  num bookingCount;
+
+  final UserModel clientId;
+
+  ClientBookinModel({
+    required this.bookingCount,
+    required this.clientId,
   });
 }

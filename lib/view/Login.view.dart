@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:Tiwa_Oma/admin/adminDashboard.dart';
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
 import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
 import 'package:Tiwa_Oma/view/config.dart';
@@ -97,6 +98,13 @@ class _LoginState extends State<Login> {
               context,
               MaterialPageRoute(
                   builder: (context) => StylistDashboard(
+                        token: myToken,
+                      )));
+        } else if (jwtDecodedToken['accountType'] == 'admin') {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AdminDashboard(
                         token: myToken,
                       )));
         }

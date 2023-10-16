@@ -1,3 +1,4 @@
+import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/global.colors.dart';
@@ -8,7 +9,7 @@ import 'PreviousDaysAppointmentInfo.dart';
 class PriciousDaysAppointmentList extends StatelessWidget {
   const PriciousDaysAppointmentList(
       {required this.previousdaysappoimentReview, super.key});
-  final List<PreviousDaysAppointment> previousdaysappoimentReview;
+  final List<BookinModel> previousdaysappoimentReview;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -24,7 +25,7 @@ class PriciousDaysAppointmentList extends StatelessWidget {
 class PriviousDaysAppoimentCard extends StatelessWidget {
   const PriviousDaysAppoimentCard(
       {required this.priviousdayappointment1, super.key});
-  final PreviousDaysAppointment priviousdayappointment1;
+  final BookinModel priviousdayappointment1;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,9 +37,7 @@ class PriviousDaysAppoimentCard extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
             child: InkWell(
               onTap: () {
-                print(priviousdayappointment1.name +
-                    priviousdayappointment1.amount +
-                    priviousdayappointment1.hairname);
+                print(priviousdayappointment1.userId.username);
               },
               child: Row(
                 children: [
@@ -61,8 +60,8 @@ class PriviousDaysAppoimentCard extends StatelessWidget {
                                 // shape: BoxShape.circle,
                                 borderRadius: BorderRadius.circular(54),
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                    priviousdayappointment1.imgurl,
+                                  image: NetworkImage(
+                                    priviousdayappointment1.hairImg,
                                   ),
                                   fit: BoxFit.cover,
                                 ),
@@ -88,13 +87,13 @@ class PriviousDaysAppoimentCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      priviousdayappointment1.name,
+                                      priviousdayappointment1.userId.username,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
                                     ),
                                     Text(
-                                      priviousdayappointment1.hairname,
+                                      priviousdayappointment1.hairName,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
@@ -106,7 +105,7 @@ class PriviousDaysAppoimentCard extends StatelessWidget {
                                   width: 7,
                                 ),
                                 Text(
-                                  priviousdayappointment1.status,
+                                  priviousdayappointment1.showStatus,
                                   // maxLines: 1,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
@@ -128,7 +127,7 @@ class PriviousDaysAppoimentCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      priviousdayappointment1.date,
+                                      priviousdayappointment1.appointmentDate,
                                       // maxLines: 1,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
@@ -140,7 +139,7 @@ class PriviousDaysAppoimentCard extends StatelessWidget {
                                       width: 9,
                                     ),
                                     Text(
-                                      priviousdayappointment1.time,
+                                      priviousdayappointment1.appointmentTime,
                                       // maxLines: 1,
                                       style: const TextStyle(
                                           // overflow: TextOverflow.ellipsis,
@@ -159,7 +158,7 @@ class PriviousDaysAppoimentCard extends StatelessWidget {
                                       size: 17,
                                     ),
                                     Text(
-                                      priviousdayappointment1.amount,
+                                      "${priviousdayappointment1.amount}",
                                       // maxLines: 1,
                                       style: TextStyle(
                                           // overflow: TextOverflow.ellipsis,

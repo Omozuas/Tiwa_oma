@@ -159,8 +159,13 @@ class _StylistItemCardDetailsState extends State<StylistItemCardDetails> {
                   const SizedBox(
                     width: 3,
                   ),
-                  Text("(5.0)",
-                      style: TextStyle(color: GlobalColors.gray, fontSize: 17)),
+                  widget.vendorModel.avgRating == null
+                      ? Text("(5.0)",
+                          style:
+                              TextStyle(color: GlobalColors.gray, fontSize: 17))
+                      : Text("${widget.vendorModel.avgRating}",
+                          style: TextStyle(
+                              color: GlobalColors.gray, fontSize: 17)),
                   const SizedBox(
                     width: 205,
                   ),

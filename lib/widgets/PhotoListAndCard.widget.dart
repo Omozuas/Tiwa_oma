@@ -285,43 +285,6 @@ class _PhotoListState extends State<PhotoList> {
             },
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-          ),
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 20,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // if (_currentSelection == 2) {
-                      //   // _selectedItem(3);
-                      // }
-                      print(widget.photodetails);
-                      print(widget.token);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(29.0),
-                        ),
-                        minimumSize: const Size(379, 50)),
-                    child: const Text(
-                      "Proceed",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }

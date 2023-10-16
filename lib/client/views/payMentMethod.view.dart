@@ -13,9 +13,16 @@ import 'Bookings.view.dart';
 import 'PayWithCard.dart';
 
 class payMenthod extends StatefulWidget {
-  payMenthod({super.key, required this.token, this.bookDetails});
+  payMenthod(
+      {super.key,
+      required this.token,
+      this.bookDetails,
+      this.booknotify,
+      this.booknotifystylistName});
   final token;
   final bookDetails;
+  final booknotify;
+  final booknotifystylistName;
   @override
   State<payMenthod> createState() => _payMenthodState();
 }
@@ -36,21 +43,6 @@ class _payMenthodState extends State<payMenthod> {
     super.initState();
     print(widget.token);
     print(widget.bookDetails);
-    // Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-    // try {
-    //   email = jwtDecodedToken['email'];
-    //   token1 = jwtDecodedToken['token'];
-    //   username = jwtDecodedToken['username'];
-    //   number = jwtDecodedToken['number'];
-    //   id = jwtDecodedToken['id'];
-    //   print(id);
-    //   // print(id);
-    //   // print(jwtDecodedToken['email']);
-    //   // print(widget.token);
-    // } catch (e) {
-    //   // Handle token decoding errors here, e.g., log the error or show an error message.
-    //   print('Error decoding token: $e');
-    // }
 
     try {
       Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
@@ -236,6 +228,9 @@ class _payMenthodState extends State<payMenthod> {
                                   builder: (context) => payWithCard(
                                         token: widget.token,
                                         bookingDetails: widget.bookDetails,
+                                        booknotify: widget.booknotify,
+                                        stylistname:
+                                            widget.booknotifystylistName,
                                       )),
                             );
                           }

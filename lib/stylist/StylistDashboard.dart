@@ -1,3 +1,4 @@
+import 'package:Tiwa_Oma/client/views/clientNotification.dart';
 import 'package:Tiwa_Oma/services/bookApi.dart';
 import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
@@ -172,7 +173,12 @@ class _StylistDashboardState extends State<StylistDashboard> {
                       ),
                       const Spacer(),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return ClientNotification(token: widget.token);
+                          }));
+                        },
                         child: const Icon(
                           Icons.notifications_outlined,
                           size: 35,

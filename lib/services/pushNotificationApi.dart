@@ -29,4 +29,59 @@ class PushNotificationApi {
 
     return pushNotificationResopnsMole(respons.body);
   }
+
+  static Future<PushNotificationResopnsMole> pushNotificationBookingingForUser(
+      String des, token, firebasToken) async {
+    const url = 'http://192.168.178.188:5000/';
+    var updateUserInfo = "${url}apiFireNotFiy/sendFN";
+    print(token);
+    final respons = await http.post(Uri.parse(updateUserInfo), body: {
+      "title": "Succes Booking",
+      "body": "Booked an appointment with $des",
+      "fireBaseToken": firebasToken
+    }, headers: {
+      // "Content-Type": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    print(respons);
+    if (respons.statusCode == 200) {
+      Map<String, dynamic> jsonres = jsonDecode(respons.body);
+      print('dataimg${jsonres['data']}');
+      // print(jsonres['token']);
+      // print(registerBody);
+      // print(jsonres);
+    } else {
+      print('failed to update profileImg user');
+    }
+
+    return pushNotificationResopnsMole(respons.body);
+  }
+
+  static Future<PushNotificationResopnsMole>
+      pushNotificationBookingingForStylist(
+          String des, token, firebasToken) async {
+    const url = 'http://192.168.178.188:5000/';
+    var updateUserInfo = "${url}apiFireNotFiy/sendFN";
+    print(token);
+    final respons = await http.post(Uri.parse(updateUserInfo), body: {
+      "title": "A CLIENT JUST booked",
+      "body": "Appointment with $des",
+      "fireBaseToken": firebasToken
+    }, headers: {
+      // "Content-Type": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    print(respons);
+    if (respons.statusCode == 200) {
+      Map<String, dynamic> jsonres = jsonDecode(respons.body);
+      print('dataimg${jsonres['data']}');
+      // print(jsonres['token']);
+      // print(registerBody);
+      // print(jsonres);
+    } else {
+      print('failed to update profileImg user');
+    }
+
+    return pushNotificationResopnsMole(respons.body);
+  }
 }

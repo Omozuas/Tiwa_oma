@@ -63,6 +63,7 @@ class BookingApi {
           category: e['category']);
       return BookinModel(
           appointmentDate: e['appointmentDate'],
+          id: e['_id'],
           hairImg: e['hairImg'],
           hairName: e['hairName'],
           appointmentTime: e['appointmentTime'],
@@ -133,6 +134,7 @@ class BookingApi {
           category: e['category']);
       return BookinModel(
           appointmentDate: e['appointmentDate'],
+          id: e['_id'],
           hairImg: e['hairImg'],
           hairName: e['hairName'],
           appointmentTime: e['appointmentime'],
@@ -177,6 +179,7 @@ class BookingApi {
 
       return BookinModel2(
           appointmentDate: e['appointmentDate'],
+          id: e['_id'],
           hairImg: e['hairImg'],
           hairName: e['hairName'],
           appointmentTime: e['appointmentime'],
@@ -221,6 +224,7 @@ class BookingApi {
 
       return BookinModel2(
           appointmentDate: e['appointmentDate'],
+          id: e['_id'],
           hairImg: e['hairImg'],
           hairName: e['hairName'],
           appointmentTime: e['appointmentime'],
@@ -265,6 +269,7 @@ class BookingApi {
 
       return BookinModel2(
           appointmentDate: e['appointmentDate'],
+          id: e['_id'],
           hairImg: e['hairImg'],
           hairName: e['hairName'],
           appointmentTime: e['appointmentime'],
@@ -275,6 +280,77 @@ class BookingApi {
           transactionId: e['transactionId'],
           bookingCount: e['bookingCount'],
           ratingId: e['ratingId']);
+    }).toList();
+    return bookingModelUser;
+  }
+
+  static Future<List<BookinModel>> fetchBookingById(
+      String? token, String id) async {
+    const url = 'http://192.168.178.188:5000/';
+    var getUserBookingsUserId = "${url}bookings/find/bookID/${id}";
+
+    final respons = await http.get(Uri.parse(getUserBookingsUserId), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    var responData = jsonDecode(respons.body);
+    print(responData);
+    final results = responData['data'] as List<dynamic>;
+
+    final bookingModelUser = results.map((e) {
+      final stylistId = StylistModel(
+          username: e['stylistId']['username'],
+          profileImg: e['stylistId']['profileImg'],
+          email: e['stylistId']['email'],
+          address: e['stylistId']['address'],
+          state: e['stylistId']['state'],
+          country: e['stylistId']['country'],
+          gender: e['stylistId']['gender'],
+          accountType: e['stylistId']['accountType'],
+          number: e['stylistId']['number'],
+          id: e['stylistId']['id']);
+      final userId2 = ReviewName(
+        accountType: e['userId']['accountType'],
+        profileImg: e['userId']['profileImg'],
+        number: e['userId']['number'],
+        username: e['userId']['username'],
+        country: e['userId']['country'],
+        email: e['userId']['email'],
+        address: e['userId']['address'],
+        state: e['userId']['state'],
+        gender: e['userId']['gender'],
+        id: e['userId']['id'],
+      );
+      final userId = UserModel(
+          username: e['userId']['username'],
+          profileImg: e['userId']['profileImg'],
+          email: e['userId']['email'],
+          address: e['userId']['address'],
+          state: e['userId']['state'],
+          country: e['userId']['country'],
+          stripeCostormerId: e['userId']['stripeCostormerId'],
+          gender: e['userId']['gender'],
+          accountType: e['userId']['accountType'],
+          number: e['userId']['number'],
+          id: e['userId']['_id']);
+      final ratingId = ReviewModel(
+          rating: e['rating'],
+          feedback: e['feedback'],
+          userId: userId2,
+          category: e['category']);
+      return BookinModel(
+          appointmentDate: e['appointmentDate'],
+          id: e['_id'],
+          hairImg: e['hairImg'],
+          hairName: e['hairName'],
+          appointmentTime: e['appointmentime'],
+          amount: e['amount'],
+          showStatus: e['showStatus'],
+          userId: userId,
+          stylistId: stylistId,
+          transactionId: e['transactionId'],
+          bookingCount: e['bookingCount'],
+          ratingId: ratingId);
     }).toList();
     return bookingModelUser;
   }
@@ -335,6 +411,7 @@ class BookingApi {
           category: e['category']);
       return BookinModel(
           appointmentDate: e['appointmentDate'],
+          id: e['_id'],
           hairImg: e['hairImg'],
           hairName: e['hairName'],
           appointmentTime: e['appointmentime'],
@@ -346,6 +423,288 @@ class BookingApi {
           bookingCount: e['bookingCount'],
           ratingId: ratingId);
     }).toList();
+    return bookingModelUser;
+  }
+
+  static Future<List<BookinModel>> fetchBookingDataIdYestaday(
+      String? token, String stylistId) async {
+    const url = 'http://192.168.178.188:5000/';
+    var getUserBookings = "${url}bookings/booking/yesterday/${stylistId}";
+
+    final respons = await http.get(Uri.parse(getUserBookings), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    final Map<String, dynamic> responData = jsonDecode(respons.body);
+    print(responData);
+    final results = responData['data'] as List<dynamic>;
+
+    final bookingModelUser = results.map((e) {
+      final stylistId = StylistModel(
+          username: e['stylistId']['username'],
+          profileImg: e['stylistId']['profileImg'],
+          email: e['stylistId']['email'],
+          address: e['stylistId']['address'],
+          state: e['stylistId']['state'],
+          country: e['stylistId']['country'],
+          gender: e['stylistId']['gender'],
+          accountType: e['stylistId']['accountType'],
+          number: e['stylistId']['number'],
+          id: e['stylistId']['id']);
+      final userId2 = ReviewName(
+        accountType: e['userId']['accountType'],
+        profileImg: e['userId']['profileImg'],
+        number: e['userId']['number'],
+        username: e['userId']['username'],
+        country: e['userId']['country'],
+        email: e['userId']['email'],
+        address: e['userId']['address'],
+        state: e['userId']['state'],
+        gender: e['userId']['gender'],
+        id: e['userId']['id'],
+      );
+      final userId = UserModel(
+          username: e['userId']['username'],
+          profileImg: e['userId']['profileImg'],
+          email: e['userId']['email'],
+          address: e['userId']['address'],
+          state: e['userId']['state'],
+          country: e['userId']['country'],
+          stripeCostormerId: e['userId']['stripeCostormerId'],
+          gender: e['userId']['gender'],
+          accountType: e['userId']['accountType'],
+          number: e['userId']['number'],
+          id: e['userId']['_id']);
+      final ratingId = ReviewModel(
+          rating: e['rating'],
+          feedback: e['feedback'],
+          userId: userId2,
+          category: e['category']);
+      return BookinModel(
+          appointmentDate: e['appointmentDate'],
+          id: e['_id'],
+          hairImg: e['hairImg'],
+          hairName: e['hairName'],
+          appointmentTime: e['appointmentime'],
+          amount: e['amount'],
+          showStatus: e['showStatus'],
+          userId: userId,
+          stylistId: stylistId,
+          transactionId: e['transactionId'],
+          bookingCount: e['bookingCount'],
+          ratingId: ratingId);
+    }).toList();
+    return bookingModelUser;
+  }
+
+  static Future<List<BookinModel>> fetchBookingDataIdPreviousDays(
+      String? token, String stylistId) async {
+    const url = 'http://192.168.178.188:5000/';
+    var getUserBookings = "${url}bookings/booking/previous/${stylistId}";
+
+    final respons = await http.get(Uri.parse(getUserBookings), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    final Map<String, dynamic> responData = jsonDecode(respons.body);
+    print(responData);
+    final results = responData['data'] as List<dynamic>;
+
+    final bookingModelUser = results.map((e) {
+      final stylistId = StylistModel(
+          username: e['stylistId']['username'],
+          profileImg: e['stylistId']['profileImg'],
+          email: e['stylistId']['email'],
+          address: e['stylistId']['address'],
+          state: e['stylistId']['state'],
+          country: e['stylistId']['country'],
+          gender: e['stylistId']['gender'],
+          accountType: e['stylistId']['accountType'],
+          number: e['stylistId']['number'],
+          id: e['stylistId']['id']);
+      final userId2 = ReviewName(
+        accountType: e['userId']['accountType'],
+        profileImg: e['userId']['profileImg'],
+        number: e['userId']['number'],
+        username: e['userId']['username'],
+        country: e['userId']['country'],
+        email: e['userId']['email'],
+        address: e['userId']['address'],
+        state: e['userId']['state'],
+        gender: e['userId']['gender'],
+        id: e['userId']['id'],
+      );
+      final userId = UserModel(
+          username: e['userId']['username'],
+          profileImg: e['userId']['profileImg'],
+          email: e['userId']['email'],
+          address: e['userId']['address'],
+          state: e['userId']['state'],
+          country: e['userId']['country'],
+          stripeCostormerId: e['userId']['stripeCostormerId'],
+          gender: e['userId']['gender'],
+          accountType: e['userId']['accountType'],
+          number: e['userId']['number'],
+          id: e['userId']['_id']);
+      final ratingId = ReviewModel(
+          rating: e['rating'],
+          feedback: e['feedback'],
+          userId: userId2,
+          category: e['category']);
+      return BookinModel(
+          appointmentDate: e['appointmentDate'],
+          id: e['_id'],
+          hairImg: e['hairImg'],
+          hairName: e['hairName'],
+          appointmentTime: e['appointmentime'],
+          amount: e['amount'],
+          showStatus: e['showStatus'],
+          userId: userId,
+          stylistId: stylistId,
+          transactionId: e['transactionId'],
+          bookingCount: e['bookingCount'],
+          ratingId: ratingId);
+    }).toList();
+    return bookingModelUser;
+  }
+
+  static Future<List<BookinModel>> fetchAllBookingData(String? token) async {
+    const url = 'http://192.168.178.188:5000/';
+    var getBookings = "${url}bookings/getAllBooking";
+
+    final respons = await http.get(Uri.parse(getBookings), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    final Map<String, dynamic> responData = jsonDecode(respons.body);
+    // print(responData);
+    final results = responData['data'] as List<dynamic>;
+
+    final bookingModelUser = results.map((e) {
+      final stylistId = StylistModel(
+          username: e['stylistId']['username'],
+          profileImg: e['stylistId']['profileImg'],
+          email: e['stylistId']['email'],
+          address: e['stylistId']['address'],
+          state: e['stylistId']['state'],
+          country: e['stylistId']['country'],
+          gender: e['stylistId']['gender'],
+          accountType: e['stylistId']['accountType'],
+          number: e['stylistId']['number'],
+          id: e['stylistId']['_id']);
+      final userId2 = ReviewName(
+        accountType: e['userId']['accountType'],
+        profileImg: e['userId']['profileImg'],
+        number: e['userId']['number'],
+        username: e['userId']['username'],
+        country: e['userId']['country'],
+        email: e['userId']['email'],
+        address: e['userId']['address'],
+        state: e['userId']['state'],
+        gender: e['userId']['gender'],
+        id: e['userId']['_id'],
+      );
+      final userId = UserModel(
+          username: e['userId']['username'],
+          profileImg: e['userId']['profileImg'],
+          email: e['userId']['email'],
+          address: e['userId']['address'],
+          state: e['userId']['state'],
+          country: e['userId']['country'],
+          stripeCostormerId: e['userId']['stripeCostormerId'],
+          gender: e['userId']['gender'],
+          accountType: e['userId']['accountType'],
+          number: e['userId']['number'],
+          id: e['userId']['_id']);
+      final ratingId = ReviewModel(
+          rating: e['rating'],
+          feedback: e['feedback'],
+          userId: userId2,
+          category: e['category']);
+      return BookinModel(
+          appointmentDate: e['appointmentDate'],
+          id: e['_id'],
+          hairImg: e['hairImg'],
+          hairName: e['hairName'],
+          appointmentTime: e['appointmentime'],
+          amount: e['amount'],
+          showStatus: e['showStatus'],
+          userId: userId,
+          stylistId: stylistId,
+          transactionId: e['transactionId'],
+          bookingCount: e['bookingCount'],
+          ratingId: ratingId);
+    }).toList();
+    return bookingModelUser;
+  }
+
+  static Future<List<StylistBookinModel>> fetchAllBookingMadeWithAndCount(
+      String? token) async {
+    const url = 'http://192.168.178.188:5000/';
+    var getBookings = "${url}bookings/bookings-by-stylist";
+
+    final respons = await http.get(Uri.parse(getBookings), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    final Map<String, dynamic> responData = jsonDecode(respons.body);
+    print(responData);
+    final results = responData['data'] as List<dynamic>;
+
+    final bookingModelUser = results.map((e) {
+      final stylistId = StylistModel(
+          username: e['stylist']['username'],
+          profileImg: e['stylist']['profileImg'],
+          email: e['stylist']['email'],
+          address: e['stylist']['address'],
+          state: e['stylist']['state'],
+          country: e['stylist']['country'],
+          gender: e['stylist']['gender'],
+          accountType: e['stylist']['accountType'],
+          number: e['stylist']['number'],
+          id: e['stylist']['_id']);
+
+      return StylistBookinModel(
+          stylistId: stylistId,
+          bookingCount: e['bookingCount'],
+          averageRating: e['averageRating']);
+    }).toList();
+    // print(bookingModelUser);
+    return bookingModelUser;
+  }
+
+  static Future<List<ClientBookinModel>>
+      fetchAllBookingMadeWithCustormersAndCount(String? token) async {
+    const url = 'http://192.168.178.188:5000/';
+    var getBookings = "${url}bookings/bookings-by-client";
+
+    final respons = await http.get(Uri.parse(getBookings), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    final Map<String, dynamic> responData = jsonDecode(respons.body);
+    print(responData);
+    final results = responData['data'] as List<dynamic>;
+
+    final bookingModelUser = results.map((e) {
+      final clientId = UserModel(
+          username: e['client']['username'],
+          profileImg: e['client']['profileImg'],
+          email: e['client']['email'],
+          address: e['client']['address'],
+          state: e['client']['state'],
+          country: e['client']['country'],
+          gender: e['client']['gender'],
+          accountType: e['client']['accountType'],
+          number: e['client']['number'],
+          id: e['client']['_id']);
+
+      return ClientBookinModel(
+        clientId: clientId,
+        bookingCount: e['bookingCount'],
+      );
+    }).toList();
+    // print(bookingModelUser);
     return bookingModelUser;
   }
 }

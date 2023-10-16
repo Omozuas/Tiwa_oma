@@ -22,4 +22,22 @@ class GetUsers {
 
     return reviewresopnsMole(response.body);
   }
+
+  // static Future<ReviewpresopnsMole> fetchStylistDatas(
+  //     String token, stylistId) async {
+  //   const url = 'http://192.168.178.188:5000/';
+  //   var getUserById = "${url}auth/find/stylist/${stylistId}";
+  //   final response = await http.get(
+  //     Uri.parse(getUserById),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "Authorization": "Bearer ${token}",
+  //     },
+  //   );
+  //   if (response.statusCode == 200) {
+  //     var jsonres = jsonDecode(response.body);
+  //   }
+
+  //   return reviewresopnsMole(response.body);
+  // }
 }

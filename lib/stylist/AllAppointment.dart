@@ -4,11 +4,8 @@ import 'package:Tiwa_Oma/stylist/stylistProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/stylist/Clients.dart';
-import 'package:Tiwa_Oma/stylist/widgets/PreviousDaysAppointmentInfo.dart';
 import 'package:Tiwa_Oma/stylist/widgets/PreviousDaysAppointmentListAndCard.dart';
-import 'package:Tiwa_Oma/stylist/widgets/TodaysAppointentList.dart';
 import 'package:Tiwa_Oma/stylist/widgets/TodaysAppointmentListAndCard.dart';
-import 'package:Tiwa_Oma/stylist/widgets/YestadayAppoinmentInnfo.dart';
 import 'package:Tiwa_Oma/stylist/widgets/YestadayAppointmentCardAndList.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -39,7 +36,8 @@ class _AllAppointmentState extends State<AllAppointment> {
       email = jwtDecodedToken['email'];
       token = jwtDecodedToken['token'];
       fetchBookingDataIdToday(token, id);
-
+      fetchBookingDataIdYesterday(token, id);
+      fetchBookingDataIdPreviousDays(token, id);
       print(id);
     } catch (e) {
       // Handle token decoding errors here, e.g., log the error or show an error message.
@@ -52,6 +50,24 @@ class _AllAppointmentState extends State<AllAppointment> {
     var res = await BookingApi.fetchBookingDataIdToday(widget.token, stylistId);
     setState(() {
       today = res;
+    });
+  }
+
+  List<BookinModel> yesterday = [];
+  Future<void> fetchBookingDataIdYesterday(token, stylistId) async {
+    var res =
+        await BookingApi.fetchBookingDataIdYestaday(widget.token, stylistId);
+    setState(() {
+      yesterday = res;
+    });
+  }
+
+  List<BookinModel> previousDays = [];
+  Future<void> fetchBookingDataIdPreviousDays(token, stylistId) async {
+    var res = await BookingApi.fetchBookingDataIdPreviousDays(
+        widget.token, stylistId);
+    setState(() {
+      previousDays = res;
     });
   }
 
@@ -83,18 +99,20 @@ class _AllAppointmentState extends State<AllAppointment> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Today ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: GlobalColors.darkshadeblack),
-                  ),
-                ],
-              ),
+              today.isEmpty
+                  ? Text('')
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Today ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: GlobalColors.darkshadeblack),
+                        ),
+                      ],
+                    ),
               const SizedBox(
                 height: 10,
               ),
@@ -104,44 +122,48 @@ class _AllAppointmentState extends State<AllAppointment> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Yesterday ${DateTime.now().subtract(Duration(days: 1)).day}/${DateTime.now().subtract(Duration(days: 1)).month}/${DateTime.now().subtract(Duration(days: 1)).year}",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: GlobalColors.darkshadeblack),
-                  ),
-                ],
-              ),
+              yesterday.isEmpty
+                  ? Text('')
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Yesterday ${DateTime.now().subtract(Duration(days: 1)).day}/${DateTime.now().subtract(Duration(days: 1)).month}/${DateTime.now().subtract(Duration(days: 1)).year}",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: GlobalColors.darkshadeblack),
+                        ),
+                      ],
+                    ),
               const SizedBox(
                 height: 10,
               ),
               YestadayAppointmentList(
-                yestadayappoimentReview: yestadayappointmentList1,
+                yestadayappoimentReview: yesterday,
               ),
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "${DateTime.now().subtract(Duration(days: 2)).day}/${DateTime.now().subtract(Duration(days: 2)).month}/${DateTime.now().subtract(Duration(days: 2)).year}",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: GlobalColors.darkshadeblack),
-                  ),
-                ],
-              ),
+              previousDays.isEmpty
+                  ? Text('')
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${DateTime.now().subtract(Duration(days: 2)).day}/${DateTime.now().subtract(Duration(days: 2)).month}/${DateTime.now().subtract(Duration(days: 2)).year}",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: GlobalColors.darkshadeblack),
+                        ),
+                      ],
+                    ),
               const SizedBox(
                 height: 10,
               ),
               PriciousDaysAppointmentList(
-                previousdaysappoimentReview: previousdaysappointmentList1,
+                previousdaysappoimentReview: previousDays,
               )
             ],
           ),

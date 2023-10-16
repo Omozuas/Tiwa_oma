@@ -1,6 +1,7 @@
 import 'package:Tiwa_Oma/client/views/TransactionReview.dart';
 import 'package:Tiwa_Oma/services/Api_service.dart';
 import 'package:Tiwa_Oma/services/api.dart';
+import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/pushNotificationApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class payWithCardPin extends StatefulWidget {
   const payWithCardPin(
-      {super.key, this.pin, this.pinId, this.token, this.cardDetails1});
+      {super.key,
+      this.pin,
+      this.pinId,
+      this.token,
+      this.cardDetails1,
+      this.booknotifyStylistname,
+      this.booknotify});
   final pin;
   final pinId;
   final token;
   final cardDetails1;
+  final booknotify;
+  final booknotifyStylistname;
   @override
   State<payWithCardPin> createState() => _payWithCardPinState();
 }
@@ -36,6 +45,7 @@ class _payWithCardPinState extends State<payWithCardPin> {
   late String email = '';
   late final token;
   String username = '';
+  String? stylistDeviceToken = '';
   late final number;
   late final id;
   String? deviceToken = '';
@@ -43,8 +53,9 @@ class _payWithCardPinState extends State<payWithCardPin> {
   @override
   void initState() {
     super.initState();
+    getuserById();
     print(widget.pin);
-    print(widget.pinId);
+    print(widget.cardDetails1['card_Number']);
     print(widget.token);
     initSharedPref();
     try {
@@ -53,7 +64,9 @@ class _payWithCardPinState extends State<payWithCardPin> {
       email = jwtDecodedToken['email'];
       username = jwtDecodedToken['username'];
       number = jwtDecodedToken['number'];
-      print(number);
+      id = jwtDecodedToken['id'];
+      print(id);
+
       print(widget.cardDetails1);
       // id = jwtDecodedToken['id'];
       print(jwtDecodedToken['id']);
@@ -69,7 +82,17 @@ class _payWithCardPinState extends State<payWithCardPin> {
     setState(() {
       deviceToken = tokend;
     });
-    print("device$deviceToken");
+    print("device $deviceToken");
+  }
+
+  Future<void> getuserById() async {
+    GetUsers.fetchStylistData(widget.token, widget.booknotify['stylistId'])
+        .then((res) {
+      setState(() {
+        stylistDeviceToken = res.data['firebaseToken'];
+      });
+      print("stylistDeviceToken $stylistDeviceToken");
+    });
   }
 
   @override
@@ -184,17 +207,58 @@ class _payWithCardPinState extends State<payWithCardPin> {
                                     duration: Duration(seconds: 3),
                                   ),
                                 );
+                                var notify = {
+                                  'stylistId':
+                                      "${widget.booknotify['stylistId']}",
+                                  "userId": "${id}",
+                                  "bookingDate":
+                                      widget.cardDetails1['appointmentDate'],
+                                  'bookingTime':
+                                      widget.cardDetails1['appointmentime'],
+                                  "bookingId": respons.data['result1']
+                                      ['bookingId'],
+                                };
+                                print(notify);
                                 print(respons.data);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => transactionReview(
-                                            token: widget.token,
-                                          )),
-                                );
+                                APIService.postNotification(
+                                        notify, widget.token)
+                                    .then((value) {
+                                  if (value.success == true) {
+                                    PushNotificationApi
+                                            .pushNotificationBookingingForUser(
+                                                widget.booknotifyStylistname,
+                                                widget.token,
+                                                deviceToken)
+                                        .then((value) {
+                                      if (value.message ==
+                                          'Notification sent successfully') {
+                                        PushNotificationApi
+                                                .pushNotificationBookingingForStylist(
+                                                    username,
+                                                    widget.token,
+                                                    stylistDeviceToken)
+                                            .then((value) {
+                                          if (value.message ==
+                                              'Notification sent successfully') {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      transactionReview(
+                                                        token: widget.token,
+                                                        bookingId: respons
+                                                                .data['result1']
+                                                            ['bookingId'],
+                                                      )),
+                                            );
+                                          }
+                                        });
+                                      }
+                                    });
+                                  }
+                                });
                               }
                             }),
-
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: Colors.green,
@@ -218,13 +282,6 @@ class _payWithCardPinState extends State<payWithCardPin> {
                                 duration: Duration(seconds: 3),
                               ),
                             ),
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => const transactionReview(
-                            //             // token: '',
-                            //             // token: myToken,
-                            //             )));
                           }
                       });
                 },
@@ -293,6 +350,9 @@ class _payWithCardPinState extends State<payWithCardPin> {
                                           pinId: res.pin_id,
                                           token: widget.token,
                                           cardDetails1: widget.cardDetails1,
+                                          booknotify: widget.booknotify,
+                                          booknotifyStylistname:
+                                              widget.booknotifyStylistname,
                                         )),
                               )
                             }

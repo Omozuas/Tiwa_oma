@@ -36,6 +36,29 @@ class BookingpresopnsMole {
   }
 }
 
+PostNotificationresopnsMole postNotifyresopnsMole(String str) =>
+    PostNotificationresopnsMole.fromJson(json.decode(str));
+
+class PostNotificationresopnsMole {
+  PostNotificationresopnsMole({
+    required this.data,
+    required this.success,
+    required this.message,
+  });
+
+  late final String message;
+  late final data;
+  late final success;
+
+  PostNotificationresopnsMole.fromJson(Map<String, dynamic> json) {
+    data = json['data'];
+
+    message = json['message'];
+
+    success = json['success'];
+  }
+}
+
 ReviewpresopnsMole reviewresopnsMole(String str) =>
     ReviewpresopnsMole.fromJson(json.decode(str));
 

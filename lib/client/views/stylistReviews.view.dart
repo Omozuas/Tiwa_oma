@@ -1,11 +1,8 @@
-import 'dart:convert';
-import 'package:Tiwa_Oma/services/Api_service.dart';
 import 'package:Tiwa_Oma/services/api.dart';
 import 'package:Tiwa_Oma/services/model/review_model.dart';
 import 'package:Tiwa_Oma/services/model/stylist_model.dart';
 import 'package:Tiwa_Oma/services/model/vendo_Model.dart';
 import 'package:Tiwa_Oma/services/providers/reviewApi.dart';
-import 'package:Tiwa_Oma/services/providers/stylistApi.dart';
 import 'package:Tiwa_Oma/services/providers/vendorApi.dart';
 import 'package:Tiwa_Oma/widgets/stylistItemListDetailAndItemCard.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +12,6 @@ import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/client/views/Profile.view.dart';
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -23,9 +19,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../widgets/AddButtonListAndCard.widget.dart';
 import '../../widgets/ItemListAndCard.weidget.dart';
-import '../../widgets/PhotoListAndCard.widget.dart';
 import '../../widgets/RatingTextFeld.dart';
-import '../../widgets/Review.view.dart';
 import '../../widgets/TimePickerWidget.dart';
 import '../../widgets/addButtons.widgets.dart';
 import '../../widgets/datePickeWidget.dart';
@@ -134,6 +128,7 @@ class _stylistReviewState extends State<stylistReview>
     super.initState();
     fetchUserData();
     fetchVendorData();
+    print(widget.stylistModel.address);
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _setWidgetPositionx(_key1));
 
@@ -749,7 +744,12 @@ class _stylistReviewState extends State<stylistReview>
                                                     ...widget.bookingdate,
                                                     "ratingId": "${id}"
                                                   };
-                                                  print(booking);
+                                                  var notify = {
+                                                    'stylistId':
+                                                        "${widget.stylistModel.id}",
+                                                  };
+                                                  print(widget
+                                                      .stylistModel.username);
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -759,6 +759,12 @@ class _stylistReviewState extends State<stylistReview>
                                                                     .token,
                                                                 bookDetails:
                                                                     booking,
+                                                                booknotify:
+                                                                    notify,
+                                                                booknotifystylistName:
+                                                                    widget
+                                                                        .stylistModel
+                                                                        .username,
                                                               )));
                                                 }
                                               },

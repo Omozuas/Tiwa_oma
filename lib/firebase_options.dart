@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -52,11 +49,20 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCeJU1e_P0GMqUu27x5sEuj68yWFBs_BQE',
+    appId: '1:694556485705:web:163c91189dc838ed4d7798',
+    messagingSenderId: '694556485705',
+    projectId: 'tiwa-oma',
+    authDomain: 'tiwa-oma.firebaseapp.com',
+    storageBucket: 'tiwa-oma.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCqEfBn03n0DcbGA5Tj1dLBde0BQXMFvS8',
-    appId: '1:729108558998:android:15b4124fbc73283b473eb7',
-    messagingSenderId: '729108558998',
-    projectId: 'twaoma-7b80f',
-    storageBucket: 'twaoma-7b80f.appspot.com',
+    apiKey: 'AIzaSyBaqn8MKgaOw0eShSzIJBwO1W6hObA0E1o',
+    appId: '1:694556485705:android:90c78beb0a30681a4d7798',
+    messagingSenderId: '694556485705',
+    projectId: 'tiwa-oma',
+    storageBucket: 'tiwa-oma.appspot.com',
   );
 }

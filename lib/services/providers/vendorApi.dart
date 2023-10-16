@@ -35,9 +35,11 @@ class VendorApi {
       },
     );
     final responseData = jsonDecode(response.body);
-    print(responseData);
+
     if (response.statusCode == 200) {
       final results = responseData['data'] as List<dynamic>;
+      final results2 = responseData['data2'];
+      print(results2);
       final vendorModelStylist = results.map((e) {
         final stylistId = StylistModel(
             username: e['stylistId']['username'],
@@ -56,7 +58,8 @@ class VendorApi {
             hairStlye: e['nameOfHairStyle'],
             category: e['category'],
             hairStyleImg: e['hairStyleiImages'],
-            hartPrice: e['priceOfHairStyle']);
+            hartPrice: e['priceOfHairStyle'],
+            avgRating: results2);
       }).toList();
       return vendorModelStylist;
     } else {

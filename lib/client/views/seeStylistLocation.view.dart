@@ -7,8 +7,8 @@ import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
 
 class SeeLocationOfStylist extends StatefulWidget {
-  const SeeLocationOfStylist({super.key});
-
+  const SeeLocationOfStylist({super.key, this.token});
+  final token;
   @override
   State<SeeLocationOfStylist> createState() => _SeeLocationOfStylistState();
 }

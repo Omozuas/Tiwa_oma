@@ -8,6 +8,7 @@ class VendorModel {
   final category;
   final hartPrice;
   final String hairStyleImg;
+  final avgRating;
 
   VendorModel({
     required this.stylistModel,
@@ -15,6 +16,7 @@ class VendorModel {
     required this.category,
     required this.hairStyleImg,
     required this.hartPrice,
+    this.avgRating,
   });
 }
 

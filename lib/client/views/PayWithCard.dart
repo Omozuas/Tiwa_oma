@@ -24,9 +24,16 @@ import 'TransactionReview.dart';
 import 'dashboard.view.dart';
 
 class payWithCard extends StatefulWidget {
-  const payWithCard({super.key, this.token, this.bookingDetails});
+  const payWithCard(
+      {super.key,
+      this.token,
+      this.bookingDetails,
+      this.booknotify,
+      this.stylistname});
   final token;
   final bookingDetails;
+  final booknotify;
+  final stylistname;
   @override
   State<payWithCard> createState() => _payWithCardState();
 }
@@ -297,6 +304,9 @@ class _payWithCardState extends State<payWithCard> {
                                                   token: widget.token,
                                                   cardDetails1:
                                                       cardAndBookingDetails,
+                                                  booknotify: widget.booknotify,
+                                                  booknotifyStylistname:
+                                                      widget.stylistname,
                                                 )),
                                       )
                                     }

@@ -53,6 +53,31 @@ class APIService {
     return bookingresopnsMole(respons.body);
   }
 
+  static Future<PostNotificationresopnsMole> postNotification(
+      bookings, String token) async {
+    const url = 'http://192.168.178.188:5000/';
+    var postNotifyBooking = "${url}notification/sendNotify";
+
+    var respons = await http.post(Uri.parse(postNotifyBooking),
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": "Bearer ${token}",
+        },
+        body: jsonEncode(bookings));
+    print(bookings);
+    if (respons.statusCode == 200) {
+      Map<String, dynamic> jsonres = jsonDecode(respons.body);
+      print(jsonres);
+      // print(jsonres['token']);
+      // print(registerBody);
+      print(jsonres);
+    } else {
+      // var jsonres = jsonDecode(respons.body);
+      print('failed to book postNotification');
+    }
+    return postNotifyresopnsMole(respons.body);
+  }
+
   static Future<BookingpresopnsMole> updateBookingApp(
       updateBookings, String token) async {
     const url = 'http://192.168.178.188:5000/';

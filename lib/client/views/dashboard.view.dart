@@ -274,7 +274,13 @@ class _dashboardState extends State<Dashboard> {
                           ),
                         ),
                       ),
-                      Icon(Icons.search),
+                      Icon(
+                        Icons.search,
+                        size: 10,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      )
                     ],
                   ),
                 ),

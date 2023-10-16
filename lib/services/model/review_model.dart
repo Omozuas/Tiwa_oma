@@ -36,3 +36,11 @@ class ReviewName {
       required this.accountType,
       required this.username});
 }
+
+class AvrageReview {
+  final avgRating;
+
+  AvrageReview({
+    required this.avgRating,
+  });
+}

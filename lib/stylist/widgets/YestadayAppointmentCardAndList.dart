@@ -1,3 +1,4 @@
+import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:flutter/material.dart';
 // import 'package:Tiwa_Oma/stylist/widgets/TodaysAppointentList.dart';
 
@@ -11,7 +12,7 @@ class YestadayAppointmentList extends StatelessWidget {
     required this.yestadayappoimentReview,
     super.key,
   });
-  final List<YestadayAppointment> yestadayappoimentReview;
+  final List<BookinModel> yestadayappoimentReview;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -26,7 +27,7 @@ class YestadayAppointmentList extends StatelessWidget {
 
 class TodayAppoimentCard extends StatelessWidget {
   const TodayAppoimentCard({required this.yestadayappointment2, super.key});
-  final YestadayAppointment yestadayappointment2;
+  final BookinModel yestadayappointment2;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,9 +39,7 @@ class TodayAppoimentCard extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
             child: InkWell(
               onTap: () {
-                print(yestadayappointment2.name +
-                    yestadayappointment2.amount +
-                    yestadayappointment2.hairname);
+                print(yestadayappointment2.id);
               },
               child: Row(
                 children: [
@@ -63,8 +62,8 @@ class TodayAppoimentCard extends StatelessWidget {
                                 // shape: BoxShape.circle,
                                 borderRadius: BorderRadius.circular(54),
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                    yestadayappointment2.imgurl,
+                                  image: NetworkImage(
+                                    yestadayappointment2.hairImg,
                                   ),
                                   fit: BoxFit.cover,
                                 ),
@@ -90,13 +89,13 @@ class TodayAppoimentCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      yestadayappointment2.name,
+                                      yestadayappointment2.userId.username,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
                                     ),
                                     Text(
-                                      yestadayappointment2.hairname,
+                                      yestadayappointment2.hairName,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
@@ -108,7 +107,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                   width: 7,
                                 ),
                                 Text(
-                                  yestadayappointment2.status,
+                                  yestadayappointment2.showStatus,
                                   // maxLines: 1,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
@@ -130,7 +129,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      yestadayappointment2.date,
+                                      yestadayappointment2.appointmentDate,
                                       // maxLines: 1,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
@@ -142,7 +141,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                       width: 9,
                                     ),
                                     Text(
-                                      yestadayappointment2.time,
+                                      yestadayappointment2.appointmentTime,
                                       // maxLines: 1,
                                       style: const TextStyle(
                                           // overflow: TextOverflow.ellipsis,
@@ -161,7 +160,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                       size: 17,
                                     ),
                                     Text(
-                                      yestadayappointment2.amount,
+                                      "${yestadayappointment2.amount}",
                                       // maxLines: 1,
                                       style: TextStyle(
                                           // overflow: TextOverflow.ellipsis,

@@ -144,3 +144,31 @@ class PushNotificationResopnsMole {
     success = json['success'];
   }
 }
+
+AdminRecResopnsMole adminResopnsMole(String str) =>
+    AdminRecResopnsMole.fromJson(json.decode(str));
+
+class AdminRecResopnsMole {
+  AdminRecResopnsMole(
+      {required this.data,
+      required this.uniqueStylistIds,
+      required this.success,
+      required this.uniqueUserIds,
+      required this.totalBooking});
+
+  late final totalBooking;
+  late final uniqueUserIds;
+
+  late final data;
+  late final uniqueStylistIds;
+
+  late final success;
+
+  AdminRecResopnsMole.fromJson(Map<String, dynamic> json) {
+    data = json['data'];
+    uniqueUserIds = data['uniqueUserIds'];
+    totalBooking = data['totalBooking'];
+    uniqueStylistIds = data['uniqueStylistIds'];
+    success = json['success'];
+  }
+}
