@@ -93,15 +93,11 @@ class _StylistItemCardState extends State<NotificationItemCard> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Booked an appointment with ${widget.notificationModel.stylistModel.username}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 16),
-                              ),
-                            ],
+                          Text(
+                            'Booked an appointment with ${widget.notificationModel.stylistModel.username}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 16),
+                            softWrap: true,
                           ),
                           const SizedBox(
                             height: 10,

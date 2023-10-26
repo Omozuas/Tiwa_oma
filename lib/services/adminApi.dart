@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class AdminApi {
   static Future<AdminRecResopnsMole> fetchAllDataRecords(String? token) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getDataRecords = "${url}auth/admin/stats";
 
     final respons = await http.get(Uri.parse(getDataRecords), headers: {

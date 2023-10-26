@@ -1,3 +1,5 @@
+import 'package:Tiwa_Oma/services/api.dart';
+import 'package:Tiwa_Oma/services/pushNotificationApi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
@@ -19,23 +21,45 @@ class _forgotPasswordState extends State<forgotPassword> {
   TextEditingController numberController = TextEditingController();
 
   bool _isNotValidate = false;
-  void create() async {
+  Future<void> create() async {
     if (numberController.text.isNotEmpty) {
-      // var registerBody = {
-      //   "number": numberController.text,
-      // };
-      // var response = await http.post(Uri.parse(registration),
-      //     headers: {"Content-Type": "application/json"},
-      //     body: jsonEncode(registerBody));
-
-      // var jsonResponse = jsonDecode(response.body);
-
-      // if (jsonResponse['status']) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const Verifyphone()));
-      // } else {
-      //   print("something went wrong");
-      // }
+      var userNum = {"number": numberController.text};
+      var userNumber = numberController.text;
+      await Api.transactionOtp(userNum).then((res) => {
+            if (res.message == "sussess")
+              {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Row(
+                      children: [
+                        Icon(
+                          Icons.check,
+                          size: 29,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'You will get an Otp PIN ${res.otp}',
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    duration: Duration(seconds: 13),
+                  ),
+                ),
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Verifyphone(
+                              pin: res.otp,
+                              pinId: res.pin_id,
+                              number: userNumber,
+                            )))
+              }
+          });
     } else {
       setState(() {
         _isNotValidate = true;
@@ -96,7 +120,6 @@ class _forgotPasswordState extends State<forgotPassword> {
                     keybordtype1: TextInputType.number,
                     label: "Phone Number",
                     hintText: "Phone Number",
-                    obscureText: true,
                     suffixIcon2: const Icon(
                       Icons.phone_android_outlined,
                     ),

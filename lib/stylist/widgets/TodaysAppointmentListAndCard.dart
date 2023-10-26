@@ -150,7 +150,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     const SizedBox(
-                                      width: 75,
+                                      width: 60,
                                     ),
                                     const Icon(
                                       Icons.currency_pound_outlined,

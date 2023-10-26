@@ -1,10 +1,12 @@
+import 'package:Tiwa_Oma/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/passwordChanged.view.dart';
 import 'package:Tiwa_Oma/widgets/text_field.dart';
 
 class setNewPassword extends StatefulWidget {
-  const setNewPassword({super.key});
+  const setNewPassword({super.key, this.userNumber});
+  final userNumber;
 
   @override
   State<setNewPassword> createState() => _setNewPasswordState();
@@ -13,27 +15,53 @@ class setNewPassword extends StatefulWidget {
 class _setNewPasswordState extends State<setNewPassword> {
   TextEditingController confirmPassword = TextEditingController();
   TextEditingController password = TextEditingController();
-  bool _isNotValidate = false;
-
-  void create() async {
-    if (password.text.isNotEmpty && confirmPassword.text.isNotEmpty) {
+  final formKey = GlobalKey<FormState>();
+  final formKey1 = GlobalKey<FormState>();
+  bool _isVisible = false;
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  Future<void> create() async {
+    if (formKey.currentState!.validate() && formKey1.currentState!.validate()) {
       // Your create function logic here
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const passWordChanged(
-                  // token: myToken,
-                  )));
-    } else {
-      setState(() {
-        _isNotValidate = true;
+      var registerBody = {
+        "password": password.text.toString(),
+        "confirmPassword": confirmPassword.text.toString(),
+      };
+      var number = widget.userNumber;
+      Api.changePassword(number, registerBody).then((res) {
+        if (res.message == 'Password changed successfully') {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const passWordChanged()));
+        } else {
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Row(
+              children: [
+                Icon(
+                  Icons.check,
+                  size: 29,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  '${res.message}',
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+              ],
+            ),
+            duration: Duration(seconds: 3),
+          );
+        }
       });
+      ;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
@@ -76,24 +104,66 @@ class _setNewPasswordState extends State<setNewPassword> {
                 child: Column(
                   children: <Widget>[
                     textFiled(
-                      obscureText: true,
+                      keys: formKey,
+                      obscureText: !_isVisible,
                       label: "password",
                       hintText: "password",
-                      suffixIcon2: const Icon(Icons.password),
+                      suffixIcon2: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _isVisible = !_isVisible;
+                          });
+                        },
+                        icon: _isVisible
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off_outlined),
+                        color: GlobalColors.darkshadeblack,
+                      ),
                       controller2: password,
-                      err: _isNotValidate ? "Enter Proper info" : null,
-                      keyboardType4: TextInputType.emailAddress,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^.*$').hasMatch(value!)) {
+                          return "Enter Your Password";
+                        } else {
+                          return null;
+                        }
+                      },
+                      keyboardType4: TextInputType.visiblePassword,
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     textFiled(
+                      keys: formKey1,
                       label: "confirmPassword",
                       hintText: "confirmPassword",
-                      suffixIcon2: const Icon(Icons.visibility_off),
+                      obscureText: !_isVisible,
+                      suffixIcon2: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _isVisible = !_isVisible;
+                          });
+                        },
+                        icon: _isVisible
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off_outlined),
+                        color: GlobalColors.darkshadeblack,
+                      ),
                       controller2: confirmPassword,
-                      err: _isNotValidate ? "Enter Proper info" : null,
-                      keyboardType4: TextInputType.visiblePassword,
+                      validate: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^.*$').hasMatch(value!)) {
+                          return "Enter Your ComfirmPassword";
+                        } else if (password.text.isEmpty ||
+                            confirmPassword.text.isEmpty) {
+                          return 'Both fields are required.';
+                        } else if (password.text != confirmPassword.text) {
+                          return 'Passwords do not match.';
+                        } else {
+                          return null;
+                        }
+                      },
+                      keyboardType4: TextInputType.text,
                     ),
                   ],
                 ),

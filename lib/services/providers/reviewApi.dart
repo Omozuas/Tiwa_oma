@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 class ReviewApi {
   static Future<List<ReviewModel>> fetchUserData(
       String token, String stylistId) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getReviewFromClientToStylist =
         "${url}review/stylist/${stylistId}/clients/display";
     final response = await http.get(
@@ -45,7 +45,7 @@ class ReviewApi {
 
   static Future<List<AvrageReview>> fetchAvarageReview(
       String token, String stylistId) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getReviewFromClientToStylist =
         "${url}review/average-rating-by-stylist/${stylistId}";
     final response = await http.get(
@@ -70,7 +70,7 @@ class ReviewApi {
 
   static Future<List<ReviewModel>> fetch1UserData(
       String token, String userId) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getReviewFromClient = "${url}review//getsendReview/client/${userId}";
     final response = await http.get(
       Uri.parse(getReviewFromClient),

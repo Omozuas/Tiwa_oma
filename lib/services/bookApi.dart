@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class BookingApi {
   static Future<List<BookinModel>> fetchBookingData(
       String? token, String userId1) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getUserBookings = "${url}bookings/user-reviews/${userId1}";
 
     final respons = await http.get(Uri.parse(getUserBookings), headers: {
@@ -80,7 +80,7 @@ class BookingApi {
 
   static Future<List<BookinModel>> fetchBookingDataId(
       String? token, String stylistId) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getUserBookings = "${url}bookings/stylist/${stylistId}/clients/display";
 
     final respons = await http.get(Uri.parse(getUserBookings), headers: {
@@ -151,7 +151,7 @@ class BookingApi {
 
   static Future<List<BookinModel2>> fetchBookingDataIdDetails(
       String? token, String userId) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getUserBookingsDetails = "${url}bookings/count/user/${userId}";
 
     final respons = await http.get(Uri.parse(getUserBookingsDetails), headers: {
@@ -196,7 +196,7 @@ class BookingApi {
 
   static Future<List<BookinModel2>> fetchBookingDataIdUserId(
       String? token, String stylistId) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getUserBookingsUserId =
         "${url}bookings/togetid/stylist/${stylistId}/users";
 
@@ -241,7 +241,7 @@ class BookingApi {
 
   static Future<List<BookinModel2>> fetchBookingDataIdFrequentUserId(
       String? token, String stylistId) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getUserBookingsUserId =
         "${url}bookings/togetid/stylist/${stylistId}/most-frequent-user";
 
@@ -286,7 +286,7 @@ class BookingApi {
 
   static Future<List<BookinModel>> fetchBookingById(
       String? token, String id) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getUserBookingsUserId = "${url}bookings/find/bookID/${id}";
 
     final respons = await http.get(Uri.parse(getUserBookingsUserId), headers: {
@@ -357,7 +357,7 @@ class BookingApi {
 
   static Future<List<BookinModel>> fetchBookingDataIdToday(
       String? token, String stylistId) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getUserBookings = "${url}bookings/booking/today/${stylistId}";
 
     final respons = await http.get(Uri.parse(getUserBookings), headers: {
@@ -428,7 +428,7 @@ class BookingApi {
 
   static Future<List<BookinModel>> fetchBookingDataIdYestaday(
       String? token, String stylistId) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getUserBookings = "${url}bookings/booking/yesterday/${stylistId}";
 
     final respons = await http.get(Uri.parse(getUserBookings), headers: {
@@ -499,7 +499,7 @@ class BookingApi {
 
   static Future<List<BookinModel>> fetchBookingDataIdPreviousDays(
       String? token, String stylistId) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getUserBookings = "${url}bookings/booking/previous/${stylistId}";
 
     final respons = await http.get(Uri.parse(getUserBookings), headers: {
@@ -569,7 +569,7 @@ class BookingApi {
   }
 
   static Future<List<BookinModel>> fetchAllBookingData(String? token) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getBookings = "${url}bookings/getAllBooking";
 
     final respons = await http.get(Uri.parse(getBookings), headers: {
@@ -640,7 +640,7 @@ class BookingApi {
 
   static Future<List<StylistBookinModel>> fetchAllBookingMadeWithAndCount(
       String? token) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getBookings = "${url}bookings/bookings-by-stylist";
 
     final respons = await http.get(Uri.parse(getBookings), headers: {
@@ -675,7 +675,7 @@ class BookingApi {
 
   static Future<List<ClientBookinModel>>
       fetchAllBookingMadeWithCustormersAndCount(String? token) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var getBookings = "${url}bookings/bookings-by-client";
 
     final respons = await http.get(Uri.parse(getBookings), headers: {

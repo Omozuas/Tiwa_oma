@@ -55,7 +55,7 @@ class APIService {
 
   static Future<PostNotificationresopnsMole> postNotification(
       bookings, String token) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var postNotifyBooking = "${url}notification/sendNotify";
 
     var respons = await http.post(Uri.parse(postNotifyBooking),
@@ -80,7 +80,7 @@ class APIService {
 
   static Future<BookingpresopnsMole> updateBookingApp(
       updateBookings, String token) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var updateBooking = "${url}bookings//bookings/find/updateTransaction";
 
     var respons = await client.put(Uri.parse(updateBooking),

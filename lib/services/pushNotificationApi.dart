@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class PushNotificationApi {
   static Future<PushNotificationResopnsMole> pushNotificationPin(
       String imgUrl, String des, token, firebasToken) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var updateUserInfo = "${url}apiFireNotFiy/sendFN";
     print(token);
     final respons = await http.post(Uri.parse(updateUserInfo), body: {
@@ -32,7 +32,7 @@ class PushNotificationApi {
 
   static Future<PushNotificationResopnsMole> pushNotificationBookingingForUser(
       String des, token, firebasToken) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var updateUserInfo = "${url}apiFireNotFiy/sendFN";
     print(token);
     final respons = await http.post(Uri.parse(updateUserInfo), body: {
@@ -60,7 +60,7 @@ class PushNotificationApi {
   static Future<PushNotificationResopnsMole>
       pushNotificationBookingingForStylist(
           String des, token, firebasToken) async {
-    const url = 'http://192.168.178.188:5000/';
+    const url = 'http://192.168.247.188:5000/';
     var updateUserInfo = "${url}apiFireNotFiy/sendFN";
     print(token);
     final respons = await http.post(Uri.parse(updateUserInfo), body: {

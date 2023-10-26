@@ -47,6 +47,13 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
+
+		<string>NSLocationWhenInUseUsageDescription</string>
+		<key>want to display location on map,and track it.</key>
+
+		<string>NSLocationAlwaysAndWhenInUseUsageDescription</string>
+		<key>want to display location on map,and track it.</key>
+		
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>We want image for product!</string>
 		<key>UIStatusBarHidden</key>

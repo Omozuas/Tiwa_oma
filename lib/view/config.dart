@@ -1,4 +1,4 @@
-const url = 'http://192.168.178.188:5000/';
+const url = 'http://192.168.247.188:5000/';
 const registration = "${url}auth/register";
 const loginUser = "${url}auth/login";
 const findUser = "${url}auth/:userId";

@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <application
         android:label="Tiwa Oma"
         android:name="${applicationName}"
@@ -39,7 +41,7 @@
             
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCz2JG8pADzLEVcnDPEb0iaVtWtOvkM8B8" />  
+            android:value="AIzaSyBaqn8MKgaOw0eShSzIJBwO1W6hObA0E1o" />  
            
            
 

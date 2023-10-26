@@ -13,14 +13,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class payWithCardPin extends StatefulWidget {
   const payWithCardPin(
       {super.key,
-      this.pin,
-      this.pinId,
+      this.otpHash,
       this.token,
       this.cardDetails1,
       this.booknotifyStylistname,
       this.booknotify});
-  final pin;
-  final pinId;
+
+  final otpHash;
   final token;
   final cardDetails1;
   final booknotify;
@@ -54,7 +53,6 @@ class _payWithCardPinState extends State<payWithCardPin> {
   void initState() {
     super.initState();
     getuserById();
-    print(widget.pin);
     print(widget.cardDetails1['card_Number']);
     print(widget.token);
     initSharedPref();
@@ -175,9 +173,10 @@ class _payWithCardPinState extends State<payWithCardPin> {
                 onPressed: () {
                   print(otp);
                   print(widget.cardDetails1);
-                  var cardDetails = {"pin": otp, "pin_id": widget.pinId};
-                  Api.verifyTransactionOtp(cardDetails).then((res) => {
-                        if (res.verified == true)
+
+                  APIService.verifyOtp(email, widget.otpHash, otp).then((res) =>
+                      {
+                        if (res.data != null)
                           {
                             APIService.bookingApp(
                                     widget.cardDetails1, widget.token)
@@ -309,54 +308,48 @@ class _payWithCardPinState extends State<payWithCardPin> {
                 ),
                 InkWell(
                   onTap: () {
-                    var userNum = {"number": number};
-                    print(number);
-                    Api.transactionOtp(userNum).then((res) => {
-                          if (res.message == "sussess")
-                            {
-                              PushNotificationApi.pushNotificationPin(
-                                  "OTP CODE",
-                                  res.otp,
-                                  widget.token,
-                                  deviceToken),
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Colors.green,
-                                  content: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.check,
-                                        size: 29,
-                                        color: Colors.white,
+                    APIService.verifyOtp(email, widget.otpHash, otp)
+                        .then((res) => {
+                              if (res.message == "sussess")
+                                {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.check,
+                                            size: 29,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            'You will recive An OTP',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        'You will recive An OTP',
-                                        style: TextStyle(
-                                            fontSize: 15, color: Colors.white),
-                                      ),
-                                    ],
+                                      duration: Duration(seconds: 3),
+                                    ),
                                   ),
-                                  duration: Duration(seconds: 3),
-                                ),
-                              ),
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => payWithCardPin(
-                                          pin: res.otp,
-                                          pinId: res.pin_id,
-                                          token: widget.token,
-                                          cardDetails1: widget.cardDetails1,
-                                          booknotify: widget.booknotify,
-                                          booknotifyStylistname:
-                                              widget.booknotifyStylistname,
-                                        )),
-                              )
-                            }
-                        });
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => payWithCardPin(
+                                              otpHash: res.data,
+                                              token: widget.token,
+                                              cardDetails1: widget.cardDetails1,
+                                              booknotify: widget.booknotify,
+                                              booknotifyStylistname:
+                                                  widget.booknotifyStylistname,
+                                            )),
+                                  )
+                                }
+                            });
                     print(widget.cardDetails1);
                   },
                   child: Text(

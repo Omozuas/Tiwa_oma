@@ -257,18 +257,13 @@ class _payWithCardState extends State<payWithCard> {
                               "card_CVC": cardCVCController.text,
                               ...widget.bookingDetails
                             };
-                            var userNum = {"number": number};
+
                             print(cardAndBookingDetails);
                             print(number);
 
-                            Api.transactionOtp(userNum).then((res) => {
+                            APIService.registerOpt(email).then((res) => {
                                   if (res.message == "sussess")
                                     {
-                                      PushNotificationApi.pushNotificationPin(
-                                          "OTP CODE",
-                                          res.otp,
-                                          widget.token,
-                                          deviceToken),
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
@@ -299,8 +294,7 @@ class _payWithCardState extends State<payWithCard> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 payWithCardPin(
-                                                  pin: res.otp,
-                                                  pinId: res.pin_id,
+                                                  otpHash: res.data,
                                                   token: widget.token,
                                                   cardDetails1:
                                                       cardAndBookingDetails,

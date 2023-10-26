@@ -40,7 +40,7 @@ dependencies:
   credit_card_validator: ^2.1.0
   font_awesome_flutter: ^10.5.0
   lottie: ^2.6.0
-  google_maps_flutter: ^2.4.0
+  google_maps_flutter: ^2.5.0
   flutter_polyline_points: ^2.0.0
   location: ^5.0.3
   geolocator: ^10.0.0

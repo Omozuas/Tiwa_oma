@@ -172,3 +172,16 @@ class AdminRecResopnsMole {
     success = json['success'];
   }
 }
+
+ChangePasswordresopnsMole changePasswordRes(String str) =>
+    ChangePasswordresopnsMole.fromJson(json.decode(str));
+
+class ChangePasswordresopnsMole {
+  ChangePasswordresopnsMole({required this.message});
+
+  late final String message;
+
+  ChangePasswordresopnsMole.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+  }
+}
