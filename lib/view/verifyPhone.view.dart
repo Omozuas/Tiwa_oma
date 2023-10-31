@@ -1,3 +1,4 @@
+import 'package:Tiwa_Oma/services/Api_service.dart';
 import 'package:Tiwa_Oma/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,9 +6,9 @@ import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/setNewPassword.view.dart';
 
 class Verifyphone extends StatefulWidget {
-  const Verifyphone({super.key, this.pinId, this.pin, this.number});
+  const Verifyphone({super.key, this.pinId, this.number});
   final pinId;
-  final pin;
+
   final number;
   @override
   State<Verifyphone> createState() => _VerifyphoneState();
@@ -105,13 +106,10 @@ class _VerifyphoneState extends State<Verifyphone> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            var cardDetails = {
-                              "pin": otp,
-                              "pin_id": widget.pinId
-                            };
-                            Api.verifyTransactionOtp(cardDetails)
+                            APIService.verifyChangepassword1Otp(
+                                    widget.number, widget.pinId, otp)
                                 .then((res) => {
-                                      if (res.verified == true)
+                                      if (res.message == 'success')
                                         {
                                           Navigator.push(
                                               context,
@@ -179,8 +177,7 @@ class _VerifyphoneState extends State<Verifyphone> {
                 ),
                 InkWell(
                   onTap: () {
-                    var userNum = {"number": widget.number};
-                    Api.transactionOtp(userNum).then((res) => {
+                    APIService.changepasswordOtp(widget.number).then((res) => {
                           if (res.message == "sussess")
                             {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -197,7 +194,7 @@ class _VerifyphoneState extends State<Verifyphone> {
                                         width: 10,
                                       ),
                                       Text(
-                                        'You will get an Otp PIN ${res.otp}',
+                                        'You will get an Otp PIN via email',
                                         style: TextStyle(
                                             fontSize: 15, color: Colors.white),
                                       ),
@@ -210,8 +207,7 @@ class _VerifyphoneState extends State<Verifyphone> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => Verifyphone(
-                                            pin: res.otp,
-                                            pinId: res.pin_id,
+                                            pinId: res.data,
                                             number: widget.number,
                                           )))
                             }

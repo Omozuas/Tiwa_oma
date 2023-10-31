@@ -174,14 +174,92 @@ class _payWithCardPinState extends State<payWithCardPin> {
                   print(otp);
                   print(widget.cardDetails1);
 
-                  APIService.verifyOtp(email, widget.otpHash, otp).then((res) =>
-                      {
-                        if (res.data != null)
-                          {
-                            APIService.bookingApp(
-                                    widget.cardDetails1, widget.token)
-                                .then((respons) {
-                              if (respons.success == true) {
+                  APIService.verifyTransaction1Otp(email, widget.otpHash, otp)
+                      .then((res) => {
+                            if (res.data != null)
+                              {
+                                APIService.bookingApp(
+                                        widget.cardDetails1, widget.token)
+                                    .then((respons) {
+                                  if (respons.success == true) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Colors.green,
+                                        content: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.check,
+                                              size: 29,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              '${respons.message}',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                        duration: Duration(seconds: 3),
+                                      ),
+                                    );
+                                    var notify = {
+                                      'stylistId':
+                                          "${widget.booknotify['stylistId']}",
+                                      "userId": "${id}",
+                                      "bookingDate": widget
+                                          .cardDetails1['appointmentDate'],
+                                      'bookingTime':
+                                          widget.cardDetails1['appointmentime'],
+                                      "bookingId": respons.data['result1']
+                                          ['bookingId'],
+                                    };
+                                    print(notify);
+                                    print(respons.data);
+                                    APIService.postNotification(
+                                            notify, widget.token)
+                                        .then((value) {
+                                      if (value.success == true) {
+                                        PushNotificationApi
+                                                .pushNotificationBookingingForUser(
+                                                    widget
+                                                        .booknotifyStylistname,
+                                                    widget.token,
+                                                    deviceToken)
+                                            .then((value) {
+                                          if (value.message ==
+                                              'Notification sent successfully') {
+                                            PushNotificationApi
+                                                    .pushNotificationBookingingForStylist(
+                                                        username,
+                                                        widget.token,
+                                                        stylistDeviceToken)
+                                                .then((value) {
+                                              if (value.message ==
+                                                  'Notification sent successfully') {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          transactionReview(
+                                                            token: widget.token,
+                                                            bookingId: respons
+                                                                        .data[
+                                                                    'result1']
+                                                                ['bookingId'],
+                                                          )),
+                                                );
+                                              }
+                                            });
+                                          }
+                                        });
+                                      }
+                                    });
+                                  }
+                                }),
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     backgroundColor: Colors.green,
@@ -196,7 +274,7 @@ class _payWithCardPinState extends State<payWithCardPin> {
                                           width: 10,
                                         ),
                                         Text(
-                                          '${respons.message}',
+                                          '${res.message}',
                                           style: TextStyle(
                                               fontSize: 15,
                                               color: Colors.white),
@@ -205,84 +283,9 @@ class _payWithCardPinState extends State<payWithCardPin> {
                                     ),
                                     duration: Duration(seconds: 3),
                                   ),
-                                );
-                                var notify = {
-                                  'stylistId':
-                                      "${widget.booknotify['stylistId']}",
-                                  "userId": "${id}",
-                                  "bookingDate":
-                                      widget.cardDetails1['appointmentDate'],
-                                  'bookingTime':
-                                      widget.cardDetails1['appointmentime'],
-                                  "bookingId": respons.data['result1']
-                                      ['bookingId'],
-                                };
-                                print(notify);
-                                print(respons.data);
-                                APIService.postNotification(
-                                        notify, widget.token)
-                                    .then((value) {
-                                  if (value.success == true) {
-                                    PushNotificationApi
-                                            .pushNotificationBookingingForUser(
-                                                widget.booknotifyStylistname,
-                                                widget.token,
-                                                deviceToken)
-                                        .then((value) {
-                                      if (value.message ==
-                                          'Notification sent successfully') {
-                                        PushNotificationApi
-                                                .pushNotificationBookingingForStylist(
-                                                    username,
-                                                    widget.token,
-                                                    stylistDeviceToken)
-                                            .then((value) {
-                                          if (value.message ==
-                                              'Notification sent successfully') {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      transactionReview(
-                                                        token: widget.token,
-                                                        bookingId: respons
-                                                                .data['result1']
-                                                            ['bookingId'],
-                                                      )),
-                                            );
-                                          }
-                                        });
-                                      }
-                                    });
-                                  }
-                                });
-                              }
-                            }),
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.check,
-                                      size: 29,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      '${res.message}',
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.white),
-                                    ),
-                                  ],
                                 ),
-                                duration: Duration(seconds: 3),
-                              ),
-                            ),
-                          }
-                      });
+                              }
+                          });
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,

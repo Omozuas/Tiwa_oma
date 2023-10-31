@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class NotificationApi {
   static Future<List<NotificationModel>> fetchBookingById(
       String? token, String id) async {
-    const url = 'http://192.168.247.188:5000/';
+    const url = 'http://192.168.137.188:5000/';
     var getNotificationUserId = "${url}notification/getnofication/client/${id}";
 
     final respons = await http.get(Uri.parse(getNotificationUserId), headers: {
@@ -58,7 +58,7 @@ class NotificationApi {
 
   static Future<List<NotificationModel>> fetchBookingStylistById(
       String? token, String id) async {
-    const url = 'http://192.168.247.188:5000/';
+    const url = 'http://192.168.137.188:5000/';
     var getNotificationUserId =
         "${url}notification/getnofication/stylist/${id}";
 

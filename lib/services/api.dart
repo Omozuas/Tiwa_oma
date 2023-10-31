@@ -75,7 +75,7 @@ class Api {
   }
 
   static Future<OtpTransactionresopnsMole> transactionOtp(number) async {
-    const url = 'http://192.168.247.188:5000/';
+    const url = 'http://192.168.137.188:5000/';
     var trsactionotp = "${url}apiTermiiOtp/sentOtp";
     var respons = Uri.parse(trsactionotp);
     print(number);
@@ -98,7 +98,7 @@ class Api {
 
   static Future<OtpTransactionVerifyresopnsMole> verifyTransactionOtp(
       number) async {
-    const url = 'http://192.168.247.188:5000/';
+    const url = 'http://192.168.137.188:5000/';
     var trsactionotp = "${url}apiTermiiOtp/verfySentOtp";
     var respons = Uri.parse(trsactionotp);
     print(number);
@@ -121,7 +121,7 @@ class Api {
 
   static Future<ChangePasswordresopnsMole> changePassword(
       number, registerBody) async {
-    const url = 'http://192.168.247.188:5000/';
+    const url = 'http://192.168.137.188:5000/';
     var restPssword = "${url}auth/users/${number}/password";
     var respons = Uri.parse(restPssword);
     print(number);
@@ -141,5 +141,29 @@ class Api {
     }
 
     return changePasswordRes(res.body);
+  }
+
+  static Future<ChangePasswordres1opnsMole> changePassword1(number) async {
+    const url = 'http://192.168.137.188:5000/';
+    var restPssword = "${url}auth/users/${number}";
+    var respons = Uri.parse(restPssword);
+    print(number);
+
+    var res = await http.get(
+      respons,
+      headers: {'Content-Type': "application/json"},
+    );
+    print(res);
+    if (res.statusCode == 200) {
+      var jsonres = jsonDecode(res.body);
+      print(jsonres);
+      // print(jsonres['token']);
+      // print(registerBody);
+      // print(jsonres);
+    } else {
+      print('failed to register user');
+    }
+
+    return changePasswordRes1(res.body);
   }
 }

@@ -259,10 +259,10 @@ class _payWithCardState extends State<payWithCard> {
                             };
 
                             print(cardAndBookingDetails);
-                            print(number);
+                            print(email);
 
-                            APIService.registerOpt(email).then((res) => {
-                                  if (res.message == "sussess")
+                            APIService.tranction1Opt(email).then((res) => {
+                                  if (res.message == "success")
                                     {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(

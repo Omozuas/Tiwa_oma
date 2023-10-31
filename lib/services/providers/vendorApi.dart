@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 class VendorApi {
   static Future<GetreviewpresopnsMole> uploadVendorDetails(
       String? token, stylistId, uploadinfo) async {
-    const url = 'http://192.168.247.188:5000/';
+    const url = 'http://192.168.137.188:5000/';
     var uploadVendorDetails = "${url}vendors/vendor/upload/${stylistId}";
     final respons = await http.post(Uri.parse(uploadVendorDetails),
         headers: {
@@ -24,7 +24,7 @@ class VendorApi {
 
   static Future<List<VendorModel>> fetchVendorData(
       String? token, String stylistId) async {
-    const url = 'http://192.168.247.188:5000/';
+    const url = 'http://192.168.137.188:5000/';
     var getVendorById = "${url}vendors/getVendorsbyId/${stylistId}";
 
     final response = await http.get(
@@ -70,7 +70,7 @@ class VendorApi {
   static Future<List<VendorModel>> fetchVendorDataImg(
     String? token,
   ) async {
-    const url = 'http://192.168.247.188:5000/';
+    const url = 'http://192.168.137.188:5000/';
     var getVendorImg = "${url}vendors/randomImagesAndPrices";
 
     final response = await http.get(

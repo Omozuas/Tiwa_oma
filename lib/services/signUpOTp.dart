@@ -185,3 +185,18 @@ class ChangePasswordresopnsMole {
     message = json['message'];
   }
 }
+
+ChangePasswordres1opnsMole changePasswordRes1(String str) =>
+    ChangePasswordres1opnsMole.fromJson(json.decode(str));
+
+class ChangePasswordres1opnsMole {
+  ChangePasswordres1opnsMole({required this.message});
+
+  late final String message;
+  late final String data;
+
+  ChangePasswordres1opnsMole.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+    data = json['data'];
+  }
+}

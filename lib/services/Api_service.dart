@@ -30,6 +30,52 @@ class APIService {
     return otpSigupresopnsMole(respons.body);
   }
 
+  static Future<OtpSigupresopnsMole> tranction1Opt(String email) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    // var url = Uri.http(SendMail);
+
+    var respons = await client.post(Uri.parse(sendTransactionOtpMail),
+        headers: requestHeaders,
+        body: jsonEncode({
+          'email': email,
+        }));
+    return otpSigupresopnsMole(respons.body);
+  }
+
+  static Future<OtpSigupresopnsMole> verifyTransaction1Otp(
+      String email, String otpHash, String otpcode) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    // var url = Uri.http(verifyMail);
+
+    var respons = await client.post(Uri.parse(verifyTransactionOtpMail),
+        headers: requestHeaders,
+        body: jsonEncode({'email': email, "otp": otpcode, "hash": otpHash}));
+    return otpSigupresopnsMole(respons.body);
+  }
+
+  static Future<OtpSigupresopnsMole> changepasswordOtp(String email) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    // var url = Uri.http(SendMail);
+
+    var respons = await client.post(Uri.parse(sendChangePasswordOtpMail),
+        headers: requestHeaders,
+        body: jsonEncode({
+          'email': email,
+        }));
+    return otpSigupresopnsMole(respons.body);
+  }
+
+  static Future<OtpSigupresopnsMole> verifyChangepassword1Otp(
+      String email, String otpHash, String otpcode) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    // var url = Uri.http(verifyMail);
+
+    var respons = await client.post(Uri.parse(verifyChangePasswordOtpMail),
+        headers: requestHeaders,
+        body: jsonEncode({'email': email, "otp": otpcode, "hash": otpHash}));
+    return otpSigupresopnsMole(respons.body);
+  }
+
   static Future<BookingpresopnsMole> bookingApp(bookings, String token) async {
     // var url = Uri.http(verifyMail);
 
@@ -55,7 +101,7 @@ class APIService {
 
   static Future<PostNotificationresopnsMole> postNotification(
       bookings, String token) async {
-    const url = 'http://192.168.247.188:5000/';
+    const url = 'http://192.168.137.188:5000/';
     var postNotifyBooking = "${url}notification/sendNotify";
 
     var respons = await http.post(Uri.parse(postNotifyBooking),
@@ -80,7 +126,7 @@ class APIService {
 
   static Future<BookingpresopnsMole> updateBookingApp(
       updateBookings, String token) async {
-    const url = 'http://192.168.247.188:5000/';
+    const url = 'http://192.168.137.188:5000/';
     var updateBooking = "${url}bookings//bookings/find/updateTransaction";
 
     var respons = await client.put(Uri.parse(updateBooking),

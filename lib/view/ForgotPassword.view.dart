@@ -1,3 +1,4 @@
+import 'package:Tiwa_Oma/services/Api_service.dart';
 import 'package:Tiwa_Oma/services/api.dart';
 import 'package:Tiwa_Oma/services/pushNotificationApi.dart';
 import 'package:flutter/material.dart';
@@ -19,45 +20,54 @@ class forgotPassword extends StatefulWidget {
 
 class _forgotPasswordState extends State<forgotPassword> {
   TextEditingController numberController = TextEditingController();
-
+  String email = '';
   bool _isNotValidate = false;
   Future<void> create() async {
     if (numberController.text.isNotEmpty) {
-      var userNum = {"number": numberController.text};
       var userNumber = numberController.text;
-      await Api.transactionOtp(userNum).then((res) => {
-            if (res.message == "sussess")
+      print(numberController.text);
+      await Api.changePassword1(userNumber).then((res) => {
+            if (res.message == "user found")
               {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: Colors.green,
-                    content: Row(
-                      children: [
-                        Icon(
-                          Icons.check,
-                          size: 29,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'You will get an Otp PIN ${res.otp}',
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                      ],
-                    ),
-                    duration: Duration(seconds: 13),
-                  ),
-                ),
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Verifyphone(
-                              pin: res.otp,
-                              pinId: res.pin_id,
-                              number: userNumber,
-                            )))
+                setState(() {
+                  email = res.data;
+                  print(res.data);
+                }),
+                APIService.changepasswordOtp(email).then((value) => {
+                      if (value.message == 'success')
+                        {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Row(
+                                children: [
+                                  Icon(
+                                    Icons.check,
+                                    size: 29,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'You will get an Otp PIN via email',
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              duration: Duration(seconds: 13),
+                            ),
+                          ),
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Verifyphone(
+                                        pinId: value.data,
+                                        number: res.data,
+                                      )))
+                        }
+                    })
               }
           });
     } else {
