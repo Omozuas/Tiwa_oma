@@ -160,7 +160,7 @@ class _StylistItemCardDetailsState extends State<StylistItemCardDetails> {
                     width: 3,
                   ),
                   widget.vendorModel.avgRating == null
-                      ? Text("(5.0)",
+                      ? Text("0",
                           style:
                               TextStyle(color: GlobalColors.gray, fontSize: 17))
                       : Text("${widget.vendorModel.avgRating}",

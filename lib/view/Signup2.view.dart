@@ -51,54 +51,98 @@ class _Signup2State extends State<Signup2> {
       };
       Api.addUser(registerBody).then((respons) {
         if (respons.status == true) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.green,
-              content: Row(
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Container(
+              padding: const EdgeInsets.all(8),
+              height: 80,
+              decoration: BoxDecoration(
+                color: GlobalColors.green,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Row(
                 children: [
                   Icon(
-                    Icons.check_circle_outline,
-                    size: 29,
+                    Icons.check_circle,
                     color: Colors.white,
+                    size: 40,
                   ),
                   SizedBox(
-                    width: 10,
+                    width: 20,
                   ),
-                  Text(
-                    respons.success,
-                    style: TextStyle(fontSize: 15, color: Colors.white),
-                  ),
+                  Expanded(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'success',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Spacer(),
+                      Text(respons.message,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ))
+                    ],
+                  ))
                 ],
               ),
-              duration: Duration(seconds: 3),
             ),
-          );
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ));
 
           APIService.registerOpt(widget.registerBody1['email']!)
               .then((response) async {
             print(response.message);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.green,
-                content: Row(
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Container(
+                padding: const EdgeInsets.all(8),
+                height: 80,
+                decoration: BoxDecoration(
+                  color: GlobalColors.green,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                ),
+                child: Row(
                   children: [
                     Icon(
-                      Icons.check_circle_outline,
-                      size: 29,
+                      Icons.check_circle,
                       color: Colors.white,
+                      size: 40,
                     ),
                     SizedBox(
-                      width: 10,
+                      width: 20,
                     ),
-                    Text(
-                      response.message,
-                      style: TextStyle(fontSize: 15, color: Colors.white),
-                    ),
+                    Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'success',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Spacer(),
+                        Text(respons.message,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ))
+                      ],
+                    ))
                   ],
                 ),
-                duration: Duration(seconds: 3),
               ),
-            );
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ));
 
             print(response.data);
             print(respons.token);
@@ -117,30 +161,54 @@ class _Signup2State extends State<Signup2> {
           });
         } else {
           print('failed to register user');
-        }
-      }).catchError((onError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Row(
-              children: [
-                Icon(
-                  Icons.check_circle_outline,
-                  size: 29,
-                  color: Colors.white,
+
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Card(
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                height: 80,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 240, 23, 49),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
-                SizedBox(
-                  width: 10,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.error_outline_sharp,
+                      color: Colors.white,
+                      size: 40,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'failed',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Spacer(),
+                        Text(respons.message,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ))
+                      ],
+                    ))
+                  ],
                 ),
-                Text(
-                  onError,
-                  style: TextStyle(fontSize: 15, color: Colors.white),
-                ),
-              ],
+              ),
             ),
-            duration: Duration(seconds: 3),
-          ),
-        );
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ));
+        }
       });
     }
   }
@@ -279,7 +347,7 @@ class _Signup2State extends State<Signup2> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          _successMessage(context);
+                          // _successMessage(context);
                           print(widget.accountType);
                           signupUser();
                         },

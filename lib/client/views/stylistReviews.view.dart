@@ -4,6 +4,7 @@ import 'package:Tiwa_Oma/services/model/stylist_model.dart';
 import 'package:Tiwa_Oma/services/model/vendo_Model.dart';
 import 'package:Tiwa_Oma/services/providers/reviewApi.dart';
 import 'package:Tiwa_Oma/services/providers/vendorApi.dart';
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/widgets/stylistItemListDetailAndItemCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -126,24 +127,28 @@ class _stylistReviewState extends State<stylistReview>
   @override
   void initState() {
     super.initState();
-    fetchUserData();
-    fetchVendorData();
-    print(widget.stylistModel.address);
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _setWidgetPositionx(_key1));
+    if (widget.token.isEmpty) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    } else {
+      fetchUserData();
+      fetchVendorData();
+      print(widget.stylistModel.address);
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => _setWidgetPositionx(_key1));
 
-    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-    try {
-      email = jwtDecodedToken['email'];
-      token = jwtDecodedToken['token'];
-      username = jwtDecodedToken['username'];
-      id = jwtDecodedToken['id'];
-      // print(id);
-      // print(jwtDecodedToken['email']);
-      // print(widget.token);
-    } catch (e) {
-      // Handle token decoding errors here, e.g., log the error or show an error message.
-      print('Error decoding token: $e');
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+      try {
+        email = jwtDecodedToken['email'];
+        token = jwtDecodedToken['token'];
+        username = jwtDecodedToken['username'];
+        id = jwtDecodedToken['id'];
+        // print(id);
+        // print(jwtDecodedToken['email']);
+        // print(widget.token);
+      } catch (e) {
+        // Handle token decoding errors here, e.g., log the error or show an error message.
+        print('Error decoding token: $e');
+      }
     }
   }
 
@@ -646,94 +651,214 @@ class _stylistReviewState extends State<stylistReview>
                                                     null) {
                                                   print("is empty");
                                                   ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      backgroundColor:
-                                                          Colors.red,
-                                                      content: Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons
-                                                                .error_outline_outlined,
-                                                            size: 29,
-                                                            color: Colors.white,
-                                                          ),
-                                                          SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          Text(
-                                                            'Pleas select a Date',
-                                                            style: TextStyle(
-                                                                fontSize: 15,
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        ],
+                                                      .showSnackBar(SnackBar(
+                                                    content: Card(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        height: 80,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Color.fromARGB(
+                                                              255, 226, 19, 43),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .error_outline_sharp,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 40,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 20,
+                                                            ),
+                                                            Expanded(
+                                                                child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  'failed',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                                Spacer(),
+                                                                Text(
+                                                                    'Pleas select a Date',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ))
+                                                              ],
+                                                            ))
+                                                          ],
+                                                        ),
                                                       ),
-                                                      duration:
-                                                          Duration(seconds: 3),
                                                     ),
-                                                  );
+                                                    behavior: SnackBarBehavior
+                                                        .floating,
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    elevation: 0,
+                                                  ));
                                                 } else if (widget.bookingTym ==
                                                     null) {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(SnackBar(
-                                                    backgroundColor: Colors.red,
-                                                    content: Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .error_outline_outlined,
-                                                          size: 29,
-                                                          color: Colors.white,
+                                                    content: Card(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        height: 80,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Color.fromARGB(
+                                                              255, 226, 19, 43),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
                                                         ),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        Text(
-                                                          'Pleas select a Time',
-                                                          style: TextStyle(
-                                                              fontSize: 15,
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .error_outline_sharp,
                                                               color:
-                                                                  Colors.white),
+                                                                  Colors.white,
+                                                              size: 40,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 20,
+                                                            ),
+                                                            Expanded(
+                                                                child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  'failed',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                                Spacer(),
+                                                                Text(
+                                                                    'Pleas select a Time',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ))
+                                                              ],
+                                                            ))
+                                                          ],
                                                         ),
-                                                      ],
+                                                      ),
                                                     ),
-                                                    duration:
-                                                        Duration(seconds: 3),
+                                                    behavior: SnackBarBehavior
+                                                        .floating,
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    elevation: 0,
                                                   ));
                                                 } else if (widget
                                                         .photodetails ==
                                                     null) {
                                                   ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      backgroundColor:
-                                                          Colors.red,
-                                                      content: Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons
-                                                                .error_outline_outlined,
-                                                            size: 29,
-                                                            color: Colors.white,
-                                                          ),
-                                                          SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          Text(
-                                                            'Pleas select a pic you are intrested in',
-                                                            style: TextStyle(
-                                                                fontSize: 15,
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        ],
+                                                      .showSnackBar(SnackBar(
+                                                    content: Card(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        height: 80,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Color.fromARGB(
+                                                              255, 226, 19, 43),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .error_outline_sharp,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 40,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 20,
+                                                            ),
+                                                            Expanded(
+                                                                child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  'failed',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                                Spacer(),
+                                                                Text(
+                                                                    'select an HairStyle you are intrested in',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ))
+                                                              ],
+                                                            ))
+                                                          ],
+                                                        ),
                                                       ),
-                                                      duration:
-                                                          Duration(seconds: 3),
                                                     ),
-                                                  );
+                                                    behavior: SnackBarBehavior
+                                                        .floating,
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    elevation: 0,
+                                                  ));
                                                 } else {
                                                   var booking = {
                                                     'stylistId':
@@ -1039,55 +1164,104 @@ class _DropReviewState extends State<DropReview> {
                                   print(response.data);
                                   print(response.success);
                                   if (response.success == true) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        backgroundColor: Colors.green,
-                                        content: Row(
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        height: 80,
+                                        decoration: BoxDecoration(
+                                          color: GlobalColors.green,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10)),
+                                        ),
+                                        child: Row(
                                           children: [
                                             Icon(
-                                              Icons.check_circle_outline,
-                                              size: 29,
+                                              Icons.check_circle,
                                               color: Colors.white,
+                                              size: 40,
                                             ),
                                             SizedBox(
-                                              width: 10,
+                                              width: 20,
                                             ),
-                                            Text(
-                                              response.message,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white),
-                                            ),
+                                            Expanded(
+                                                child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'success',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                Text(response.message,
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.white,
+                                                    ))
+                                              ],
+                                            ))
                                           ],
                                         ),
-                                        duration: Duration(seconds: 3),
                                       ),
-                                    );
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      elevation: 0,
+                                    ));
                                   } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        backgroundColor: Colors.red,
-                                        content: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.error_outline_sharp,
-                                              size: 29,
-                                              color: Colors.white,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              response.message,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Card(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          height: 80,
+                                          decoration: const BoxDecoration(
+                                            color: Color.fromARGB(
+                                                255, 226, 19, 43),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.error_outline_sharp,
+                                                color: Colors.white,
+                                                size: 40,
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Expanded(
+                                                  child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'failed',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                  Text(response.message,
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        color: Colors.white,
+                                                      ))
+                                                ],
+                                              ))
+                                            ],
+                                          ),
                                         ),
-                                        duration: Duration(seconds: 3),
                                       ),
-                                    );
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      elevation: 0,
+                                    ));
                                   }
                                 });
                               } else {

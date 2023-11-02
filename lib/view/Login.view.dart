@@ -59,28 +59,50 @@ class _LoginState extends State<Login> {
         print(myToken);
         print(jsonResponse['success']);
         print(jsonResponse['token']);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.green,
-            content: Row(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Container(
+            padding: const EdgeInsets.all(8),
+            height: 80,
+            decoration: BoxDecoration(
+              color: GlobalColors.green,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Row(
               children: [
                 Icon(
-                  Icons.check_circle_outline,
-                  size: 29,
+                  Icons.check_circle,
                   color: Colors.white,
+                  size: 40,
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 20,
                 ),
-                Text(
-                  jsonResponse['success'],
-                  style: TextStyle(fontSize: 15, color: Colors.white),
-                ),
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'success',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(jsonResponse['success'],
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ))
+                  ],
+                ))
               ],
             ),
-            duration: Duration(seconds: 3),
           ),
-        );
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ));
 
         Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(myToken);
         print(jsonResponse['accountType']);
@@ -110,28 +132,52 @@ class _LoginState extends State<Login> {
         }
         // Api.loginUser(loginBody);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Row(
-              children: [
-                Icon(
-                  Icons.check_circle_outline,
-                  size: 29,
-                  color: Colors.white,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  jsonResponse['message'],
-                  style: TextStyle(fontSize: 15, color: Colors.white),
-                ),
-              ],
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Card(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              height: 80,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 226, 19, 43),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.error_outline_sharp,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'failed',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Spacer(),
+                      Text(jsonResponse['message'],
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ))
+                    ],
+                  ))
+                ],
+              ),
             ),
-            duration: Duration(seconds: 3),
           ),
-        );
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ));
       }
     } else {
       print("something went wrong");

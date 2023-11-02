@@ -12,6 +12,7 @@ import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -211,7 +212,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   DreawerList(
                     title: "Logout",
                     svgSrc: Icons.logout_outlined,
-                    tap: () {},
+                    tap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                    },
                     color: Colors.black,
                     color2: GlobalColors.darkshadeblack,
                     color3: GlobalColors.white,
@@ -692,121 +696,126 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                   )),
                                   SizedBox(
                                     width: 385,
-                                    child: Column(
-                                      children: stylists
-                                          .map((e) => Card(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        "Stylist",
-                                                        style: TextStyle(
-                                                            fontSize: 18,
-                                                            color: GlobalColors
-                                                                .darkshadeblack,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      Row(
+                                    child: Row(
+                                      children: [
+                                        Column(
+                                          children: stylists
+                                              .map((e) => Card(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10.0),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          Column(
-                                                            children: [
-                                                              e.stylistId.profileImg ==
-                                                                      null
-                                                                  ? Container(
-                                                                      width: 50,
-                                                                      height:
-                                                                          50,
-
-                                                                      // padding: EdgeInsets.all(0),
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        // shape: BoxShape.circle,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(54),
-                                                                        image:
-                                                                            DecorationImage(
-                                                                          image:
-                                                                              AssetImage(
-                                                                            "assets/images/rectangle-1041.jpg",
-                                                                          ),
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                    )
-                                                                  : Container(
-                                                                      width: 50,
-                                                                      height:
-                                                                          50,
-
-                                                                      // padding: EdgeInsets.all(0),
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        // shape: BoxShape.circle,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(54),
-                                                                        image:
-                                                                            DecorationImage(
-                                                                          image:
-                                                                              NetworkImage(
-                                                                            "${e.stylistId.profileImg}",
-                                                                          ),
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                            ],
+                                                          Text(
+                                                            "Stylist",
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: GlobalColors
+                                                                    .darkshadeblack,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
                                                           ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(10.0),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceEvenly,
+                                                          SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Column(
+                                                                children: [
+                                                                  e.stylistId.profileImg ==
+                                                                          null
+                                                                      ? Container(
+                                                                          width:
+                                                                              50,
+                                                                          height:
+                                                                              50,
+
+                                                                          // padding: EdgeInsets.all(0),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            // shape: BoxShape.circle,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(54),
+                                                                            image:
+                                                                                DecorationImage(
+                                                                              image: AssetImage(
+                                                                                "assets/images/rectangle-1041.jpg",
+                                                                              ),
+                                                                              fit: BoxFit.cover,
+                                                                            ),
+                                                                          ),
+                                                                        )
+                                                                      : Container(
+                                                                          width:
+                                                                              50,
+                                                                          height:
+                                                                              50,
+
+                                                                          // padding: EdgeInsets.all(0),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            // shape: BoxShape.circle,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(54),
+                                                                            image:
+                                                                                DecorationImage(
+                                                                              image: NetworkImage(
+                                                                                "${e.stylistId.profileImg}",
+                                                                              ),
+                                                                              fit: BoxFit.cover,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                ],
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        10.0),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
                                                                   children: [
-                                                                    Text(
-                                                                        "${e.stylistId.username}"),
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceEvenly,
+                                                                      children: [
+                                                                        Text(
+                                                                            "${e.stylistId.username}"),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              120,
+                                                                        ),
+                                                                        Text(
+                                                                            "${e.bookingCount} Appointment"),
+                                                                      ],
+                                                                    ),
                                                                     SizedBox(
-                                                                      width:
-                                                                          120,
+                                                                      height:
+                                                                          10,
                                                                     ),
                                                                     Text(
-                                                                        "${e.bookingCount} Appointment"),
+                                                                        "${e.stylistId.email}"),
                                                                   ],
                                                                 ),
-                                                                SizedBox(
-                                                                  height: 10,
-                                                                ),
-                                                                Text(
-                                                                    "${e.stylistId.email}"),
-                                                              ],
-                                                            ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ))
-                                          .toList(),
+                                                    ),
+                                                  ))
+                                              .toList(),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],

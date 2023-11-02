@@ -59,15 +59,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home:
           // Dashboard(token: token),
-          // (token != null && !JwtDecoder.isExpired(token) == false)
-          //     ?
-          //     // AdminBooking(
-          //     //     token: token,
-          //     //   )
-          //     Dashboard(token: token)
-          // :
-          Login(),
-      // // SplashView(),
+          (token != null && !JwtDecoder.isExpired(token) == false)
+              ?
+              // AdminBooking(
+              //     token: token,
+              //   )
+              Dashboard(token: token)
+              :
+              // Login(),
+              SplashView(),
       routes: {
         ClientNotification.route: (context) => ClientNotification(
               token: token,

@@ -9,6 +9,7 @@ import 'package:Tiwa_Oma/services/providers/stylistApi.dart';
 import 'package:Tiwa_Oma/services/providers/vendorApi.dart';
 import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/widgets/stylistItemListAndItemCard.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
@@ -35,8 +36,10 @@ class Dashboard extends StatefulWidget {
 
 class _dashboardState extends State<Dashboard> {
   final formKey = GlobalKey<FormState>();
+
   String email = '';
   late final token;
+  String token2 = '';
   String username = '';
   late String fcmToken = '';
   late final id;
@@ -50,20 +53,23 @@ class _dashboardState extends State<Dashboard> {
 
     fetchStylistData();
     fetchStylistDataId();
+    if (widget.token.isEmpty) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    } else {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+      widget.id = jwtDecodedToken['id'];
+      try {
+        email = jwtDecodedToken['email'];
+        token = jwtDecodedToken['token'];
 
-    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-    widget.id = jwtDecodedToken['id'];
-    try {
-      email = jwtDecodedToken['email'];
-      token = jwtDecodedToken['token'];
+        getuserById(widget.id);
 
-      getuserById(widget.id);
-
-      print("see $fcmToken");
-      print(widget.token);
-    } catch (e) {
-      // Handle token decoding errors here, e.g., log the error or show an error message.
-      print('Error decoding token: $e');
+        print("see $fcmToken");
+        print(widget.token);
+      } catch (e) {
+        // Handle token decoding errors here, e.g., log the error or show an error message.
+        print('Error decoding token: $e');
+      }
     }
   }
 
@@ -136,6 +142,7 @@ class _dashboardState extends State<Dashboard> {
 
   void initSharedPref() async {
     prefsDevice = await SharedPreferences.getInstance();
+
     var tokend = prefsDevice.getString('deviceToken');
     print("device$tokend");
     if (fcmToken.isEmpty) {

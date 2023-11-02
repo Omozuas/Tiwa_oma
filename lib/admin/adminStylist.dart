@@ -7,8 +7,10 @@ import 'package:Tiwa_Oma/services/bookApi.dart';
 import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:smooth_star_rating_nsafe/smooth_star_rating.dart';
 
@@ -164,7 +166,10 @@ class _AdminStylistState extends State<AdminStylist> {
                   DreawerList(
                     title: "Logout",
                     svgSrc: Icons.logout_outlined,
-                    tap: () {},
+                    tap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                    },
                     color: Colors.black,
                     color2: GlobalColors.darkshadeblack,
                     color3: GlobalColors.white,
@@ -462,23 +467,44 @@ class _AdminStylistState extends State<AdminStylist> {
                                                 )),
                                                 DataCell(Text(
                                                     '${data.stylistId.email}')),
-                                                DataCell(Text(
-                                                  '${data.bookingCount}',
-                                                  style: TextStyle(
-                                                      color:
-                                                          GlobalColors.green),
-                                                )),
-                                                DataCell(SmoothStarRating(
-                                                  borderColor:
-                                                      GlobalColors.gray3,
-                                                  allowHalfRating: true,
-                                                  spacing: 0.0,
-                                                  starCount: 5,
-                                                  rating: data.averageRating
-                                                      as double,
-                                                  color: GlobalColors.yellow,
-                                                  size: 18,
-                                                )),
+                                                data.bookingCount.isNull
+                                                    ? DataCell(Text(
+                                                        '0',
+                                                        style: TextStyle(
+                                                            color: GlobalColors
+                                                                .green),
+                                                      ))
+                                                    : DataCell(Text(
+                                                        '${data.bookingCount.toString()}',
+                                                        style: TextStyle(
+                                                            color: GlobalColors
+                                                                .green),
+                                                      )),
+                                                data.averageRating == null
+                                                    ? DataCell(SmoothStarRating(
+                                                        borderColor:
+                                                            GlobalColors.gray3,
+                                                        allowHalfRating: true,
+                                                        spacing: 0.0,
+                                                        starCount: 5,
+                                                        rating: 0,
+                                                        color:
+                                                            GlobalColors.yellow,
+                                                        size: 18,
+                                                      ))
+                                                    : DataCell(SmoothStarRating(
+                                                        borderColor:
+                                                            GlobalColors.gray3,
+                                                        allowHalfRating: true,
+                                                        spacing: 0.0,
+                                                        starCount: 5,
+                                                        rating:
+                                                            data.averageRating
+                                                                as double,
+                                                        color:
+                                                            GlobalColors.yellow,
+                                                        size: 18,
+                                                      )),
                                                 DataCell(
                                                   InkWell(
                                                     onTap: () {

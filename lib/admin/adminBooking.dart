@@ -8,6 +8,7 @@ import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -178,7 +179,10 @@ class _AdminBookingState extends State<AdminBooking> {
                   DreawerList(
                     title: "Logout",
                     svgSrc: Icons.logout_outlined,
-                    tap: () {},
+                    tap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                    },
                     color: Colors.black,
                     color2: GlobalColors.darkshadeblack,
                     color3: GlobalColors.white,

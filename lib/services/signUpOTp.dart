@@ -67,25 +67,17 @@ SigupresopnsMole wSigupresopnsMole(String str) =>
 
 class SigupresopnsMole {
   SigupresopnsMole(
-      {required this.data,
-      required this.token,
-      required this.userData,
-      required this.success,
-      required this.status});
+      {required this.token, required this.message, required this.status});
 
   late final status;
-  late final String? data;
-  late final userData;
 
-  late final String success;
+  late final String message;
   late final token;
 
   SigupresopnsMole.fromJson(Map<String, dynamic> json) {
-    data = json['data'];
     token = json['token'];
     status = json['status'];
-    userData = json['usersData'];
-    success = json['success'];
+    message = json['message'];
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:Tiwa_Oma/services/bookApi.dart';
 import 'package:Tiwa_Oma/services/model/book_model.dart';
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
@@ -27,20 +28,23 @@ class _AllBookingsState extends State<AllBookings> {
   @override
   void initState() {
     super.initState();
+    if (widget.token.isEmpty) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    } else {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
 
-    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-
-    try {
-      email = jwtDecodedToken['email'];
-      token = jwtDecodedToken['token'];
-      username = jwtDecodedToken['username'];
-      id = jwtDecodedToken['id'];
-      fetchBookingData(id);
-      print(jwtDecodedToken['email'] + id);
-      print(widget.token);
-    } catch (e) {
-      // Handle token decoding errors here, e.g., log the error or show an error message.
-      print('Error decoding token: $e');
+      try {
+        email = jwtDecodedToken['email'];
+        token = jwtDecodedToken['token'];
+        username = jwtDecodedToken['username'];
+        id = jwtDecodedToken['id'];
+        fetchBookingData(id);
+        print(jwtDecodedToken['email'] + id);
+        print(widget.token);
+      } catch (e) {
+        // Handle token decoding errors here, e.g., log the error or show an error message.
+        print('Error decoding token: $e');
+      }
     }
   }
 

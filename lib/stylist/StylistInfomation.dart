@@ -4,6 +4,7 @@ import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/providers/reviewApi.dart';
 import 'package:Tiwa_Oma/services/providers/vendorApi.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/extension.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/stylist/AllAppointment.dart';
 import 'package:Tiwa_Oma/stylist/Clients.dart';
@@ -30,7 +31,7 @@ class _StylistInfomationState extends State<StylistInfomation>
   String email = '';
   late final token;
   String username = '';
-  String profileImg = '';
+  String? profileImg = '';
   late final id;
   List<ReviewModel> user = [];
   List<VendorModel> vendorStylist = [];
@@ -166,7 +167,7 @@ class _StylistInfomationState extends State<StylistInfomation>
                         children: [
                           InkWell(
                             onTap: () {},
-                            child: profileImg.isEmpty
+                            child: profileImg.isNullOrEmpty
                                 ? Container(
                                     decoration: BoxDecoration(
                                       color: GlobalColors.yellow,

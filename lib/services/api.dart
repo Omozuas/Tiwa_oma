@@ -20,7 +20,7 @@ class Api {
     print(res);
     if (res.statusCode == 200) {
       var jsonres = jsonDecode(res.body);
-      print(jsonres['success']);
+      print(jsonres['message']);
       // print(jsonres['token']);
       // print(registerBody);
       // print(jsonres);

@@ -4,7 +4,9 @@ import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:Tiwa_Oma/stylist/ClientsDetails.dart';
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/extension.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/stylist/AllAppointment.dart';
 import 'package:Tiwa_Oma/stylist/Clients.dart';
@@ -31,29 +33,32 @@ class _StylistDashboardState extends State<StylistDashboard> {
   List<BookinModel2> userBooking2 = [];
   String email = '';
   String username = '';
-  String profileImg = '';
+  String? profileImg = '';
   late final id;
   late String fcmToken = '';
   late SharedPreferences prefsDevice;
   @override
   void initState() {
     super.initState();
+    if (widget.token.isEmpty) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    } else {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+      try {
+        id = jwtDecodedToken['id'];
 
-    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-    try {
-      id = jwtDecodedToken['id'];
+        fetchBookingDataId(id);
+        fetchBookingDataIdFrequentUserId(id);
+        getuserById(id);
 
-      fetchBookingDataId(id);
-      fetchBookingDataIdFrequentUserId(id);
-      getuserById(id);
+        print(jwtDecodedToken['email']);
 
-      print(jwtDecodedToken['email']);
-
-      print(widget.token);
-      print("see $fcmToken");
-    } catch (e) {
-      // Handle token decoding errors here, e.g., log the error or show an error message.
-      print('Error decoding token: $e');
+        print(widget.token);
+        print("see $fcmToken");
+      } catch (e) {
+        // Handle token decoding errors here, e.g., log the error or show an error message.
+        print('Error decoding token: $e');
+      }
     }
   }
 
@@ -129,7 +134,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
                           //   return MyProfile();
                           // }));
                         },
-                        child: profileImg.isEmpty
+                        child: profileImg.isNullOrEmpty
                             ? Container(
                                 width: 40,
                                 height: 40,

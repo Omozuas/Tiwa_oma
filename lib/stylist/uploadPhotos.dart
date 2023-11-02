@@ -62,6 +62,52 @@ class _UploadPhotosState extends State<UploadPhotos> {
       print(image.path);
     } else {
       print("no image has been picked");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Card(
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            height: 80,
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 226, 19, 43),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.error_outline_sharp,
+                  color: Colors.white,
+                  size: 40,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'failed',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Spacer(),
+                    Text("no image has been picked",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ))
+                  ],
+                ))
+              ],
+            ),
+          ),
+        ),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ));
     }
   }
 
@@ -91,55 +137,101 @@ class _UploadPhotosState extends State<UploadPhotos> {
             .then((res) => {
                   if (res.success == true)
                     {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Colors.green,
-                          content: Row(
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Container(
+                          padding: const EdgeInsets.all(8),
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: GlobalColors.green,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                          ),
+                          child: Row(
                             children: [
                               Icon(
-                                Icons.check_circle_outline,
-                                size: 29,
+                                Icons.check_circle,
                                 color: Colors.white,
+                                size: 40,
                               ),
                               SizedBox(
-                                width: 10,
+                                width: 20,
                               ),
-                              Text(
-                                '${res.message}',
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.white),
-                              ),
+                              Expanded(
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'success',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Text("${res.message}",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ))
+                                ],
+                              ))
                             ],
                           ),
-                          duration: Duration(seconds: 3),
                         ),
-                      )
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                      ))
                     }
                   else
                     {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Row(
-                            children: [
-                              Icon(
-                                Icons.error_outline,
-                                size: 29,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                '${res.message}',
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.white),
-                              ),
-                            ],
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Card(
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            height: 80,
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 226, 19, 43),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.error_outline_sharp,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'failed',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Text('${res.message}',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                        ))
+                                  ],
+                                ))
+                              ],
+                            ),
                           ),
-                          duration: Duration(seconds: 3),
                         ),
-                      )
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                      ))
                     }
                 });
       }

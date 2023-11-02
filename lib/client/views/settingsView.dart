@@ -1,3 +1,4 @@
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
@@ -26,17 +27,20 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   void initState() {
     super.initState();
-
-    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-    try {
-      email = jwtDecodedToken['email'];
-      token = jwtDecodedToken['token'];
-      username = jwtDecodedToken['username'];
-      print(jwtDecodedToken['email']);
-      print(widget.token);
-    } catch (e) {
-      // Handle token decoding errors here, e.g., log the error or show an error message.
-      print('Error decoding token: $e');
+    if (widget.token.isEmpty) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    } else {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+      try {
+        email = jwtDecodedToken['email'];
+        token = jwtDecodedToken['token'];
+        username = jwtDecodedToken['username'];
+        print(jwtDecodedToken['email']);
+        print(widget.token);
+      } catch (e) {
+        // Handle token decoding errors here, e.g., log the error or show an error message.
+        print('Error decoding token: $e');
+      }
     }
   }
 

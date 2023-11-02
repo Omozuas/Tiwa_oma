@@ -4,6 +4,7 @@ import 'package:Tiwa_Oma/services/api.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/pushNotificationApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -52,25 +53,29 @@ class _payWithCardPinState extends State<payWithCardPin> {
   @override
   void initState() {
     super.initState();
-    getuserById();
-    print(widget.cardDetails1['card_Number']);
-    print(widget.token);
-    initSharedPref();
-    try {
-      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    if (widget.token.isEmpty) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    } else {
+      getuserById();
+      print(widget.cardDetails1['card_Number']);
       print(widget.token);
-      email = jwtDecodedToken['email'];
-      username = jwtDecodedToken['username'];
-      number = jwtDecodedToken['number'];
-      id = jwtDecodedToken['id'];
-      print(id);
+      initSharedPref();
+      try {
+        Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+        print(widget.token);
+        email = jwtDecodedToken['email'];
+        username = jwtDecodedToken['username'];
+        number = jwtDecodedToken['number'];
+        id = jwtDecodedToken['id'];
+        print(id);
 
-      print(widget.cardDetails1);
-      // id = jwtDecodedToken['id'];
-      print(jwtDecodedToken['id']);
-    } catch (e) {
-      // Handle token decoding errors here, e.g., log the error or show an error message.
-      print('Error decoding token: $e');
+        print(widget.cardDetails1);
+        // id = jwtDecodedToken['id'];
+        print(jwtDecodedToken['id']);
+      } catch (e) {
+        // Handle token decoding errors here, e.g., log the error or show an error message.
+        print('Error decoding token: $e');
+      }
     }
   }
 
@@ -176,36 +181,59 @@ class _payWithCardPinState extends State<payWithCardPin> {
 
                   APIService.verifyTransaction1Otp(email, widget.otpHash, otp)
                       .then((res) => {
-                            if (res.data != null)
+                            if (res.message == 'success')
                               {
                                 APIService.bookingApp(
                                         widget.cardDetails1, widget.token)
                                     .then((respons) {
                                   if (respons.success == true) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        backgroundColor: Colors.green,
-                                        content: Row(
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        height: 80,
+                                        decoration: BoxDecoration(
+                                          color: GlobalColors.green,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10)),
+                                        ),
+                                        child: Row(
                                           children: [
                                             Icon(
-                                              Icons.check,
-                                              size: 29,
+                                              Icons.check_circle,
                                               color: Colors.white,
+                                              size: 40,
                                             ),
                                             SizedBox(
-                                              width: 10,
+                                              width: 20,
                                             ),
-                                            Text(
-                                              '${respons.message}',
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white),
-                                            ),
+                                            Expanded(
+                                                child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'success',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                Text('${respons.message}',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.white,
+                                                    ))
+                                              ],
+                                            ))
                                           ],
                                         ),
-                                        duration: Duration(seconds: 3),
                                       ),
-                                    );
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      elevation: 0,
+                                    ));
                                     var notify = {
                                       'stylistId':
                                           "${widget.booknotify['stylistId']}",
@@ -260,30 +288,58 @@ class _payWithCardPinState extends State<payWithCardPin> {
                                     });
                                   }
                                 }),
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.check,
-                                          size: 29,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          '${res.message}',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.white),
-                                        ),
-                                      ],
+                              }
+                            else if (res.message == 'error')
+                              {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Card(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      height: 80,
+                                      decoration: const BoxDecoration(
+                                        color: Color.fromARGB(255, 226, 19, 43),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.error_outline_sharp,
+                                            color: Colors.white,
+                                            size: 40,
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Expanded(
+                                              child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                res.message,
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Text("Otp Fail",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                  ))
+                                            ],
+                                          ))
+                                        ],
+                                      ),
                                     ),
-                                    duration: Duration(seconds: 3),
                                   ),
-                                ),
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                ))
                               }
                           });
                 },

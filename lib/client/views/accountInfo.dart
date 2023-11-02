@@ -1,5 +1,6 @@
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/updateApi.dart';
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:ionicons/ionicons.dart';
@@ -44,16 +45,19 @@ class _AccountInfoState extends State<AccountInfo> {
   @override
   void initState() {
     super.initState();
-
-    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-    try {
-      id = jwtDecodedToken['id'];
-      getuserById(id);
-      print(jwtDecodedToken['email']);
-      print(widget.token);
-    } catch (e) {
-      // Handle token decoding errors here, e.g., log the error or show an error message.
-      print('Error decoding token: $e');
+    if (widget.token.isEmpty) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    } else {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+      try {
+        id = jwtDecodedToken['id'];
+        getuserById(id);
+        print(jwtDecodedToken['email']);
+        print(widget.token);
+      } catch (e) {
+        // Handle token decoding errors here, e.g., log the error or show an error message.
+        print('Error decoding token: $e');
+      }
     }
   }
 

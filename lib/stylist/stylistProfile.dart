@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/updateApi.dart';
+import 'package:Tiwa_Oma/view/Login.view.dart';
+import 'package:flutter_credit_card/extension.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,24 +31,27 @@ class StylistProfile extends StatefulWidget {
 class _StylistProfileState extends State<StylistProfile> {
   String email = '';
   String username = '';
-  String profileImg = '';
+  String? profileImg = '';
   late final id;
   File? _pickedImage;
   final double profileHeiht = 120;
   @override
   void initState() {
     super.initState();
+    if (widget.token.isEmpty) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    } else {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+      try {
+        id = jwtDecodedToken['id'];
 
-    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-    try {
-      id = jwtDecodedToken['id'];
-
-      getuserById(id);
-      print(jwtDecodedToken['email']);
-      print(widget.token);
-    } catch (e) {
-      // Handle token decoding errors here, e.g., log the error or show an error message.
-      print('Error decoding token: $e');
+        getuserById(id);
+        print(jwtDecodedToken['email']);
+        print(widget.token);
+      } catch (e) {
+        // Handle token decoding errors here, e.g., log the error or show an error message.
+        print('Error decoding token: $e');
+      }
     }
   }
 
@@ -79,6 +84,50 @@ class _StylistProfileState extends State<StylistProfile> {
         final resData = await res.stream.toBytes();
         final resSt = String.fromCharCodes(resData);
         final jmap = jsonDecode(resSt);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Container(
+            padding: const EdgeInsets.all(8),
+            height: 80,
+            decoration: BoxDecoration(
+              color: GlobalColors.green,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: Colors.white,
+                  size: 40,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'success',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Spacer(),
+                    Text('profile updateds',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ))
+                  ],
+                ))
+              ],
+            ),
+          ),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ));
         setState(() {
           var url2 = jmap['url'];
           print(url2);
@@ -134,7 +183,7 @@ class _StylistProfileState extends State<StylistProfile> {
                               onTap: () {
                                 _imagePicker();
                               },
-                              child: profileImg.isEmpty
+                              child: profileImg.isNullOrEmpty
                                   ? Container(
                                       decoration: BoxDecoration(
                                         color: GlobalColors.yellow,
@@ -278,10 +327,8 @@ class _StylistProfileState extends State<StylistProfile> {
                   icon: Ionicons.log_out_outline,
                   text: 'Log Out',
                   press: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => const AccountInfo()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Login()));
                   },
                 ),
               ],

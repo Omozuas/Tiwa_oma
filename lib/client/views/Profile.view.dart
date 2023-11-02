@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
@@ -87,26 +88,50 @@ class _MyProfileState extends State<MyProfile> {
           var url2 = jmap['url'];
           print(url2);
           UpdateuserInfoApi.updateUserImg(url2, widget.token, id).then((res) {
-            if (res.success == true) {
+            if (res.status == true) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.green,
-                content: Row(
-                  children: [
-                    Icon(
-                      Icons.check_circle_outline,
-                      size: 29,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "${res.message}",
-                      style: TextStyle(fontSize: 15, color: Colors.white),
-                    ),
-                  ],
+                content: Container(
+                  padding: const EdgeInsets.all(8),
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: GlobalColors.green,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'success',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Spacer(),
+                          Text("${res.message}",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                              ))
+                        ],
+                      ))
+                    ],
+                  ),
                 ),
-                duration: Duration(seconds: 3),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
               ));
             } else {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -304,7 +329,10 @@ class _MyProfileState extends State<MyProfile> {
                 profileMenue(
                   icon: Ionicons.log_out_outline,
                   text: 'Log Out',
-                  press: () {},
+                  press: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Login()));
+                  },
                 ),
               ],
             ),

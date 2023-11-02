@@ -64,7 +64,7 @@ class BookinModel2 {
 
 class StylistBookinModel {
   num bookingCount;
-  int averageRating;
+  late final averageRating;
   final StylistModel stylistId;
 
   StylistBookinModel(

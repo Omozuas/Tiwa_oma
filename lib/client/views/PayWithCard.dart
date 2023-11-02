@@ -2,6 +2,7 @@ import 'package:Tiwa_Oma/client/views/payWithCardPin.dart';
 import 'package:Tiwa_Oma/services/Api_service.dart';
 import 'package:Tiwa_Oma/services/api.dart';
 import 'package:Tiwa_Oma/services/pushNotificationApi.dart';
+import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
@@ -56,22 +57,27 @@ class _payWithCardState extends State<payWithCard> {
   @override
   void initState() {
     super.initState();
-    print(widget.token);
-    print(widget.bookingDetails);
-    initSharedPref();
-    try {
-      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    if (widget.token.isEmpty) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    } else {
       print(widget.token);
-      email = jwtDecodedToken['email'];
-      username = jwtDecodedToken['username'];
-      number = jwtDecodedToken['number'];
-      print(number);
+      print(widget.bookingDetails);
+      initSharedPref();
 
-      // id = jwtDecodedToken['id'];
-      print(jwtDecodedToken['id']);
-    } catch (e) {
-      // Handle token decoding errors here, e.g., log the error or show an error message.
-      print('Error decoding token: $e');
+      try {
+        Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+        print(widget.token);
+        email = jwtDecodedToken['email'];
+        username = jwtDecodedToken['username'];
+        number = jwtDecodedToken['number'];
+        print(number);
+
+        // id = jwtDecodedToken['id'];
+        print(jwtDecodedToken['id']);
+      } catch (e) {
+        // Handle token decoding errors here, e.g., log the error or show an error message.
+        print('Error decoding token: $e');
+      }
     }
   }
 
@@ -265,30 +271,54 @@ class _payWithCardState extends State<payWithCard> {
                                   if (res.message == "success")
                                     {
                                       ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          backgroundColor: Colors.green,
-                                          content: Row(
+                                          .showSnackBar(SnackBar(
+                                        content: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                            color: GlobalColors.green,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10)),
+                                          ),
+                                          child: Row(
                                             children: [
                                               Icon(
-                                                Icons.check,
-                                                size: 29,
+                                                Icons.check_circle,
                                                 color: Colors.white,
+                                                size: 40,
                                               ),
                                               SizedBox(
-                                                width: 10,
+                                                width: 20,
                                               ),
-                                              Text(
-                                                'You will get an Otp PIN',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.white),
-                                              ),
+                                              Expanded(
+                                                  child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                  Text(
+                                                      'You will Recive an Otp PIN From Your Email',
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        color: Colors.white,
+                                                      ))
+                                                ],
+                                              ))
                                             ],
                                           ),
-                                          duration: Duration(seconds: 3),
                                         ),
-                                      ),
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        elevation: 0,
+                                      )),
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
