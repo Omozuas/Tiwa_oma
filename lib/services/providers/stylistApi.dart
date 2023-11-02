@@ -36,7 +36,7 @@ class StylistApi {
 
   static Future<List<StylistModel>> fetchSearchedStylistData(
       String token, name) async {
-    const url = 'http://192.168.137.188:5000/';
+    const url = 'https://tiwa-oma-api.onrender.com/';
     var searchStylist = "${url}auth/find/search/$name";
     final response = await http.get(
       Uri.parse(searchStylist),

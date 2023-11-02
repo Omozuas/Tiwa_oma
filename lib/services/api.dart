@@ -75,7 +75,7 @@ class Api {
   }
 
   static Future<OtpTransactionresopnsMole> transactionOtp(number) async {
-    const url = 'http://192.168.137.188:5000/';
+    const url = 'https://tiwa-oma-api.onrender.com/';
     var trsactionotp = "${url}apiTermiiOtp/sentOtp";
     var respons = Uri.parse(trsactionotp);
     print(number);
@@ -98,7 +98,7 @@ class Api {
 
   static Future<OtpTransactionVerifyresopnsMole> verifyTransactionOtp(
       number) async {
-    const url = 'http://192.168.137.188:5000/';
+    const url = 'https://tiwa-oma-api.onrender.com/';
     var trsactionotp = "${url}apiTermiiOtp/verfySentOtp";
     var respons = Uri.parse(trsactionotp);
     print(number);
@@ -121,7 +121,7 @@ class Api {
 
   static Future<ChangePasswordresopnsMole> changePassword(
       number, registerBody) async {
-    const url = 'http://192.168.137.188:5000/';
+    const url = 'https://tiwa-oma-api.onrender.com/';
     var restPssword = "${url}auth/users/${number}/password";
     var respons = Uri.parse(restPssword);
     print(number);
@@ -144,7 +144,7 @@ class Api {
   }
 
   static Future<ChangePasswordres1opnsMole> changePassword1(number) async {
-    const url = 'http://192.168.137.188:5000/';
+    const url = 'https://tiwa-oma-api.onrender.com/';
     var restPssword = "${url}auth/users/${number}";
     var respons = Uri.parse(restPssword);
     print(number);

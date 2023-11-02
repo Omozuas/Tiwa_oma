@@ -7,7 +7,7 @@ import 'package:Tiwa_Oma/services/model/stylist_model.dart';
 class SearchApi {
   static Future<List<VendorModel>> fetchSearchStylistData(
       String token, searchQuery) async {
-    const url = 'http://192.168.137.188:5000/';
+    const url = 'https://tiwa-oma-api.onrender.com/';
     var searchStylist = "${url}vendors/find/search/$searchQuery";
     final response = await http.get(
       Uri.parse(searchStylist),

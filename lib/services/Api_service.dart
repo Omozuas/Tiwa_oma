@@ -101,7 +101,7 @@ class APIService {
 
   static Future<PostNotificationresopnsMole> postNotification(
       bookings, String token) async {
-    const url = 'http://192.168.137.188:5000/';
+    const url = 'https://tiwa-oma-api.onrender.com/';
     var postNotifyBooking = "${url}notification/sendNotify";
 
     var respons = await http.post(Uri.parse(postNotifyBooking),
@@ -126,7 +126,7 @@ class APIService {
 
   static Future<BookingpresopnsMole> updateBookingApp(
       updateBookings, String token) async {
-    const url = 'http://192.168.137.188:5000/';
+    const url = 'https://tiwa-oma-api.onrender.com/';
     var updateBooking = "${url}bookings//bookings/find/updateTransaction";
 
     var respons = await client.put(Uri.parse(updateBooking),

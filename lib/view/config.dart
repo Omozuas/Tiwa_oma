@@ -1,4 +1,4 @@
-const url = 'http://192.168.137.188:5000/';
+const url = 'https://tiwa-oma-api.onrender.com/';
 const registration = "${url}auth/register";
 const loginUser = "${url}auth/login";
 const findUser = "${url}auth/:userId";
