@@ -4,22 +4,28 @@ import 'package:Tiwa_Oma/stylist/ClientsDetails.dart';
 import '../../utils/global.colors.dart';
 
 class ClientstList extends StatelessWidget {
-  ClientstList({required this.userBooking, super.key});
-
+  ClientstList({required this.userBooking, required this.token, super.key});
+  final token;
   List<BookinModel2> userBooking = [];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        children: userBooking.map((e) => ClientCard(userBooking2: e)).toList(),
+        children: userBooking
+            .map((e) => ClientCard(
+                  userBooking2: e,
+                  token: token,
+                ))
+            .toList(),
       ),
     );
   }
 }
 
 class ClientCard extends StatelessWidget {
-  ClientCard({required this.userBooking2, super.key});
+  ClientCard({required this.userBooking2, this.token, super.key});
   BookinModel2 userBooking2;
+  final token;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -115,6 +121,7 @@ class ClientCard extends StatelessWidget {
                                                   ClientsDetails(
                                                     userId:
                                                         userBooking2.userId.id,
+                                                    token: token,
                                                   )));
                                       print(userBooking2.userId.id);
                                     },

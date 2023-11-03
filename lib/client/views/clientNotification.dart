@@ -24,7 +24,7 @@ class _ClientNotificationState extends State<ClientNotification> {
   String email = '';
   String accountType = '';
   late final id;
-  String profileImg = '';
+  String? profileImg = '';
   @override
   void initState() {
     super.initState();

@@ -39,7 +39,7 @@ class TodayAppoimentCard extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
             child: InkWell(
               onTap: () {
-                print(yestadayappointment2.id);
+                print(yestadayappointment2.userId.username);
               },
               child: Row(
                 children: [
@@ -94,6 +94,9 @@ class TodayAppoimentCard extends StatelessWidget {
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
                                     ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
                                     Text(
                                       yestadayappointment2.hairName,
                                       style: TextStyle(
@@ -104,7 +107,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(
-                                  width: 7,
+                                  width: 47,
                                 ),
                                 Text(
                                   yestadayappointment2.showStatus,
@@ -153,7 +156,7 @@ class TodayAppoimentCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     const SizedBox(
-                                      width: 75,
+                                      width: 55,
                                     ),
                                     const Icon(
                                       Icons.currency_pound_outlined,

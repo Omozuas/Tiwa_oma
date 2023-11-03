@@ -12,6 +12,7 @@ import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/widgets/stylistItemListAndItemCard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/extension.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/client/views/stylistReviews.view.dart';
@@ -43,7 +44,7 @@ class _dashboardState extends State<Dashboard> {
   String username = '';
   late String fcmToken = '';
   late final id;
-  String profileImg = '';
+  String? profileImg = '';
   TextEditingController searchController = TextEditingController();
   late SharedPreferences prefsDevice;
 
@@ -186,7 +187,7 @@ class _dashboardState extends State<Dashboard> {
                         );
                       }));
                     },
-                    child: profileImg.isEmpty
+                    child: profileImg.isNullOrEmpty
                         ? Container(
                             width: 40,
                             height: 40,

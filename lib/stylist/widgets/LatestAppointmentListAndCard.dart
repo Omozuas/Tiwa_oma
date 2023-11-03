@@ -105,6 +105,9 @@ class AppoimentCard extends StatelessWidget {
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
                                     ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     Text(
                                       '${userBooking2.hairName}',
                                       style: TextStyle(

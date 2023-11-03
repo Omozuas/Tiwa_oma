@@ -72,6 +72,7 @@ class _ClientsState extends State<Clients> {
       ),
       body: ClientstList(
         userBooking: userBooking,
+        token: widget.token,
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),

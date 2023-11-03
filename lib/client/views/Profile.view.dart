@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:Tiwa_Oma/view/Login.view.dart';
+import 'package:flutter_credit_card/extension.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
@@ -32,7 +33,7 @@ class MyProfile extends StatefulWidget {
 class _MyProfileState extends State<MyProfile> {
   String email = '';
   String username = '';
-  String profileImg = '';
+  String? profileImg = '';
   late final id;
   File? _pickedImage;
   final double profileHeiht = 120;
@@ -208,7 +209,7 @@ class _MyProfileState extends State<MyProfile> {
                                 onTap: () {
                                   _imagePicker();
                                 },
-                                child: profileImg.isEmpty
+                                child: profileImg.isNullOrEmpty
                                     ? Container(
                                         decoration: BoxDecoration(
                                           color: GlobalColors.yellow,
