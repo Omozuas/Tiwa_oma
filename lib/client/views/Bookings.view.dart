@@ -72,7 +72,12 @@ class _BookingsState extends State<Bookings> {
           ),
         ),
       ),
-      body: SingleChildScrollView(child: BookingList(bookings2: bookings2)),
+      body: RefreshIndicator(
+          onRefresh: () async {
+            await fetchBookingData(id);
+          },
+          child:
+              SingleChildScrollView(child: BookingList(bookings2: bookings2))),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         elevation: 8,

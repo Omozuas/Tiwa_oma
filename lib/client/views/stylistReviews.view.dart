@@ -1,6 +1,7 @@
 import 'package:Tiwa_Oma/services/api.dart';
 import 'package:Tiwa_Oma/services/model/review_model.dart';
 import 'package:Tiwa_Oma/services/model/stylist_model.dart';
+import 'package:Tiwa_Oma/services/model/stylist_services.dart';
 import 'package:Tiwa_Oma/services/model/vendo_Model.dart';
 import 'package:Tiwa_Oma/services/providers/reviewApi.dart';
 import 'package:Tiwa_Oma/services/providers/vendorApi.dart';
@@ -194,735 +195,767 @@ class _stylistReviewState extends State<stylistReview>
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              StylistItemdetails(
-                vendorStylist: vendorStylist,
-                token: widget.token,
-              ),
-              SizedBox(
-                height: 150,
-              ),
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(
-                                left: 7, bottom: 13, right: 7),
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  InkWell(
-                                    key: _key1,
-                                    onTap: () => _selectedItem(1),
-                                    child: Text(
-                                      "Reviews",
-                                      style: TextStyle(
-                                          color: _currentSelection == 1
-                                              ? GlobalColors.yellow
-                                              : GlobalColors.gray,
-                                          fontSize: 18,
-                                          fontWeight: _currentSelection == 1
-                                              ? FontWeight.w500
-                                              : FontWeight.w400),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 40,
-                                  ),
-                                  InkWell(
-                                    key: _key2,
-                                    onTap: () => _selectedItem(2),
-                                    child: Text(
-                                      "Photos",
-                                      style: TextStyle(
-                                          color: _currentSelection == 2
-                                              ? GlobalColors.yellow
-                                              : GlobalColors.gray,
-                                          fontSize: 18,
-                                          fontWeight: _currentSelection == 2
-                                              ? FontWeight.w500
-                                              : FontWeight.w400),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 40,
-                                  ),
-                                  InkWell(
-                                    key: _key3,
-                                    onTap: () => _selectedItem(3),
-                                    child: Text(
-                                      "Date/Time",
-                                      style: TextStyle(
-                                          color: _currentSelection == 3
-                                              ? GlobalColors.yellow
-                                              : GlobalColors.gray,
-                                          fontSize: 18,
-                                          fontWeight: _currentSelection == 3
-                                              ? FontWeight.w500
-                                              : FontWeight.w400),
-                                    ),
-                                  )
-                                ]),
-                          ),
-                          AnimatedPositioned(
-                            duration: const Duration(milliseconds: 350),
-                            curve: Curves.fastOutSlowIn,
-                            left: _selectorPositionX,
-                            bottom: 2,
-                            child: Container(
-                              width: 99.0,
-                              height: 3,
-                              decoration: ShapeDecoration(
-                                  shape: const StadiumBorder(),
-                                  color: GlobalColors.yellow),
-                            ),
-                          ),
-                        ],
-                      ),
-                      // need model
-                    ],
-                  ),
-                  if (_showItemList) // Conditionally render the ItemList
-                    Column(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await fetchUserData();
+          await fetchVendorData();
+        },
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                StylistItemdetails(
+                  vendorStylist: vendorStylist,
+                  token: widget.token,
+                ),
+                SizedBox(
+                  height: 150,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        AddButtonList(
-                          categoryButton: buttonAdd
-                              .where((element) =>
-                                  element.category == _currentSelection)
-                              .toList(),
-                          reviewAdded:
-                              _reviewAdded, // Pass the _reviewAdded state
-                          addReview: _addReview, // Pass the _addReview function
-                        ),
-                        ItemListStateful(
-                          user: user
-                              .where(
-                                (element) =>
-                                    element.category == _currentSelection,
-                              )
-                              .toList(),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        if (_currentSelection == 1)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                            ),
-                            child: Container(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 20,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 7, bottom: 13, right: 7),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        _addReview();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.black,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(29.0),
-                                          ),
-                                          minimumSize: const Size(379, 50)),
-                                      child: const Text(
-                                        "Send Review",
+                                    InkWell(
+                                      key: _key1,
+                                      onTap: () => _selectedItem(1),
+                                      child: Text(
+                                        "Reviews",
                                         style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
+                                            color: _currentSelection == 1
+                                                ? GlobalColors.yellow
+                                                : GlobalColors.gray,
+                                            fontSize: 18,
+                                            fontWeight: _currentSelection == 1
+                                                ? FontWeight.w500
+                                                : FontWeight.w400),
                                       ),
                                     ),
-                                  ],
+                                    const SizedBox(
+                                      width: 40,
+                                    ),
+                                    InkWell(
+                                      key: _key2,
+                                      onTap: () => _selectedItem(2),
+                                      child: Text(
+                                        "Photos",
+                                        style: TextStyle(
+                                            color: _currentSelection == 2
+                                                ? GlobalColors.yellow
+                                                : GlobalColors.gray,
+                                            fontSize: 18,
+                                            fontWeight: _currentSelection == 2
+                                                ? FontWeight.w500
+                                                : FontWeight.w400),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 40,
+                                    ),
+                                    InkWell(
+                                      key: _key3,
+                                      onTap: () => _selectedItem(3),
+                                      child: Text(
+                                        "Date/Time",
+                                        style: TextStyle(
+                                            color: _currentSelection == 3
+                                                ? GlobalColors.yellow
+                                                : GlobalColors.gray,
+                                            fontSize: 18,
+                                            fontWeight: _currentSelection == 3
+                                                ? FontWeight.w500
+                                                : FontWeight.w400),
+                                      ),
+                                    )
+                                  ]),
+                            ),
+                            AnimatedPositioned(
+                              duration: const Duration(milliseconds: 350),
+                              curve: Curves.fastOutSlowIn,
+                              left: _selectorPositionX,
+                              bottom: 2,
+                              child: Container(
+                                width: 99.0,
+                                height: 3,
+                                decoration: ShapeDecoration(
+                                    shape: const StadiumBorder(),
+                                    color: GlobalColors.yellow),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // need model
+                      ],
+                    ),
+                    if (_showItemList) // Conditionally render the ItemList
+                      Column(
+                        children: [
+                          AddButtonList(
+                            categoryButton: buttonAdd
+                                .where((element) =>
+                                    element.category == _currentSelection)
+                                .toList(),
+                            reviewAdded:
+                                _reviewAdded, // Pass the _reviewAdded state
+                            addReview:
+                                _addReview, // Pass the _addReview function
+                          ),
+                          ItemListStateful(
+                            user: user
+                                .where(
+                                  (element) =>
+                                      element.category == _currentSelection,
+                                )
+                                .toList(),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          if (_currentSelection == 1)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              child: Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 20,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          _addReview();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.black,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(29.0),
+                                            ),
+                                            minimumSize: const Size(379, 50)),
+                                        child: const Text(
+                                          "Send Review",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                      ],
-                    ),
-                  if (_currentSelection == 2)
-                    Column(
-                      children: [
-                        if (_currentSelection == 2)
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2),
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: vendorStylist.length,
-                              itemBuilder: (
-                                context,
-                                index,
-                              ) {
-                                final pix = vendorStylist[index];
+                        ],
+                      ),
+                    if (_currentSelection == 2)
+                      Column(
+                        children: [
+                          if (_currentSelection == 2)
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2),
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: vendorStylist.length,
+                                itemBuilder: (
+                                  context,
+                                  index,
+                                ) {
+                                  final pix = vendorStylist[index];
 
-                                return Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            widget.photodetails = {
-                                              'hairName': pix.hairStlye,
-                                              "amount": pix.hartPrice,
-                                              "hairImg": pix.hairStyleImg,
-                                            };
+                                  return Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              widget.photodetails = {
+                                                'hairName': pix.hairStlye,
+                                                "amount": pix.hartPrice,
+                                                "hairImg": pix.hairStyleImg,
+                                              };
 
-                                            print(widget.photodetails);
-                                            // Toggle the selected state
-                                          },
-                                          child: Column(
-                                            children: [
-                                              Card(
-                                                elevation:
-                                                    isSelected ? 0.9 : 0.8,
-                                                color: isSelected
-                                                    ? GlobalColors.yellow
-                                                    : null,
-                                                child: pix.hairStyleImg.isEmpty
-                                                    ? Container(
-                                                        width: 172,
-                                                        height: 129,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(15),
-                                                          image:
-                                                              DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image: AssetImage(
-                                                              'assets/images/cartoon.png',
+                                              print(widget.photodetails);
+                                              // Toggle the selected state
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Card(
+                                                  elevation:
+                                                      isSelected ? 0.9 : 0.8,
+                                                  color: isSelected
+                                                      ? GlobalColors.yellow
+                                                      : null,
+                                                  child: pix
+                                                          .hairStyleImg.isEmpty
+                                                      ? Container(
+                                                          width: 172,
+                                                          height: 129,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                            image:
+                                                                DecorationImage(
+                                                              fit: BoxFit.cover,
+                                                              image: AssetImage(
+                                                                'assets/images/cartoon.png',
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Container(
+                                                          width: 172,
+                                                          height: 129,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                            image:
+                                                                DecorationImage(
+                                                              fit: BoxFit.cover,
+                                                              image:
+                                                                  NetworkImage(
+                                                                '${pix.hairStyleImg}',
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                      )
-                                                    : Container(
-                                                        width: 172,
-                                                        height: 129,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(15),
-                                                          image:
-                                                              DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image: NetworkImage(
-                                                              '${pix.hairStyleImg}',
-                                                            ),
-                                                          ),
-                                                        ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      pix.hairStlye,
+                                                      style: TextStyle(
+                                                        color: isSelected
+                                                            ? GlobalColors
+                                                                .yellow
+                                                            : Colors.grey,
+                                                        fontSize: isSelected
+                                                            ? 14
+                                                            : 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                       ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    pix.hairStlye,
-                                                    style: TextStyle(
-                                                      color: isSelected
-                                                          ? GlobalColors.yellow
-                                                          : Colors.grey,
-                                                      fontSize:
-                                                          isSelected ? 14 : 14,
-                                                      fontWeight:
-                                                          FontWeight.w400,
                                                     ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  Icon(
-                                                    Icons
-                                                        .currency_pound_outlined,
-                                                    color: isSelected
-                                                        ? GlobalColors.yellow
-                                                        : Colors.black,
-                                                  ),
-                                                  Text(
-                                                    '${pix.hartPrice}',
-                                                    style: TextStyle(
+                                                    const SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    Icon(
+                                                      Icons
+                                                          .currency_pound_outlined,
                                                       color: isSelected
                                                           ? GlobalColors.yellow
                                                           : Colors.black,
+                                                    ),
+                                                    Text(
+                                                      '${pix.hartPrice}',
+                                                      style: TextStyle(
+                                                        color: isSelected
+                                                            ? GlobalColors
+                                                                .yellow
+                                                            : Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          if (_currentSelection == 2)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              child: Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 20,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          if (_currentSelection == 2) {
+                                            _selectedItem(3);
+                                          }
+                                          print(widget.photodetails);
+                                          print(widget.token);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.black,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(29.0),
+                                            ),
+                                            minimumSize: const Size(379, 50)),
+                                        child: const Text(
+                                          "Proceed",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    DropReview(
+                      reviewAdded: _reviewAdded,
+                      currentSelection: _currentSelection,
+                      sendReview: _sendRating,
+                      addReviewRating: _addReview,
+                      token: widget.token,
+                      id: id,
+                      stylistModel: widget.stylistModel,
+                    ),
+                    Column(
+                      children: [
+                        if (_currentSelection == 3)
+                          // Check if "Date/Time" tab is selected
+                          Wrap(
+                            children: [
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 30,
+                                    height: 30,
+                                  ),
+                                  Text(
+                                    "Date",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    width: 250,
+                                    height: 30,
+                                  ),
+                                  Text(
+                                    "Time",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    DateTimePickerWidget(
+                                      photodetails: widget.photodetails,
+                                      focusDay: _focusDay,
+                                      format: _format,
+                                      currentDay: _curretDay,
+                                      onFormatChanged: (format) {
+                                        setState(() {
+                                          _format = format;
+                                        });
+                                      },
+                                      onDaySelected: (selectedDay, focusedDay) {
+                                        final formattedDate =
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(selectedDay);
+                                        widget.bookingdate = {
+                                          "appointmentDate": "$formattedDate"
+                                        };
+                                        print(
+                                            'Selected Day: ${widget.bookingdate}');
+                                        setState(() {
+                                          _curretDay = selectedDay;
+                                          _focusDay = focusedDay;
+                                          _dateSelected = true;
+
+                                          if (selectedDay.weekday == 6 ||
+                                              selectedDay.weekday == 7) {
+                                            _isWeekend = true;
+                                            _timeSelected = false;
+                                            _currentIndex4 = null;
+                                          } else {
+                                            _isWeekend = false;
+                                          }
+                                        });
+                                      },
+                                    ),
+
+                                    DatePickerWidget(
+                                      photodetsils: widget.photodetails,
+                                      isWeekend: _isWeekend,
+                                      currentIndex4: _currentIndex4,
+                                      onTimeSelected: (index) {
+                                        setState(() {
+                                          _currentIndex4 = index;
+                                        });
+                                        widget.bookingTym = {
+                                          "appointmentime":
+                                              "${index + 9}:00 ${index + 9 > 11 ? "PM" : "AM"}"
+                                        };
+                                        print(widget.bookingTym);
+                                      },
+                                    ),
+
+                                    //button
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                      ),
+                                      child: Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 20),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  // print(widget.photodetails);
+                                                  // print(widget.bookingTym);
+                                                  // print(widget.bookingdate);
+                                                  // print(widget.stylistModel.id);
+                                                  // print(id);
+                                                  if (widget.bookingdate ==
+                                                      null) {
+                                                    print("is empty");
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                      content: Card(
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          height: 80,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    226,
+                                                                    19,
+                                                                    43),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            10)),
+                                                          ),
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .error_outline_sharp,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 40,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 20,
+                                                              ),
+                                                              Expanded(
+                                                                  child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    'failed',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                  Spacer(),
+                                                                  Text(
+                                                                      'Pleas select a Date',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            18,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ))
+                                                                ],
+                                                              ))
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      behavior: SnackBarBehavior
+                                                          .floating,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      elevation: 0,
+                                                    ));
+                                                  } else if (widget
+                                                          .bookingTym ==
+                                                      null) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                      content: Card(
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          height: 80,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    226,
+                                                                    19,
+                                                                    43),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            10)),
+                                                          ),
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .error_outline_sharp,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 40,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 20,
+                                                              ),
+                                                              Expanded(
+                                                                  child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    'failed',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                  Spacer(),
+                                                                  Text(
+                                                                      'Pleas select a Time',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            18,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ))
+                                                                ],
+                                                              ))
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      behavior: SnackBarBehavior
+                                                          .floating,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      elevation: 0,
+                                                    ));
+                                                  } else if (widget
+                                                          .photodetails ==
+                                                      null) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                      content: Card(
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          height: 80,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    226,
+                                                                    19,
+                                                                    43),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            10)),
+                                                          ),
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .error_outline_sharp,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 40,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 20,
+                                                              ),
+                                                              Expanded(
+                                                                  child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    'failed',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                  Spacer(),
+                                                                  Text(
+                                                                      'select an HairStyle you are intrested in',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            18,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ))
+                                                                ],
+                                                              ))
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      behavior: SnackBarBehavior
+                                                          .floating,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      elevation: 0,
+                                                    ));
+                                                  } else {
+                                                    var booking = {
+                                                      'stylistId':
+                                                          "${widget.stylistModel.id}",
+                                                      "userId": "${id}",
+                                                      ...widget.photodetails,
+                                                      ...widget.bookingTym,
+                                                      ...widget.bookingdate,
+                                                      "ratingId": "${id}"
+                                                    };
+                                                    var notify = {
+                                                      'stylistId':
+                                                          "${widget.stylistModel.id}",
+                                                    };
+                                                    print(widget
+                                                        .stylistModel.username);
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    payMenthod(
+                                                                      token: widget
+                                                                          .token,
+                                                                      bookDetails:
+                                                                          booking,
+                                                                      booknotify:
+                                                                          notify,
+                                                                      booknotifystylistName: widget
+                                                                          .stylistModel
+                                                                          .username,
+                                                                    )));
+                                                  }
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.black,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              29.0),
+                                                    ),
+                                                    minimumSize:
+                                                        const Size(370, 49)),
+                                                child: const Text(
+                                                  "Book Appointment",
+                                                  style: TextStyle(
                                                       fontSize: 16,
                                                       fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ],
+                                                          FontWeight.w600),
+                                                ),
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        if (_currentSelection == 2)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                            ),
-                            child: Container(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 20,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        if (_currentSelection == 2) {
-                                          _selectedItem(3);
-                                        }
-                                        print(widget.photodetails);
-                                        print(widget.token);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.black,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(29.0),
-                                          ),
-                                          minimumSize: const Size(379, 50)),
-                                      child: const Text(
-                                        "Proceed",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                                  ]),
+                            ],
+                          )
                       ],
-                    ),
-                  DropReview(
-                    reviewAdded: _reviewAdded,
-                    currentSelection: _currentSelection,
-                    sendReview: _sendRating,
-                    addReviewRating: _addReview,
-                    token: widget.token,
-                    id: id,
-                    stylistModel: widget.stylistModel,
-                  ),
-                  Column(
-                    children: [
-                      if (_currentSelection == 3)
-                        // Check if "Date/Time" tab is selected
-                        Wrap(
-                          children: [
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(
-                                  "Date",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  width: 250,
-                                  height: 30,
-                                ),
-                                Text(
-                                  "Time",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black),
-                                ),
-                              ],
-                            ),
-                            Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  DateTimePickerWidget(
-                                    photodetails: widget.photodetails,
-                                    focusDay: _focusDay,
-                                    format: _format,
-                                    currentDay: _curretDay,
-                                    onFormatChanged: (format) {
-                                      setState(() {
-                                        _format = format;
-                                      });
-                                    },
-                                    onDaySelected: (selectedDay, focusedDay) {
-                                      final formattedDate =
-                                          DateFormat('yyyy-MM-dd')
-                                              .format(selectedDay);
-                                      widget.bookingdate = {
-                                        "appointmentDate": "$formattedDate"
-                                      };
-                                      print(
-                                          'Selected Day: ${widget.bookingdate}');
-                                      setState(() {
-                                        _curretDay = selectedDay;
-                                        _focusDay = focusedDay;
-                                        _dateSelected = true;
-
-                                        if (selectedDay.weekday == 6 ||
-                                            selectedDay.weekday == 7) {
-                                          _isWeekend = true;
-                                          _timeSelected = false;
-                                          _currentIndex4 = null;
-                                        } else {
-                                          _isWeekend = false;
-                                        }
-                                      });
-                                    },
-                                  ),
-
-                                  DatePickerWidget(
-                                    photodetsils: widget.photodetails,
-                                    isWeekend: _isWeekend,
-                                    currentIndex4: _currentIndex4,
-                                    onTimeSelected: (index) {
-                                      setState(() {
-                                        _currentIndex4 = index;
-                                      });
-                                      widget.bookingTym = {
-                                        "appointmentime":
-                                            "${index + 9}:00 ${index + 9 > 11 ? "PM" : "AM"}"
-                                      };
-                                      print(widget.bookingTym);
-                                    },
-                                  ),
-
-                                  //button
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                    ),
-                                    child: Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 20),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                // print(widget.photodetails);
-                                                // print(widget.bookingTym);
-                                                // print(widget.bookingdate);
-                                                // print(widget.stylistModel.id);
-                                                // print(id);
-                                                if (widget.bookingdate ==
-                                                    null) {
-                                                  print("is empty");
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(
-                                                    content: Card(
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8),
-                                                        height: 80,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          color: Color.fromARGB(
-                                                              255, 226, 19, 43),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10)),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .error_outline_sharp,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 40,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 20,
-                                                            ),
-                                                            Expanded(
-                                                                child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  'failed',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        18,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                                Spacer(),
-                                                                Text(
-                                                                    'Pleas select a Date',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ))
-                                                              ],
-                                                            ))
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    behavior: SnackBarBehavior
-                                                        .floating,
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    elevation: 0,
-                                                  ));
-                                                } else if (widget.bookingTym ==
-                                                    null) {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(
-                                                    content: Card(
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8),
-                                                        height: 80,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          color: Color.fromARGB(
-                                                              255, 226, 19, 43),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10)),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .error_outline_sharp,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 40,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 20,
-                                                            ),
-                                                            Expanded(
-                                                                child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  'failed',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        18,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                                Spacer(),
-                                                                Text(
-                                                                    'Pleas select a Time',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ))
-                                                              ],
-                                                            ))
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    behavior: SnackBarBehavior
-                                                        .floating,
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    elevation: 0,
-                                                  ));
-                                                } else if (widget
-                                                        .photodetails ==
-                                                    null) {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(
-                                                    content: Card(
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8),
-                                                        height: 80,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          color: Color.fromARGB(
-                                                              255, 226, 19, 43),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10)),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .error_outline_sharp,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 40,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 20,
-                                                            ),
-                                                            Expanded(
-                                                                child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  'failed',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        18,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                                Spacer(),
-                                                                Text(
-                                                                    'select an HairStyle you are intrested in',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ))
-                                                              ],
-                                                            ))
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    behavior: SnackBarBehavior
-                                                        .floating,
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    elevation: 0,
-                                                  ));
-                                                } else {
-                                                  var booking = {
-                                                    'stylistId':
-                                                        "${widget.stylistModel.id}",
-                                                    "userId": "${id}",
-                                                    ...widget.photodetails,
-                                                    ...widget.bookingTym,
-                                                    ...widget.bookingdate,
-                                                    "ratingId": "${id}"
-                                                  };
-                                                  var notify = {
-                                                    'stylistId':
-                                                        "${widget.stylistModel.id}",
-                                                  };
-                                                  print(widget
-                                                      .stylistModel.username);
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              payMenthod(
-                                                                token: widget
-                                                                    .token,
-                                                                bookDetails:
-                                                                    booking,
-                                                                booknotify:
-                                                                    notify,
-                                                                booknotifystylistName:
-                                                                    widget
-                                                                        .stylistModel
-                                                                        .username,
-                                                              )));
-                                                }
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.black,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            29.0),
-                                                  ),
-                                                  minimumSize:
-                                                      const Size(370, 49)),
-                                              child: const Text(
-                                                "Book Appointment",
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ]),
-                          ],
-                        )
-                    ],
-                  )
-                ],
-              )
-            ],
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -1211,6 +1244,14 @@ class _DropReviewState extends State<DropReview> {
                                       backgroundColor: Colors.transparent,
                                       elevation: 0,
                                     ));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => stylistReview(
+                                                  token: widget.token,
+                                                  stylistModel:
+                                                      widget.stylistModel,
+                                                )));
                                   } else {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(SnackBar(

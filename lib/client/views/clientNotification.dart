@@ -114,16 +114,22 @@ class _ClientNotificationState extends State<ClientNotification> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              if (accountType == 'client')
-                NotificationItemList(notifyList: notification),
-              if (accountType == 'stylist')
-                StylistNotificationItemList(notifyList: notification2),
-            ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await getuserById(id);
+          await getNotificationByUserId(id);
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                if (accountType == 'client')
+                  NotificationItemList(notifyList: notification),
+                if (accountType == 'stylist')
+                  StylistNotificationItemList(notifyList: notification2),
+              ],
+            ),
           ),
         ),
       ),

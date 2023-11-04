@@ -121,6 +121,7 @@ class _AccountInfoState extends State<AccountInfo> {
               duration: Duration(seconds: 3),
             ),
           );
+          getuserById(id);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -171,133 +172,138 @@ class _AccountInfoState extends State<AccountInfo> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                children: [
-                  signupFiled(
-                      keys: formKey,
-                      label: "USERNAME",
-                      hintText: "Username",
-                      controller2: usernameController,
-                      validate: (value) {
-                        if (value!.isEmpty ||
-                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
-                          return "Enter Your User Name";
-                        } else {
-                          return null;
-                        }
-                      }),
-                  signupFiled(
-                      keys: formKey1,
-                      label: "EMAIL",
-                      hintText: "Email",
-                      controller2: emailController,
-                      validate: (value) {
-                        if (value!.isEmpty ||
-                            !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
-                                .hasMatch(value!)) {
-                          return "Enter Your email";
-                        } else {
-                          return null;
-                        }
-                      }),
-                  signupFiled(
-                      keys: formKey2,
-                      label: "GENDER",
-                      hintText: "Gender",
-                      controller2: genderController,
-                      validate: (value) {
-                        if (value!.isEmpty ||
-                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
-                          return "Enter Your Gender";
-                        } else {
-                          return null;
-                        }
-                      }),
-                  signupFiled(
-                      keys: formKey3,
-                      label: "ADDRESS",
-                      hintText: "Address",
-                      controller2: addressController,
-                      validate: (value) {
-                        if (value!.isEmpty ||
-                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
-                          return "Enter Your Address";
-                        } else {
-                          return null;
-                        }
-                      }),
-                  signupFiled(
-                      keys: formKey4,
-                      label: "State",
-                      hintText: "State",
-                      controller2: stateController,
-                      validate: (value) {
-                        if (value!.isEmpty ||
-                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
-                          return "Enter Your State";
-                        } else {
-                          return null;
-                        }
-                      }),
-                  signupFiled(
-                      keys: formKey5,
-                      label: "COUNTRY",
-                      hintText: "Country",
-                      controller2: countryController,
-                      validate: (value) {
-                        if (value!.isEmpty ||
-                            !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
-                          return "Enter Your Country";
-                        } else {
-                          return null;
-                        }
-                      }),
-                ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await getuserById(id);
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 30,
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 30,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  children: [
+                    signupFiled(
+                        keys: formKey,
+                        label: "USERNAME",
+                        hintText: "Username",
+                        controller2: usernameController,
+                        validate: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                            return "Enter Your User Name";
+                          } else {
+                            return null;
+                          }
+                        }),
+                    signupFiled(
+                        keys: formKey1,
+                        label: "EMAIL",
+                        hintText: "Email",
+                        controller2: emailController,
+                        validate: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
+                                  .hasMatch(value!)) {
+                            return "Enter Your email";
+                          } else {
+                            return null;
+                          }
+                        }),
+                    signupFiled(
+                        keys: formKey2,
+                        label: "GENDER",
+                        hintText: "Gender",
+                        controller2: genderController,
+                        validate: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                            return "Enter Your Gender";
+                          } else {
+                            return null;
+                          }
+                        }),
+                    signupFiled(
+                        keys: formKey3,
+                        label: "ADDRESS",
+                        hintText: "Address",
+                        controller2: addressController,
+                        validate: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[\w\s.,#-]+$').hasMatch(value!)) {
+                            return "Enter Your Address";
+                          } else {
+                            return null;
+                          }
+                        }),
+                    signupFiled(
+                        keys: formKey4,
+                        label: "State",
+                        hintText: "State",
+                        controller2: stateController,
+                        validate: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                            return "Enter Your State";
+                          } else {
+                            return null;
+                          }
+                        }),
+                    signupFiled(
+                        keys: formKey5,
+                        label: "COUNTRY",
+                        hintText: "Country",
+                        controller2: countryController,
+                        validate: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                            return "Enter Your Country";
+                          } else {
+                            return null;
+                          }
+                        }),
+                  ],
+                ),
               ),
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          UpDateUsertAccount();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(29.0),
-                            ),
-                            minimumSize: const Size(370, 49)),
-                        child: const Text(
-                          "Update",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                ),
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            UpDateUsertAccount();
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(29.0),
+                              ),
+                              minimumSize: const Size(370, 49)),
+                          child: const Text(
+                            "Update",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(

@@ -134,6 +134,7 @@ class _MyProfileState extends State<MyProfile> {
                 backgroundColor: Colors.transparent,
                 elevation: 0,
               ));
+              getuserById(id);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.red,
@@ -190,152 +191,157 @@ class _MyProfileState extends State<MyProfile> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Center(
-            child: Column(
-              children: [
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Column(
-                      children: [
-                        Stack(
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  _imagePicker();
-                                },
-                                child: profileImg.isNullOrEmpty
-                                    ? Container(
-                                        decoration: BoxDecoration(
-                                          color: GlobalColors.yellow,
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          border: Border.all(
-                                            color: GlobalColors.blue,
-                                            width: 3,
-                                          ),
-                                        ),
-                                        width: 120,
-                                        height: 120,
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            child: Image.asset(
-                                              "assets/images/memoji-boys-5231.png",
-                                            )),
-                                      )
-                                    : Container(
-                                        width: 120,
-                                        height: 120,
-                                        decoration: BoxDecoration(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await getuserById(id);
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Center(
+              child: Column(
+                children: [
+                  Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Stack(
+                            children: [
+                              InkWell(
+                                  onTap: () {
+                                    _imagePicker();
+                                  },
+                                  child: profileImg.isNullOrEmpty
+                                      ? Container(
+                                          decoration: BoxDecoration(
+                                            color: GlobalColors.yellow,
                                             borderRadius:
                                                 BorderRadius.circular(100),
                                             border: Border.all(
                                               color: GlobalColors.blue,
                                               width: 3,
-                                            )),
-                                        child: CircleAvatar(
-                                          radius: profileHeiht / 2,
-                                          backgroundColor: Colors.white,
-                                          backgroundImage:
-                                              NetworkImage("${profileImg}"),
-                                        ))),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  width: 35,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    color: GlobalColors.green,
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                  child: const Center(
-                                    child: FaIcon(FontAwesomeIcons.pencil,
-                                        size: 20, color: Colors.white),
+                                            ),
+                                          ),
+                                          width: 120,
+                                          height: 120,
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              child: Image.asset(
+                                                "assets/images/memoji-boys-5231.png",
+                                              )),
+                                        )
+                                      : Container(
+                                          width: 120,
+                                          height: 120,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              border: Border.all(
+                                                color: GlobalColors.blue,
+                                                width: 3,
+                                              )),
+                                          child: CircleAvatar(
+                                            radius: profileHeiht / 2,
+                                            backgroundColor: Colors.white,
+                                            backgroundImage:
+                                                NetworkImage("${profileImg}"),
+                                          ))),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    width: 35,
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: GlobalColors.green,
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                    child: const Center(
+                                      child: FaIcon(FontAwesomeIcons.pencil,
+                                          size: 20, color: Colors.white),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    Text(
-                      "${username}",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                profileMenue(
-                  icon: Ionicons.person_outline,
-                  text: 'Account Information',
-                  press: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AccountInfo(
-                                  token: widget.token,
-                                )));
-                  },
-                ),
-                profileMenue(
-                  icon: LineIcons.book,
-                  text: 'All Bookings',
-                  press: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AllBookings(
-                                  token: widget.token,
-                                )));
-                  },
-                ),
-                profileMenue(
-                  icon: Ionicons.cog_outline,
-                  text: 'Settings',
-                  press: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SettingsView(
-                                  token: widget.token,
-                                )));
-                  },
-                ),
-                profileMenue(
-                  icon: Ionicons.lock_closed_outline,
-                  text: 'Privacy Policy',
-                  press: () {},
-                ),
-                profileMenue(
-                  icon: Ionicons.warning_outline,
-                  text: 'Help Center',
-                  press: () {},
-                ),
-                profileMenue(
-                  icon: Ionicons.log_out_outline,
-                  text: 'Log Out',
-                  press: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Login()));
-                  },
-                ),
-              ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Text(
+                        "${username}",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  profileMenue(
+                    icon: Ionicons.person_outline,
+                    text: 'Account Information',
+                    press: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AccountInfo(
+                                    token: widget.token,
+                                  )));
+                    },
+                  ),
+                  profileMenue(
+                    icon: LineIcons.book,
+                    text: 'All Bookings',
+                    press: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AllBookings(
+                                    token: widget.token,
+                                  )));
+                    },
+                  ),
+                  profileMenue(
+                    icon: Ionicons.cog_outline,
+                    text: 'Settings',
+                    press: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingsView(
+                                    token: widget.token,
+                                  )));
+                    },
+                  ),
+                  profileMenue(
+                    icon: Ionicons.lock_closed_outline,
+                    text: 'Privacy Policy',
+                    press: () {},
+                  ),
+                  profileMenue(
+                    icon: Ionicons.warning_outline,
+                    text: 'Help Center',
+                    press: () {},
+                  ),
+                  profileMenue(
+                    icon: Ionicons.log_out_outline,
+                    text: 'Log Out',
+                    press: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

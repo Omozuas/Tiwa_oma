@@ -110,170 +110,175 @@ class _StylistState extends State<Stylist> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 316,
-                  height: 43,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: searchController,
-                          decoration: InputDecoration(
-                            hintText: 'Search...',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      Icon(Icons.search),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 10),
-                InkWell(
-                  onTap: () {
-                    cheackSearch();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(15),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await fetchStylistData();
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 316,
+                    height: 43,
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 202, 157, 11),
+                      color: Colors.white,
+                      border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(
-                      Icons.filter_list_outlined,
-                      color: Colors.white,
-                      size: 20,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: searchController,
+                            decoration: InputDecoration(
+                              hintText: 'Search...',
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                        Icon(Icons.search),
+                      ],
                     ),
                   ),
-                ),
-              ],
-            ),
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, mainAxisSpacing: 19),
-                    itemCount: nameStylist.length,
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, int index) {
-                      final item = nameStylist[index];
-                      return Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              print(item.username);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => stylistReview(
-                                            token: widget.token,
-                                            stylistModel: item,
-                                          )));
-                            },
-                            child: Stack(
-                              children: [
-                                item.profileImg == null
-                                    ? Container(
-                                        width: 168,
-                                        height: 156,
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                              "assets/images/cartoon.png",
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : Container(
-                                        width: 168,
-                                        height: 156,
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                              "${item.profileImg}",
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                Positioned(
-                                  bottom: 8,
-                                  right: 8,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(2),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.yellow,
-                                          size: 15,
-                                        ),
-                                        SizedBox(width: 3),
-                                        Text(
-                                          "4.5",
-                                          style: TextStyle(
+                  const SizedBox(width: 10),
+                  InkWell(
+                    onTap: () {
+                      cheackSearch();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 202, 157, 11),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(
+                        Icons.filter_list_outlined,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, mainAxisSpacing: 19),
+                      itemCount: nameStylist.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, int index) {
+                        final item = nameStylist[index];
+                        return Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                print(item.username);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => stylistReview(
+                                              token: widget.token,
+                                              stylistModel: item,
+                                            )));
+                              },
+                              child: Stack(
+                                children: [
+                                  item.profileImg == null
+                                      ? Container(
+                                          width: 168,
+                                          height: 156,
+                                          decoration: BoxDecoration(
                                             color: Colors.black,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                "assets/images/cartoon.png",
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : Container(
+                                          width: 168,
+                                          height: 156,
+                                          decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                "${item.profileImg}",
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ],
+                                  Positioned(
+                                    bottom: 8,
+                                    right: 8,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(0),
+                                      ),
+                                      child: const Row(
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            color: Colors.yellow,
+                                            size: 15,
+                                          ),
+                                          SizedBox(width: 3),
+                                          Text(
+                                            "4.5",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            item.username,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
+                            const SizedBox(height: 5),
+                            Text(
+                              item.username,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          const Text(
-                            "Hair Stylist",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
+                            const Text(
+                              "Hair Stylist",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                        ],
-                      );
-                    }),
-              ),
-            )
-          ],
+                          ],
+                        );
+                      }),
+                ),
+              )
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(

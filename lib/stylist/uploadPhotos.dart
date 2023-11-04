@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:Tiwa_Oma/services/providers/vendorApi.dart';
+import 'package:Tiwa_Oma/stylist/StylistInfomation.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -181,7 +182,13 @@ class _UploadPhotosState extends State<UploadPhotos> {
                         behavior: SnackBarBehavior.floating,
                         backgroundColor: Colors.transparent,
                         elevation: 0,
-                      ))
+                      )),
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StylistInfomation(
+                                    token: widget.token,
+                                  )))
                     }
                   else
                     {

@@ -151,227 +151,237 @@ class _StylistInfomationState extends State<StylistInfomation>
         ),
       ),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Center(
-            child: Column(children: [
-              Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Column(
-                    children: [
-                      Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: profileImg.isNullOrEmpty
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                      color: GlobalColors.yellow,
-                                      borderRadius: BorderRadius.circular(100),
-                                      border: Border.all(
-                                        color: GlobalColors.blue,
-                                        width: 3,
-                                      ),
-                                    ),
-                                    width: 120,
-                                    height: 120,
-                                    child: ClipRRect(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await getuserById(id);
+          await fetchUserData(id);
+          await fetchVendorData(id);
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Center(
+              child: Column(children: [
+                Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Column(
+                      children: [
+                        Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: profileImg.isNullOrEmpty
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                        color: GlobalColors.yellow,
                                         borderRadius:
                                             BorderRadius.circular(100),
-                                        child: Image.asset(
-                                          "assets/images/memoji-boys-5231.png",
-                                        )),
-                                  )
-                                : Container(
-                                    width: 120,
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      border: Border.all(
-                                        color: GlobalColors.blue,
-                                        width: 3,
+                                        border: Border.all(
+                                          color: GlobalColors.blue,
+                                          width: 3,
+                                        ),
                                       ),
-                                    ),
-                                    child: CircleAvatar(
-                                      radius: profileHeiht / 2,
-                                      backgroundColor: Colors.white,
-                                      backgroundImage:
-                                          NetworkImage("${profileImg}"),
-                                    )),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: InkWell(
-                              onTap: () {},
-                              child: Container(
-                                width: 35,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: GlobalColors.green,
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                child: const Center(
-                                  child: FaIcon(FontAwesomeIcons.pencil,
-                                      size: 20, color: Colors.white),
+                                      width: 120,
+                                      height: 120,
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          child: Image.asset(
+                                            "assets/images/memoji-boys-5231.png",
+                                          )),
+                                    )
+                                  : Container(
+                                      width: 120,
+                                      height: 120,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        border: Border.all(
+                                          color: GlobalColors.blue,
+                                          width: 3,
+                                        ),
+                                      ),
+                                      child: CircleAvatar(
+                                        radius: profileHeiht / 2,
+                                        backgroundColor: Colors.white,
+                                        backgroundImage:
+                                            NetworkImage("${profileImg}"),
+                                      )),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  width: 35,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: GlobalColors.green,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: const Center(
+                                    child: FaIcon(FontAwesomeIcons.pencil,
+                                        size: 20, color: Colors.white),
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Text(
-                    "${username}",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UploadPhotos(
-                                token: widget.token,
-                              )));
-                },
-                splashColor: Colors.white,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  width: 140,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: GlobalColors.green,
-                      ),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FaIcon(
-                          FontAwesomeIcons.image,
-                          color: GlobalColors.green,
-                          size: 22,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "Add Photo",
-                          style: TextStyle(
-                              color: GlobalColors.green,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500),
+                            )
+                          ],
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Text(
+                      "${username}",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UploadPhotos(
+                                  token: widget.token,
+                                )));
+                  },
+                  splashColor: Colors.white,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    width: 140,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: GlobalColors.green,
+                        ),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.image,
+                            color: GlobalColors.green,
+                            size: 22,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Add Photo",
+                            style: TextStyle(
+                                color: GlobalColors.green,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 10, bottom: 13, right: 10),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              InkWell(
-                                key: _key1,
-                                onTap: () => _selectedItem(1),
-                                child: Text(
-                                  "My Reviews",
-                                  style: TextStyle(
-                                      color: _currentSelection == 1
-                                          ? GlobalColors.yellow
-                                          : GlobalColors.gray,
-                                      fontSize: 18,
-                                      fontWeight: _currentSelection == 1
-                                          ? FontWeight.w500
-                                          : FontWeight.w400),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(
+                              left: 10, bottom: 13, right: 10),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                  key: _key1,
+                                  onTap: () => _selectedItem(1),
+                                  child: Text(
+                                    "My Reviews",
+                                    style: TextStyle(
+                                        color: _currentSelection == 1
+                                            ? GlobalColors.yellow
+                                            : GlobalColors.gray,
+                                        fontSize: 18,
+                                        fontWeight: _currentSelection == 1
+                                            ? FontWeight.w500
+                                            : FontWeight.w400),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 104,
-                              ),
-                              InkWell(
-                                key: _key2,
-                                onTap: () => _selectedItem(2),
-                                child: Text(
-                                  "Photos",
-                                  style: TextStyle(
-                                      color: _currentSelection == 2
-                                          ? GlobalColors.yellow
-                                          : GlobalColors.gray,
-                                      fontSize: 18,
-                                      fontWeight: _currentSelection == 2
-                                          ? FontWeight.w500
-                                          : FontWeight.w400),
+                                const SizedBox(
+                                  width: 104,
                                 ),
-                              ),
-                            ]),
-                      ),
-                      AnimatedPositioned(
-                        duration: const Duration(milliseconds: 350),
-                        curve: Curves.fastOutSlowIn,
-                        left: _selectorPositionX,
-                        bottom: 2,
-                        child: Container(
-                          width: 99.0,
-                          height: 3,
-                          decoration: ShapeDecoration(
-                              shape: const StadiumBorder(),
-                              color: GlobalColors.yellow),
+                                InkWell(
+                                  key: _key2,
+                                  onTap: () => _selectedItem(2),
+                                  child: Text(
+                                    "Photos",
+                                    style: TextStyle(
+                                        color: _currentSelection == 2
+                                            ? GlobalColors.yellow
+                                            : GlobalColors.gray,
+                                        fontSize: 18,
+                                        fontWeight: _currentSelection == 2
+                                            ? FontWeight.w500
+                                            : FontWeight.w400),
+                                  ),
+                                ),
+                              ]),
                         ),
-                      ),
-                    ],
-                  ),
-                  // need model
-                ],
-              ),
-              if (_showItemList) // Conditionally render the ItemList
-                Column(children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ItemListStateful(
-                    user: user
-                        .where(
-                          (element) => element.category == _currentSelection,
-                        )
-                        .toList(),
-                  ),
-                ]),
-              PhotoList(
-                vendorStylist: vendorStylist
-                    .where(
-                      (element) => element.category == _currentSelection,
-                    )
-                    .toList(),
-                token: widget.token,
-                onTap: null,
-              ),
-            ]),
+                        AnimatedPositioned(
+                          duration: const Duration(milliseconds: 350),
+                          curve: Curves.fastOutSlowIn,
+                          left: _selectorPositionX,
+                          bottom: 2,
+                          child: Container(
+                            width: 99.0,
+                            height: 3,
+                            decoration: ShapeDecoration(
+                                shape: const StadiumBorder(),
+                                color: GlobalColors.yellow),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // need model
+                  ],
+                ),
+                if (_showItemList) // Conditionally render the ItemList
+                  Column(children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    ItemListStateful(
+                      user: user
+                          .where(
+                            (element) => element.category == _currentSelection,
+                          )
+                          .toList(),
+                    ),
+                  ]),
+                PhotoList(
+                  vendorStylist: vendorStylist
+                      .where(
+                        (element) => element.category == _currentSelection,
+                      )
+                      .toList(),
+                  token: widget.token,
+                  onTap: null,
+                ),
+              ]),
+            ),
           ),
         ),
       ),

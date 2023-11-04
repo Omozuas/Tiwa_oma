@@ -60,206 +60,211 @@ class _ClientsDetailsState extends State<ClientsDetails> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: ClientInfoItem(
-              token: widget.token,
-              userBooking: userBooking,
-            )
-            //  Column(
-            //   children: [
-            //     Center(
-            //       child: Column(
-            //         children: [
-            //           Container(
-            //             width: 119,
-            //             height: 119,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await fetchBookingDataIdDetails(widget.userId);
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: ClientInfoItem(
+                token: widget.token,
+                userBooking: userBooking,
+              )
+              //  Column(
+              //   children: [
+              //     Center(
+              //       child: Column(
+              //         children: [
+              //           Container(
+              //             width: 119,
+              //             height: 119,
 
-            //             // padding: EdgeInsets.all(0),
-            //             decoration: BoxDecoration(
-            //               // shape: BoxShape.circle,
-            //               borderRadius: BorderRadius.circular(54),
-            //               image: const DecorationImage(
-            //                 image: AssetImage("assets/images/rectangle-1047.png"),
-            //                 fit: BoxFit.cover,
-            //               ),
-            //             ),
-            //           ),
-            //           const SizedBox(
-            //             height: 20,
-            //           ),
-            //           Text(
-            //             "Grace A",
-            //             style: TextStyle(
-            //                 fontSize: 20,
-            //                 fontWeight: FontWeight.w600,
-            //                 color: GlobalColors.darkshadeblack),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //     Column(
-            //       children: [
-            //         SizedBox(
-            //           width: size.width,
-            //           height: 407,
-            //           child: Padding(
-            //             padding: const EdgeInsets.all(8.0),
-            //             child: Center(
-            //               child: Padding(
-            //                 padding: const EdgeInsets.all(8.0),
-            //                 child: Column(
-            //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //                   children: [
-            //                     Row(
-            //                       mainAxisAlignment:
-            //                           MainAxisAlignment.spaceBetween,
-            //                       children: [
-            //                         Text("Name",
-            //                             style: TextStyle(
-            //                                 fontSize: 15,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.shadeblack)),
-            //                         Text("Grace. A ",
-            //                             style: TextStyle(
-            //                                 fontSize: 20,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.darkshadeblack)),
-            //                       ],
-            //                     ),
-            //                     Row(
-            //                       mainAxisAlignment:
-            //                           MainAxisAlignment.spaceBetween,
-            //                       children: [
-            //                         Text("Address",
-            //                             style: TextStyle(
-            //                                 fontSize: 15,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.shadeblack)),
-            //                         Text("23, Osborne ikoyi lagos State ",
-            //                             style: TextStyle(
-            //                                 fontSize: 15,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.darkshadeblack)),
-            //                       ],
-            //                     ),
-            //                     Row(
-            //                       mainAxisAlignment:
-            //                           MainAxisAlignment.spaceBetween,
-            //                       children: [
-            //                         Text("Country",
-            //                             style: TextStyle(
-            //                                 fontSize: 15,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.shadeblack)),
-            //                         Text("Nigeria",
-            //                             style: TextStyle(
-            //                                 fontSize: 15,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.darkshadeblack)),
-            //                       ],
-            //                     ),
-            //                     Row(
-            //                       mainAxisAlignment:
-            //                           MainAxisAlignment.spaceBetween,
-            //                       children: [
-            //                         Text("Phone Number",
-            //                             style: TextStyle(
-            //                                 fontSize: 15,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.shadeblack)),
-            //                         Text("08102918566 ",
-            //                             style: TextStyle(
-            //                                 fontSize: 15,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.darkshadeblack)),
-            //                       ],
-            //                     ),
-            //                     Row(
-            //                       mainAxisAlignment:
-            //                           MainAxisAlignment.spaceBetween,
-            //                       children: [
-            //                         Text("Email Address",
-            //                             style: TextStyle(
-            //                                 fontSize: 15,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.shadeblack)),
-            //                         Text("Example@gmail.com",
-            //                             style: TextStyle(
-            //                                 fontSize: 15,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.darkshadeblack)),
-            //                       ],
-            //                     ),
-            //                     Row(
-            //                       mainAxisAlignment:
-            //                           MainAxisAlignment.spaceBetween,
-            //                       children: [
-            //                         Text("No of Appointment",
-            //                             style: TextStyle(
-            //                                 fontSize: 15,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.shadeblack)),
-            //                         Text("12",
-            //                             style: TextStyle(
-            //                                 fontSize: 15,
-            //                                 fontWeight: FontWeight.w400,
-            //                                 color: GlobalColors.darkshadeblack)),
-            //                       ],
-            //                     ),
-            //                   ],
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     const SizedBox(
-            //       height: 55,
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.symmetric(
-            //         horizontal: 10,
-            //       ),
-            //       child: Container(
-            //         child: Padding(
-            //           padding: const EdgeInsets.symmetric(vertical: 20),
-            //           child: Column(
-            //             mainAxisAlignment: MainAxisAlignment.end,
-            //             children: [
-            //               ElevatedButton(
-            //                 onPressed: () {
-            //                   Navigator.push(
-            //                     context,
-            //                     MaterialPageRoute(
-            //                         builder: (context) => Clients(
-            //                               token: widget.token,
-            //                             )),
-            //                   );
-            //                 },
-            //                 style: ElevatedButton.styleFrom(
-            //                     backgroundColor: Colors.black,
-            //                     shape: RoundedRectangleBorder(
-            //                       borderRadius: BorderRadius.circular(29.0),
-            //                     ),
-            //                     minimumSize: const Size(370, 49)),
-            //                 child: const Text(
-            //                   "Return",
-            //                   style: TextStyle(
-            //                       fontSize: 16, fontWeight: FontWeight.w600),
-            //                 ),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //       ),
-            //     )
-            //   ],
-            // ),
+              //             // padding: EdgeInsets.all(0),
+              //             decoration: BoxDecoration(
+              //               // shape: BoxShape.circle,
+              //               borderRadius: BorderRadius.circular(54),
+              //               image: const DecorationImage(
+              //                 image: AssetImage("assets/images/rectangle-1047.png"),
+              //                 fit: BoxFit.cover,
+              //               ),
+              //             ),
+              //           ),
+              //           const SizedBox(
+              //             height: 20,
+              //           ),
+              //           Text(
+              //             "Grace A",
+              //             style: TextStyle(
+              //                 fontSize: 20,
+              //                 fontWeight: FontWeight.w600,
+              //                 color: GlobalColors.darkshadeblack),
+              //           )
+              //         ],
+              //       ),
+              //     ),
+              //     Column(
+              //       children: [
+              //         SizedBox(
+              //           width: size.width,
+              //           height: 407,
+              //           child: Padding(
+              //             padding: const EdgeInsets.all(8.0),
+              //             child: Center(
+              //               child: Padding(
+              //                 padding: const EdgeInsets.all(8.0),
+              //                 child: Column(
+              //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //                   children: [
+              //                     Row(
+              //                       mainAxisAlignment:
+              //                           MainAxisAlignment.spaceBetween,
+              //                       children: [
+              //                         Text("Name",
+              //                             style: TextStyle(
+              //                                 fontSize: 15,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.shadeblack)),
+              //                         Text("Grace. A ",
+              //                             style: TextStyle(
+              //                                 fontSize: 20,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.darkshadeblack)),
+              //                       ],
+              //                     ),
+              //                     Row(
+              //                       mainAxisAlignment:
+              //                           MainAxisAlignment.spaceBetween,
+              //                       children: [
+              //                         Text("Address",
+              //                             style: TextStyle(
+              //                                 fontSize: 15,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.shadeblack)),
+              //                         Text("23, Osborne ikoyi lagos State ",
+              //                             style: TextStyle(
+              //                                 fontSize: 15,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.darkshadeblack)),
+              //                       ],
+              //                     ),
+              //                     Row(
+              //                       mainAxisAlignment:
+              //                           MainAxisAlignment.spaceBetween,
+              //                       children: [
+              //                         Text("Country",
+              //                             style: TextStyle(
+              //                                 fontSize: 15,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.shadeblack)),
+              //                         Text("Nigeria",
+              //                             style: TextStyle(
+              //                                 fontSize: 15,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.darkshadeblack)),
+              //                       ],
+              //                     ),
+              //                     Row(
+              //                       mainAxisAlignment:
+              //                           MainAxisAlignment.spaceBetween,
+              //                       children: [
+              //                         Text("Phone Number",
+              //                             style: TextStyle(
+              //                                 fontSize: 15,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.shadeblack)),
+              //                         Text("08102918566 ",
+              //                             style: TextStyle(
+              //                                 fontSize: 15,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.darkshadeblack)),
+              //                       ],
+              //                     ),
+              //                     Row(
+              //                       mainAxisAlignment:
+              //                           MainAxisAlignment.spaceBetween,
+              //                       children: [
+              //                         Text("Email Address",
+              //                             style: TextStyle(
+              //                                 fontSize: 15,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.shadeblack)),
+              //                         Text("Example@gmail.com",
+              //                             style: TextStyle(
+              //                                 fontSize: 15,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.darkshadeblack)),
+              //                       ],
+              //                     ),
+              //                     Row(
+              //                       mainAxisAlignment:
+              //                           MainAxisAlignment.spaceBetween,
+              //                       children: [
+              //                         Text("No of Appointment",
+              //                             style: TextStyle(
+              //                                 fontSize: 15,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.shadeblack)),
+              //                         Text("12",
+              //                             style: TextStyle(
+              //                                 fontSize: 15,
+              //                                 fontWeight: FontWeight.w400,
+              //                                 color: GlobalColors.darkshadeblack)),
+              //                       ],
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //     const SizedBox(
+              //       height: 55,
+              //     ),
+              //     Padding(
+              //       padding: const EdgeInsets.symmetric(
+              //         horizontal: 10,
+              //       ),
+              //       child: Container(
+              //         child: Padding(
+              //           padding: const EdgeInsets.symmetric(vertical: 20),
+              //           child: Column(
+              //             mainAxisAlignment: MainAxisAlignment.end,
+              //             children: [
+              //               ElevatedButton(
+              //                 onPressed: () {
+              //                   Navigator.push(
+              //                     context,
+              //                     MaterialPageRoute(
+              //                         builder: (context) => Clients(
+              //                               token: widget.token,
+              //                             )),
+              //                   );
+              //                 },
+              //                 style: ElevatedButton.styleFrom(
+              //                     backgroundColor: Colors.black,
+              //                     shape: RoundedRectangleBorder(
+              //                       borderRadius: BorderRadius.circular(29.0),
+              //                     ),
+              //                     minimumSize: const Size(370, 49)),
+              //                 child: const Text(
+              //                   "Return",
+              //                   style: TextStyle(
+              //                       fontSize: 16, fontWeight: FontWeight.w600),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //     )
+              //   ],
+              // ),
 
-            ),
+              ),
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),

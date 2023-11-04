@@ -91,81 +91,88 @@ class _AllAppointmentState extends State<AllAppointment> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              today.isEmpty
-                  ? Text('')
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Today ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: GlobalColors.darkshadeblack),
-                        ),
-                      ],
-                    ),
-              const SizedBox(
-                height: 10,
-              ),
-              TodayAppointmentList(
-                todayappoimentReview: today,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              yesterday.isEmpty
-                  ? Text('')
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Yesterday ${DateTime.now().subtract(Duration(days: 1)).day}/${DateTime.now().subtract(Duration(days: 1)).month}/${DateTime.now().subtract(Duration(days: 1)).year}",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: GlobalColors.darkshadeblack),
-                        ),
-                      ],
-                    ),
-              const SizedBox(
-                height: 10,
-              ),
-              YestadayAppointmentList(
-                yestadayappoimentReview: yesterday,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              previousDays.isEmpty
-                  ? Text('')
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${DateTime.now().subtract(Duration(days: 2)).day}/${DateTime.now().subtract(Duration(days: 2)).month}/${DateTime.now().subtract(Duration(days: 2)).year}",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: GlobalColors.darkshadeblack),
-                        ),
-                      ],
-                    ),
-              const SizedBox(
-                height: 10,
-              ),
-              PriciousDaysAppointmentList(
-                previousdaysappoimentReview: previousDays,
-              )
-            ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await fetchBookingDataIdPreviousDays(token, id);
+          await fetchBookingDataIdToday(token, id);
+          await fetchBookingDataIdYesterday(token, id);
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                today.isEmpty
+                    ? Text('')
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Today ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: GlobalColors.darkshadeblack),
+                          ),
+                        ],
+                      ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TodayAppointmentList(
+                  todayappoimentReview: today,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                yesterday.isEmpty
+                    ? Text('')
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Yesterday ${DateTime.now().subtract(Duration(days: 1)).day}/${DateTime.now().subtract(Duration(days: 1)).month}/${DateTime.now().subtract(Duration(days: 1)).year}",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: GlobalColors.darkshadeblack),
+                          ),
+                        ],
+                      ),
+                const SizedBox(
+                  height: 10,
+                ),
+                YestadayAppointmentList(
+                  yestadayappoimentReview: yesterday,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                previousDays.isEmpty
+                    ? Text('')
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${DateTime.now().subtract(Duration(days: 2)).day}/${DateTime.now().subtract(Duration(days: 2)).month}/${DateTime.now().subtract(Duration(days: 2)).year}",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: GlobalColors.darkshadeblack),
+                          ),
+                        ],
+                      ),
+                const SizedBox(
+                  height: 10,
+                ),
+                PriciousDaysAppointmentList(
+                  previousdaysappoimentReview: previousDays,
+                )
+              ],
+            ),
           ),
         ),
       ),

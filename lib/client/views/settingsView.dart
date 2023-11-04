@@ -1,3 +1,4 @@
+import 'package:Tiwa_Oma/client/views/clientNotification.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -75,7 +76,13 @@ class _SettingsViewState extends State<SettingsView> {
                 height: 20,
               ),
               SettingsMenue(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ClientNotification(token: widget.token)));
+                },
                 text: 'Notifications',
               ),
               SettingsMenue(

@@ -18,6 +18,7 @@ class _SignupState extends State<Signup> {
   final formKey3 = GlobalKey<FormState>();
   final formKey4 = GlobalKey<FormState>();
   final formKey5 = GlobalKey<FormState>();
+
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
 
   TextEditingController emailController = TextEditingController();
@@ -48,7 +49,8 @@ class _SignupState extends State<Signup> {
                       "state": stateController.text,
                       "country": countryController.text,
                       "address": addressController.text,
-                      "accountType": widget.accountType
+                      "accountType": widget.accountType,
+                      "number": numberController.text
                     },
                     accountType: widget.accountType,
                   )));
@@ -147,7 +149,7 @@ class _SignupState extends State<Signup> {
                         controller2: addressController,
                         validate: (value) {
                           if (value!.isEmpty ||
-                              !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                              !RegExp(r'^[\w\s.,#-]+$').hasMatch(value!)) {
                             return "Enter Your Address";
                           } else {
                             return null;

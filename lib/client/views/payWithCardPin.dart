@@ -367,48 +367,72 @@ class _payWithCardPinState extends State<payWithCardPin> {
                 ),
                 InkWell(
                   onTap: () {
-                    APIService.verifyOtp(email, widget.otpHash, otp)
-                        .then((res) => {
-                              if (res.message == "sussess")
-                                {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      backgroundColor: Colors.green,
-                                      content: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.check,
-                                            size: 29,
-                                            color: Colors.white,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            'You will recive An OTP',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                      duration: Duration(seconds: 3),
-                                    ),
+                    APIService.tranction1Opt(email).then((res) => {
+                          if (res.message == "success")
+                            {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: GlobalColors.green,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
                                   ),
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => payWithCardPin(
-                                              otpHash: res.data,
-                                              token: widget.token,
-                                              cardDetails1: widget.cardDetails1,
-                                              booknotify: widget.booknotify,
-                                              booknotifyStylistname:
-                                                  widget.booknotifyStylistname,
-                                            )),
-                                  )
-                                }
-                            });
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.check_circle,
+                                        color: Colors.white,
+                                        size: 40,
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Expanded(
+                                          child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Text(
+                                              'You will Recive an Otp PIN From Your Email',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                              ))
+                                        ],
+                                      ))
+                                    ],
+                                  ),
+                                ),
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                              )),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => payWithCardPin(
+                                          otpHash: res.data,
+                                          token: widget.token,
+                                          cardDetails1: widget.cardDetails1,
+                                          booknotify: widget.booknotify,
+                                          booknotifyStylistname:
+                                              widget.booknotifyStylistname,
+                                        )),
+                              )
+                            }
+                        });
+
                     print(widget.cardDetails1);
                   },
                   child: Text(

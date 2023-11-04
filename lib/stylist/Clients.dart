@@ -70,9 +70,14 @@ class _ClientsState extends State<Clients> {
           ),
         ),
       ),
-      body: ClientstList(
-        userBooking: userBooking,
-        token: widget.token,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await fetchBookingDataIdUserId(id);
+        },
+        child: ClientstList(
+          userBooking: userBooking,
+          token: widget.token,
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
