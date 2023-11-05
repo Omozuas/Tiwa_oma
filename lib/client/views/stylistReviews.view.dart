@@ -128,6 +128,7 @@ class _stylistReviewState extends State<stylistReview>
   @override
   void initState() {
     super.initState();
+
     if (widget.token.isEmpty) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
     } else {

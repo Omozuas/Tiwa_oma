@@ -7,6 +7,7 @@ import 'package:Tiwa_Oma/client/views/seeStylistLocation.view.dart';
 import 'package:Tiwa_Oma/firebase_options.dart';
 import 'package:Tiwa_Oma/services/firebasApi.dart';
 import 'package:Tiwa_Oma/services/updateApi.dart';
+import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
 import 'package:Tiwa_Oma/view/Splash.view.dart';
@@ -59,15 +60,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home:
           // Dashboard(token: token),
-          (token != null && !JwtDecoder.isExpired(token) == false)
-              ?
-              // AdminBooking(
-              //     token: token,
-              //   )
-              Dashboard(token: token)
-              :
-              // Login(),
-              SplashView(),
+          // (token != null && !JwtDecoder.isExpired(token) == false)
+          //     ?
+          //     // AdminBooking(
+          //     //     token: token,
+          //     //   )
+          //     Dashboard(token: token)
+          //     :
+          // Login(),
+          AdminDashboard(
+        token:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDc5Nzc0NzAzOTJjMTU1ZmZiZWY3NyIsImlhdCI6MTY5OTE5MDY0NCwiZXhwIjoxNjk5ODgxODQ0fQ.9yYWMWqKVbsHnZrTp_TAGo9rP_P2hKh7_09yNjewWwU',
+      ),
       routes: {
         ClientNotification.route: (context) => ClientNotification(
               token: token,

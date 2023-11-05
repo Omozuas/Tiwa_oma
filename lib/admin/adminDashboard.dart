@@ -29,7 +29,7 @@ class AdminDashboard extends StatefulWidget {
 class _AdminDashboardState extends State<AdminDashboard> {
   String email = '';
   String username = '';
-  String profileImg = '';
+  String? profileImg = '';
   String clientNum = '';
   String stylistNum = '';
   String totalNumOfBooking = '';
@@ -101,9 +101,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
     });
   }
 
-  List<StylistBookinModel> stylists = [];
+  List<StylistBookinModel1> stylists = [];
   Future<void> getAllBookingMadeAndCount() async {
-    final res = await BookingApi.fetchAllBookingMadeWithAndCount(widget.token);
+    final res =
+        await BookingApi.fetchStylistDetailsAndBookingCount(widget.token);
     setState(() {
       stylists = res;
     });
@@ -131,6 +132,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (Responsive.isMobile(context)) Text("data"),
           if (Responsive.isDeskTop(context))
             Expanded(
               child: Drawer(
@@ -695,7 +697,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                     ],
                                   )),
                                   SizedBox(
-                                    width: 385,
+                                    width: 395,
                                     child: Row(
                                       children: [
                                         Column(
@@ -792,7 +794,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                                                             "${e.stylistId.username}"),
                                                                         SizedBox(
                                                                           width:
-                                                                              120,
+                                                                              100,
                                                                         ),
                                                                         Text(
                                                                             "${e.bookingCount} Appointment"),

@@ -673,10 +673,45 @@ class BookingApi {
     return bookingModelUser;
   }
 
+  static Future<List<StylistBookinModel1>> fetchStylistDetailsAndBookingCount(
+      String? token) async {
+    const url = 'https://tiwa-oma-api.onrender.com/';
+    var getBookings = "${url}bookings/stylist-booking-counts";
+
+    final respons = await http.get(Uri.parse(getBookings), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    final Map<String, dynamic> responData = jsonDecode(respons.body);
+    print(responData);
+    final results = responData['data'] as List<dynamic>;
+
+    final bookingModelUser = results.map((e) {
+      final stylistId = StylistModel(
+          username: e['stylistId']['username'],
+          profileImg: e['stylistId']['profileImg'],
+          email: e['stylistId']['email'],
+          address: e['stylistId']['address'],
+          state: e['stylistId']['state'],
+          country: e['stylistId']['country'],
+          gender: e['stylistId']['gender'],
+          accountType: e['stylistId']['accountType'],
+          number: e['stylistId']['number'],
+          id: e['stylistId']['_id']);
+
+      return StylistBookinModel1(
+        stylistId: stylistId,
+        bookingCount: e['bookingCount'],
+      );
+    }).toList();
+    // print(bookingModelUser);
+    return bookingModelUser;
+  }
+
   static Future<List<ClientBookinModel>>
       fetchAllBookingMadeWithCustormersAndCount(String? token) async {
     const url = 'https://tiwa-oma-api.onrender.com/';
-    var getBookings = "${url}bookings/bookings-by-client";
+    var getBookings = "${url}bookings/client-booking-counts";
 
     final respons = await http.get(Uri.parse(getBookings), headers: {
       "Content-Type": "application/json",
@@ -688,16 +723,16 @@ class BookingApi {
 
     final bookingModelUser = results.map((e) {
       final clientId = UserModel(
-          username: e['client']['username'],
-          profileImg: e['client']['profileImg'],
-          email: e['client']['email'],
-          address: e['client']['address'],
-          state: e['client']['state'],
-          country: e['client']['country'],
-          gender: e['client']['gender'],
-          accountType: e['client']['accountType'],
-          number: e['client']['number'],
-          id: e['client']['_id']);
+          username: e['userIds']['username'],
+          profileImg: e['userIds']['profileImg'],
+          email: e['userIds']['email'],
+          address: e['userIds']['address'],
+          state: e['userIds']['state'],
+          country: e['userIds']['country'],
+          gender: e['userIds']['gender'],
+          accountType: e['userIds']['accountType'],
+          number: e['userIds']['number'],
+          id: e['userIds']['_id']);
 
       return ClientBookinModel(
         clientId: clientId,

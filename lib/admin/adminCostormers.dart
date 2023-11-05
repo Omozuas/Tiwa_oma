@@ -25,7 +25,7 @@ class AdminCustormers extends StatefulWidget {
 class _AdminCustormersState extends State<AdminCustormers> {
   String email = '';
   String username = '';
-  String profileImg = '';
+  String? profileImg = '';
   late final id;
   late String fcmToken = '';
   late SharedPreferences prefsDevice;

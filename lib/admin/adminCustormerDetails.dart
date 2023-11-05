@@ -23,7 +23,7 @@ class AdminCustormersDetails extends StatefulWidget {
 class _AdminCustormersDetailsState extends State<AdminCustormersDetails> {
   String email = '';
   String username = '';
-  String profileImg = '';
+  String? profileImg = '';
   late final id;
 
   @override

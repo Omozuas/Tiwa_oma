@@ -73,6 +73,17 @@ class StylistBookinModel {
       required this.averageRating});
 }
 
+class StylistBookinModel1 {
+  num bookingCount;
+
+  final StylistModel stylistId;
+
+  StylistBookinModel1({
+    required this.bookingCount,
+    required this.stylistId,
+  });
+}
+
 class ClientBookinModel {
   num bookingCount;
 

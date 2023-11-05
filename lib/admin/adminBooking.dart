@@ -24,7 +24,7 @@ class AdminBooking extends StatefulWidget {
 class _AdminBookingState extends State<AdminBooking> {
   String email = '';
   String username = '';
-  String profileImg = '';
+  String? profileImg = '';
   late final id;
   late String fcmToken = '';
   late SharedPreferences prefsDevice;

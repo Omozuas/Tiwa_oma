@@ -24,7 +24,7 @@ class AdminStylist extends StatefulWidget {
 class _AdminStylistState extends State<AdminStylist> {
   String email = '';
   String username = '';
-  String profileImg = '';
+  String? profileImg = '';
   String clientNum = '';
   String stylistNum = '';
   String totalNumOfBooking = '';
@@ -351,12 +351,12 @@ class _AdminStylistState extends State<AdminStylist> {
                             SizedBox(
                               height: 30,
                             ),
-                            Column(
+                            Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Card(
                                   child: DataTable(
-                                      columnSpacing: 150,
+                                      columnSpacing: 120,
                                       columns: [
                                         DataColumn(
                                           label: Text(
