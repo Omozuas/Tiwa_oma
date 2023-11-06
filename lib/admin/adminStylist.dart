@@ -80,223 +80,271 @@ class _AdminStylistState extends State<AdminStylist> {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<ScaffoldState> _drawer = GlobalKey();
     return Scaffold(
+      key: _drawer,
+      backgroundColor: Colors.white,
+      drawer: SizedBox(
+        width: 150,
+        child: NavigationDrawer(
+          widget: widget,
+        ),
+      ),
+      appBar: !Responsive.isMobile(context)
+          ? PreferredSize(preferredSize: Size.zero, child: SizedBox())
+          : AppBar(
+              elevation: 0,
+              backgroundColor: Colors.white10,
+              leading: IconButton(
+                onPressed: () {
+                  _drawer.currentState!.openDrawer();
+                },
+                icon: Icon(
+                  Icons.menu,
+                  color: GlobalColors.gray,
+                ),
+              )),
       body: SafeArea(
           child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (Responsive.isDeskTop(context))
-            Expanded(
-              child: Drawer(
-                child: ListView(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      width: 40,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/image-3.png'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+          !Responsive.isMobile(context)
+              ? Expanded(
+                  child: NavigationDrawer(
+                    widget: widget,
                   ),
-                  DreawerList(
-                    title: "Dashboard",
-                    svgSrc: Icons.dashboard,
-                    tap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AdminDashboard(
-                          token: widget.token,
-                        );
-                      }));
-                    },
-                    color: Colors.black,
-                    color3: GlobalColors.white,
-                    color2: GlobalColors.darkshadeblack,
-                  ),
-                  DreawerList(
-                    title: "Bookings",
-                    svgSrc: FontAwesomeIcons.book,
-                    tap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AdminBooking(
-                          token: widget.token,
-                        );
-                      }));
-                    },
-                    color: Colors.black,
-                    color3: GlobalColors.white,
-                    color2: GlobalColors.darkshadeblack,
-                  ),
-                  DreawerList(
-                    title: "Customers",
-                    svgSrc: Icons.people_outline_outlined,
-                    tap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AdminCustormers(
-                          token: widget.token,
-                        );
-                      }));
-                    },
-                    color: Colors.black,
-                    color3: GlobalColors.white,
-                    color2: GlobalColors.darkshadeblack,
-                  ),
-                  DreawerList(
-                    title: "Stylist",
-                    svgSrc: Icons.people_outline_outlined,
-                    tap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AdminStylist(
-                          token: widget.token,
-                        );
-                      }));
-                    },
-                    color: Colors.white,
-                    color2: Colors.white,
-                    color3: GlobalColors.yellow,
-                  ),
-                  DreawerList(
-                    title: "Logout",
-                    svgSrc: Icons.logout_outlined,
-                    tap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
-                    },
-                    color: Colors.black,
-                    color2: GlobalColors.darkshadeblack,
-                    color3: GlobalColors.white,
-                  ),
-                ]),
-              ),
-            ),
+                )
+              : PreferredSize(preferredSize: Size.zero, child: SizedBox()),
           Expanded(
               flex: 6,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Container(
-                                width: 405,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  color: GlobalColors.gray2,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                    !Responsive.isMobile(context)
+                        ? Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
                                   children: [
-                                    Expanded(
-                                      child: TextFormField(
-                                          decoration: InputDecoration(
-                                              hintText: 'Search here......',
-                                              hintStyle: TextStyle(
-                                                  color:
-                                                      GlobalColors.lightblack,
-                                                  fontSize: 12),
-                                              fillColor: GlobalColors.gray2,
-                                              filled: true,
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide.none,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)))),
+                                    SizedBox(
+                                      width: 20,
                                     ),
+                                    Container(
+                                      width: 405,
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        color: GlobalColors.gray2,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    hintText:
+                                                        'Search here......',
+                                                    hintStyle: TextStyle(
+                                                        color: GlobalColors
+                                                            .lightblack,
+                                                        fontSize: 12),
+                                                    fillColor:
+                                                        GlobalColors.gray2,
+                                                    filled: true,
+                                                    border: OutlineInputBorder(
+                                                        borderSide:
+                                                            BorderSide.none,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    10)))),
+                                          ),
+                                          InkWell(
+                                            onTap: () {},
+                                            child: Icon(
+                                              Icons.search,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
                                     InkWell(
                                       onTap: () {},
-                                      child: Icon(
-                                        Icons.search,
-                                        size: 20,
+                                      child: Stack(
+                                        children: [
+                                          Icon(
+                                            Icons.notifications_none_rounded,
+                                            size: 30,
+                                          ),
+                                          Positioned(
+                                            right: 0,
+                                            top: 0,
+                                            child: Container(
+                                              margin: const EdgeInsets.all(5),
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.white,
+                                                    width: 1),
+                                                color: const Color(0XFFFF2F08),
+                                                shape: BoxShape.circle,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 20,
-                                    )
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.purple.shade300,
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        "A",
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 17),
+                                      )),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("$username"),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () {},
-                                child: Stack(
+                              ],
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
                                   children: [
-                                    Icon(
-                                      Icons.notifications_none_rounded,
-                                      size: 30,
-                                    ),
-                                    Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: Container(
-                                        margin: const EdgeInsets.all(5),
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.white, width: 1),
-                                          color: const Color(0XFFFF2F08),
-                                          shape: BoxShape.circle,
-                                        ),
+                                    Container(
+                                      width: 170,
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        color: GlobalColors.gray2,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    hintText:
+                                                        'Search here......',
+                                                    hintStyle: TextStyle(
+                                                        color: GlobalColors
+                                                            .lightblack,
+                                                        fontSize: 12),
+                                                    fillColor:
+                                                        GlobalColors.gray2,
+                                                    filled: true,
+                                                    border: OutlineInputBorder(
+                                                        borderSide:
+                                                            BorderSide.none,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    10)))),
+                                          ),
+                                          InkWell(
+                                            onTap: () {},
+                                            child: Icon(
+                                              Icons.search,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.purple.shade300,
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Stack(
+                                        children: [
+                                          Icon(
+                                            Icons.notifications_none_rounded,
+                                            size: 30,
+                                          ),
+                                          Positioned(
+                                            right: 0,
+                                            top: 0,
+                                            child: Container(
+                                              margin: const EdgeInsets.all(5),
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.white,
+                                                    width: 1),
+                                                color: const Color(0XFFFF2F08),
+                                                shape: BoxShape.circle,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.purple.shade300,
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        "A",
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 17),
+                                      )),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("$username"),
+                                  ],
                                 ),
-                                child: Center(
-                                    child: Text(
-                                  "A",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 17),
-                                )),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text("$username"),
-                              SizedBox(
-                                width: 50,
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: GlobalColors.gray2,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(40.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -304,7 +352,7 @@ class _AdminStylistState extends State<AdminStylist> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Bookings",
+                                  " Stylist",
                                   style: TextStyle(
                                       color: GlobalColors.lightblack,
                                       fontSize: 20,
@@ -351,204 +399,451 @@ class _AdminStylistState extends State<AdminStylist> {
                             SizedBox(
                               height: 30,
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Card(
-                                  child: DataTable(
-                                      columnSpacing: 120,
-                                      columns: [
-                                        DataColumn(
-                                          label: Text(
-                                            "Name",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        DataColumn(
-                                          label: Text(
-                                            "Email",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        DataColumn(
-                                          label: Text(
-                                            "No of Appointment",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        DataColumn(
-                                          label: Text(
-                                            "Rating",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        DataColumn(
-                                          label: Text(
-                                            "",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                      ],
-                                      rows: stylists
-                                          .map((data) => DataRow(cells: [
-                                                DataCell(Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    data.stylistId.profileImg ==
-                                                            null
-                                                        ? Center(
-                                                            child: Container(
-                                                              width: 40,
-                                                              height: 40,
-
-                                                              // padding: EdgeInsets.all(0),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                // shape: BoxShape.circle,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            54),
-                                                                image:
-                                                                    DecorationImage(
-                                                                  image:
-                                                                      AssetImage(
-                                                                    "assets/images/rectangle-1041.jpg",
-                                                                  ),
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          )
-                                                        : Center(
-                                                            child: Container(
-                                                              width: 40,
-                                                              height: 40,
-
-                                                              // padding: EdgeInsets.all(0),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                // shape: BoxShape.circle,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            54),
-                                                                image:
-                                                                    DecorationImage(
-                                                                  image:
-                                                                      NetworkImage(
-                                                                    "${data.stylistId.profileImg}",
-                                                                  ),
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                        '${data.stylistId.username}'),
-                                                  ],
-                                                )),
-                                                DataCell(Text(
-                                                    '${data.stylistId.email}')),
-                                                data.bookingCount.isNull
-                                                    ? DataCell(Text(
-                                                        '0',
-                                                        style: TextStyle(
-                                                            color: GlobalColors
-                                                                .green),
-                                                      ))
-                                                    : DataCell(Text(
-                                                        '${data.bookingCount.toString()}',
-                                                        style: TextStyle(
-                                                            color: GlobalColors
-                                                                .green),
-                                                      )),
-                                                data.averageRating == null
-                                                    ? DataCell(SmoothStarRating(
-                                                        borderColor:
-                                                            GlobalColors.gray3,
-                                                        allowHalfRating: true,
-                                                        spacing: 0.0,
-                                                        starCount: 5,
-                                                        rating: 0,
-                                                        color:
-                                                            GlobalColors.yellow,
-                                                        size: 18,
-                                                      ))
-                                                    : DataCell(SmoothStarRating(
-                                                        borderColor:
-                                                            GlobalColors.gray3,
-                                                        allowHalfRating: true,
-                                                        spacing: 0.0,
-                                                        starCount: 5,
-                                                        rating:
-                                                            data.averageRating
-                                                                as double,
-                                                        color:
-                                                            GlobalColors.yellow,
-                                                        size: 18,
-                                                      )),
-                                                DataCell(
-                                                  InkWell(
-                                                    onTap: () {
-                                                      showDialog(
-                                                          context: context,
-                                                          builder: (context) =>
-                                                              DeactivatStylist());
-                                                      print(data.stylistId.id);
-                                                    },
-                                                    child: Container(
-                                                      width: 83,
-                                                      height: 30,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: Colors.red),
-                                                        borderRadius:
-                                                            BorderRadius.vertical(
-                                                                top: Radius
-                                                                    .circular(
-                                                                        100),
-                                                                bottom: Radius
-                                                                    .circular(
-                                                                        100)),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text(
-                                                          "Dactivate",
-                                                          style: TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      129,
-                                                                      29,
-                                                                      29),
-                                                              fontSize: 12),
-                                                        ),
-                                                      ),
-                                                    ),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: !Responsive.isMobile(context)
+                                  ? Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Card(
+                                          child: DataTable(
+                                              columnSpacing: 100,
+                                              columns: [
+                                                DataColumn(
+                                                  label: Text(
+                                                    "Name",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                                   ),
-                                                )
-                                              ]))
-                                          .toList()),
-                                )
-                              ],
+                                                ),
+                                                DataColumn(
+                                                  label: Text(
+                                                    "Email",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                                DataColumn(
+                                                  label: Text(
+                                                    "No of Appointment",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                                DataColumn(
+                                                  label: Text(
+                                                    "Rating",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                                DataColumn(
+                                                  label: Text(
+                                                    "",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                              ],
+                                              rows: stylists
+                                                  .map(
+                                                      (data) => DataRow(cells: [
+                                                            DataCell(Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                data.stylistId
+                                                                            .profileImg ==
+                                                                        null
+                                                                    ? Center(
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              40,
+                                                                          height:
+                                                                              40,
+
+                                                                          // padding: EdgeInsets.all(0),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            // shape: BoxShape.circle,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(54),
+                                                                            image:
+                                                                                DecorationImage(
+                                                                              image: AssetImage(
+                                                                                "assets/images/rectangle-1041.jpg",
+                                                                              ),
+                                                                              fit: BoxFit.cover,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    : Center(
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              40,
+                                                                          height:
+                                                                              40,
+
+                                                                          // padding: EdgeInsets.all(0),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            // shape: BoxShape.circle,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(54),
+                                                                            image:
+                                                                                DecorationImage(
+                                                                              image: NetworkImage(
+                                                                                "${data.stylistId.profileImg}",
+                                                                              ),
+                                                                              fit: BoxFit.cover,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                SizedBox(
+                                                                  width: 5,
+                                                                ),
+                                                                Text(
+                                                                    '${data.stylistId.username}'),
+                                                              ],
+                                                            )),
+                                                            DataCell(Text(
+                                                                '${data.stylistId.email}')),
+                                                            data.bookingCount
+                                                                    .isNull
+                                                                ? DataCell(Text(
+                                                                    '0',
+                                                                    style: TextStyle(
+                                                                        color: GlobalColors
+                                                                            .green),
+                                                                  ))
+                                                                : DataCell(Text(
+                                                                    '${data.bookingCount.toString()}',
+                                                                    style: TextStyle(
+                                                                        color: GlobalColors
+                                                                            .green),
+                                                                  )),
+                                                            data.averageRating ==
+                                                                    null
+                                                                ? DataCell(
+                                                                    SmoothStarRating(
+                                                                    borderColor:
+                                                                        GlobalColors
+                                                                            .gray3,
+                                                                    allowHalfRating:
+                                                                        true,
+                                                                    spacing:
+                                                                        0.0,
+                                                                    starCount:
+                                                                        5,
+                                                                    rating: 0,
+                                                                    color: GlobalColors
+                                                                        .yellow,
+                                                                    size: 18,
+                                                                  ))
+                                                                : DataCell(
+                                                                    SmoothStarRating(
+                                                                    borderColor:
+                                                                        GlobalColors
+                                                                            .gray3,
+                                                                    allowHalfRating:
+                                                                        true,
+                                                                    spacing:
+                                                                        0.0,
+                                                                    starCount:
+                                                                        5,
+                                                                    rating: data
+                                                                            .averageRating
+                                                                        as double,
+                                                                    color: GlobalColors
+                                                                        .yellow,
+                                                                    size: 18,
+                                                                  )),
+                                                            DataCell(
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  showDialog(
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (context) =>
+                                                                              DeactivatStylist());
+                                                                  print(data
+                                                                      .stylistId
+                                                                      .id);
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  width: 83,
+                                                                  height: 30,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    border: Border.all(
+                                                                        color: Colors
+                                                                            .red),
+                                                                    borderRadius: BorderRadius.vertical(
+                                                                        top: Radius.circular(
+                                                                            100),
+                                                                        bottom:
+                                                                            Radius.circular(100)),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "Dactivate",
+                                                                      style: TextStyle(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              129,
+                                                                              29,
+                                                                              29),
+                                                                          fontSize:
+                                                                              12),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ]))
+                                                  .toList()),
+                                        )
+                                      ],
+                                    )
+                                  : Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Card(
+                                          child: DataTable(
+                                              columnSpacing: 120,
+                                              columns: [
+                                                DataColumn(
+                                                  label: Text(
+                                                    "Name",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                                DataColumn(
+                                                  label: Text(
+                                                    "Email",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                                DataColumn(
+                                                  label: Text(
+                                                    "No of Appointment",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                                DataColumn(
+                                                  label: Text(
+                                                    "Rating",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                                DataColumn(
+                                                  label: Text(
+                                                    "",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                              ],
+                                              rows: stylists
+                                                  .map(
+                                                      (data) => DataRow(cells: [
+                                                            DataCell(Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                data.stylistId
+                                                                            .profileImg ==
+                                                                        null
+                                                                    ? Center(
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              40,
+                                                                          height:
+                                                                              40,
+
+                                                                          // padding: EdgeInsets.all(0),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            // shape: BoxShape.circle,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(54),
+                                                                            image:
+                                                                                DecorationImage(
+                                                                              image: AssetImage(
+                                                                                "assets/images/rectangle-1041.jpg",
+                                                                              ),
+                                                                              fit: BoxFit.cover,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    : Center(
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              40,
+                                                                          height:
+                                                                              40,
+
+                                                                          // padding: EdgeInsets.all(0),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            // shape: BoxShape.circle,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(54),
+                                                                            image:
+                                                                                DecorationImage(
+                                                                              image: NetworkImage(
+                                                                                "${data.stylistId.profileImg}",
+                                                                              ),
+                                                                              fit: BoxFit.cover,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                SizedBox(
+                                                                  width: 5,
+                                                                ),
+                                                                Text(
+                                                                    '${data.stylistId.username}'),
+                                                              ],
+                                                            )),
+                                                            DataCell(Text(
+                                                                '${data.stylistId.email}')),
+                                                            data.bookingCount
+                                                                    .isNull
+                                                                ? DataCell(Text(
+                                                                    '0',
+                                                                    style: TextStyle(
+                                                                        color: GlobalColors
+                                                                            .green),
+                                                                  ))
+                                                                : DataCell(Text(
+                                                                    '${data.bookingCount.toString()}',
+                                                                    style: TextStyle(
+                                                                        color: GlobalColors
+                                                                            .green),
+                                                                  )),
+                                                            data.averageRating ==
+                                                                    null
+                                                                ? DataCell(
+                                                                    SmoothStarRating(
+                                                                    borderColor:
+                                                                        GlobalColors
+                                                                            .gray3,
+                                                                    allowHalfRating:
+                                                                        true,
+                                                                    spacing:
+                                                                        0.0,
+                                                                    starCount:
+                                                                        5,
+                                                                    rating: 0,
+                                                                    color: GlobalColors
+                                                                        .yellow,
+                                                                    size: 18,
+                                                                  ))
+                                                                : DataCell(
+                                                                    SmoothStarRating(
+                                                                    borderColor:
+                                                                        GlobalColors
+                                                                            .gray3,
+                                                                    allowHalfRating:
+                                                                        true,
+                                                                    spacing:
+                                                                        0.0,
+                                                                    starCount:
+                                                                        5,
+                                                                    rating: data
+                                                                            .averageRating
+                                                                        as double,
+                                                                    color: GlobalColors
+                                                                        .yellow,
+                                                                    size: 18,
+                                                                  )),
+                                                            DataCell(
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  showDialog(
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (context) =>
+                                                                              DeactivatStylist());
+                                                                  print(data
+                                                                      .stylistId
+                                                                      .id);
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  width: 83,
+                                                                  height: 30,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    border: Border.all(
+                                                                        color: Colors
+                                                                            .red),
+                                                                    borderRadius: BorderRadius.vertical(
+                                                                        top: Radius.circular(
+                                                                            100),
+                                                                        bottom:
+                                                                            Radius.circular(100)),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "Dactivate",
+                                                                      style: TextStyle(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              129,
+                                                                              29,
+                                                                              29),
+                                                                          fontSize:
+                                                                              12),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ]))
+                                                  .toList()),
+                                        )
+                                      ],
+                                    ),
                             )
                           ],
                         ),
@@ -559,6 +854,104 @@ class _AdminStylistState extends State<AdminStylist> {
               ))
         ],
       )),
+    );
+  }
+}
+
+class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({
+    super.key,
+    required this.widget,
+  });
+
+  final AdminStylist widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(children: [
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            width: 40,
+            height: 70,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              image: DecorationImage(
+                image: AssetImage('assets/images/image-3.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        DreawerList(
+          title: "Dashboard",
+          svgSrc: Icons.dashboard,
+          tap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AdminDashboard(
+                token: widget.token,
+              );
+            }));
+          },
+          color: Colors.black,
+          color3: GlobalColors.white,
+          color2: GlobalColors.darkshadeblack,
+        ),
+        DreawerList(
+          title: "Bookings",
+          svgSrc: FontAwesomeIcons.book,
+          tap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AdminBooking(
+                token: widget.token,
+              );
+            }));
+          },
+          color: Colors.black,
+          color3: GlobalColors.white,
+          color2: GlobalColors.darkshadeblack,
+        ),
+        DreawerList(
+          title: "Customers",
+          svgSrc: Icons.people_outline_outlined,
+          tap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AdminCustormers(
+                token: widget.token,
+              );
+            }));
+          },
+          color: Colors.black,
+          color3: GlobalColors.white,
+          color2: GlobalColors.darkshadeblack,
+        ),
+        DreawerList(
+          title: "Stylist",
+          svgSrc: Icons.people_outline_outlined,
+          tap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AdminStylist(
+                token: widget.token,
+              );
+            }));
+          },
+          color: Colors.white,
+          color2: Colors.white,
+          color3: GlobalColors.yellow,
+        ),
+        DreawerList(
+          title: "Logout",
+          svgSrc: Icons.logout_outlined,
+          tap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Login()));
+          },
+          color: Colors.black,
+          color2: GlobalColors.darkshadeblack,
+          color3: GlobalColors.white,
+        ),
+      ]),
     );
   }
 }

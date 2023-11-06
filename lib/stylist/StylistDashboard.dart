@@ -38,16 +38,11 @@ class _StylistDashboardState extends State<StylistDashboard> {
   late final id;
   late String fcmToken = '';
   late SharedPreferences prefsDevice;
-  late bool _isLoading;
+
   @override
   void initState() {
     super.initState();
-    _isLoading = true;
-    Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        _isLoading = false;
-      });
-    });
+
     if (widget.token.isEmpty) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
     } else {
@@ -133,310 +128,298 @@ class _StylistDashboardState extends State<StylistDashboard> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _isLoading
-                  ? LoadingEff()
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 50),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
                       children: [
-                        const SizedBox(height: 50),
-                        Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Row(
+                        InkWell(
+                          onTap: () {
+                            // Navigator.push(context,
+                            //     MaterialPageRoute(builder: (context) {
+                            //   return MyProfile();
+                            // }));
+                          },
+                          child: profileImg.isNullOrEmpty
+                              ? Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/ellipse-117.jpg'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: NetworkImage('${profileImg}'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                        ),
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Welcome Back',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              // 'Alex Samuel',
+                              username,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return ClientNotification(token: widget.token);
+                            }));
+                          },
+                          child: const Icon(
+                            Icons.notifications_outlined,
+                            size: 35,
+                          ),
+                        ),
+                        const SizedBox(width: 0.1),
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white, width: 3),
+                            color: const Color(0XFFFF2F08),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Card(
+                      elevation: 2,
+                      child: Container(
+                        width: 372,
+                        // height: 119,
+                        padding: const EdgeInsets.all(
+                            20.0), // Add padding to the container
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          // Use a Column to stack the text elements vertically
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: GlobalColors.green,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: const Center(
+                                    child: FaIcon(FontAwesomeIcons.info,
+                                        size: 20, color: Colors.white),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ), // Add some spacing
+                                const Expanded(
+                                  // Expand to fill available space
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        height: 35,
+                                      ),
+                                      Text(
+                                        "Discover Amazing Braids",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            const Row(
+                              children: [
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "Complete your profile set up to have full access to the system",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 7),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment
+                                  .start, // Align button to the right
+                              children: [
+                                const SizedBox(width: 29),
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: GlobalColors.yellow,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    elevation: 1,
+                                    minimumSize: const Size(0, 30),
+                                  ),
+                                  child: const Text('Start Now'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          'Frequent Clients',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 150,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: userBooking2.length,
+                      itemBuilder: (
+                        context1,
+                        index1,
+                      ) {
+                        final bookingdata = userBooking2[index1];
+                        return Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Column(
                             children: [
                               InkWell(
                                 onTap: () {
-                                  // Navigator.push(context,
-                                  //     MaterialPageRoute(builder: (context) {
-                                  //   return MyProfile();
-                                  // }));
+                                  print(bookingdata.userId.username);
+                                  print(bookingdata.userId.id);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ClientsDetails(
+                                                token: widget.token,
+                                                userId: bookingdata.userId.id,
+                                              )));
                                 },
-                                child: profileImg.isNullOrEmpty
+                                child: bookingdata.userId.profileImg.isEmpty
                                     ? Container(
-                                        width: 40,
-                                        height: 40,
+                                        width: 82,
+                                        height:
+                                            82, // Adjust the size of the image container
                                         decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(82),
                                           image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/ellipse-117.jpg'),
                                             fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                "assets/images/portrait-of-young-woman-smiling-isolated.png"),
                                           ),
                                         ),
                                       )
                                     : Container(
-                                        width: 40,
-                                        height: 40,
+                                        width: 82,
+                                        height:
+                                            82, // Adjust the size of the image container
                                         decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(82),
                                           image: DecorationImage(
-                                            image:
-                                                NetworkImage('${profileImg}'),
                                             fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                                "${bookingdata.userId.profileImg}"),
                                           ),
                                         ),
                                       ),
                               ),
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Welcome Back',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    // 'Alex Samuel',
-                                    username,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                ],
-                              ),
-                              const Spacer(),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return ClientNotification(
-                                        token: widget.token);
-                                  }));
-                                },
-                                child: const Icon(
-                                  Icons.notifications_outlined,
-                                  size: 35,
-                                ),
-                              ),
-                              const SizedBox(width: 0.1),
-                              Container(
-                                margin: const EdgeInsets.all(5),
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Colors.white, width: 3),
-                                  color: const Color(0XFFFF2F08),
-                                  shape: BoxShape.circle,
-                                ),
+                              const SizedBox(
+                                  height:
+                                      8), // Adjust the spacing between image and text
+                              Text(
+                                bookingdata.userId.username,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Card(
-                            elevation: 2,
-                            child: Container(
-                              width: 372,
-                              // height: 119,
-                              padding: const EdgeInsets.all(
-                                  20.0), // Add padding to the container
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Column(
-                                // Use a Column to stack the text elements vertically
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          color: GlobalColors.green,
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                        ),
-                                        child: const Center(
-                                          child: FaIcon(FontAwesomeIcons.info,
-                                              size: 20, color: Colors.white),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ), // Add some spacing
-                                      const Expanded(
-                                        // Expand to fill available space
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              height: 35,
-                                            ),
-                                            Text(
-                                              "Discover Amazing Braids",
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
-                                  const Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 30,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "Complete your profile set up to have full access to the system",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 7),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .start, // Align button to the right
-                                    children: [
-                                      const SizedBox(width: 29),
-                                      ElevatedButton(
-                                        onPressed: () {},
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: GlobalColors.yellow,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                          ),
-                                          elevation: 1,
-                                          minimumSize: const Size(0, 30),
-                                        ),
-                                        child: const Text('Start Now'),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Text(
-                                'Frequent Clients',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 150,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: userBooking2.length,
-                            itemBuilder: (
-                              context1,
-                              index1,
-                            ) {
-                              final bookingdata = userBooking2[index1];
-                              return Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        print(bookingdata.userId.username);
-                                        print(bookingdata.userId.id);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ClientsDetails(
-                                                      token: widget.token,
-                                                      userId:
-                                                          bookingdata.userId.id,
-                                                    )));
-                                      },
-                                      child: bookingdata
-                                              .userId.profileImg.isEmpty
-                                          ? Container(
-                                              width: 82,
-                                              height:
-                                                  82, // Adjust the size of the image container
-                                              decoration: BoxDecoration(
-                                                color: Colors.black,
-                                                borderRadius:
-                                                    BorderRadius.circular(82),
-                                                image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: AssetImage(
-                                                      "assets/images/portrait-of-young-woman-smiling-isolated.png"),
-                                                ),
-                                              ),
-                                            )
-                                          : Container(
-                                              width: 82,
-                                              height:
-                                                  82, // Adjust the size of the image container
-                                              decoration: BoxDecoration(
-                                                color: Colors.black,
-                                                borderRadius:
-                                                    BorderRadius.circular(82),
-                                                image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                      "${bookingdata.userId.profileImg}"),
-                                                ),
-                                              ),
-                                            ),
-                                    ),
-                                    const SizedBox(
-                                        height:
-                                            8), // Adjust the spacing between image and text
-                                    Text(
-                                      bookingdata.userId.username,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Text(
-                                'Latest Appointment',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                        );
+                      },
                     ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          'Latest Appointment',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
               SingleChildScrollView(
                 child: AppointmentList(
                   userBooking: userBooking,
@@ -538,253 +521,6 @@ class _StylistDashboardState extends State<StylistDashboard> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class LoadingEff extends StatelessWidget {
-  const LoadingEff({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 70,
-          ),
-          Row(
-            children: [
-              Skelent(
-                height: 40,
-                width: 40,
-              ),
-              SizedBox(
-                width: 9,
-              ),
-              Column(
-                children: [
-                  Skelent(
-                    width: 200,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Skelent(
-                    width: 200,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: Row(
-              children: [
-                Skelent(
-                  height: 140,
-                  width: 390,
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Skelent(
-                    width: 90,
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Column(
-                        children: [
-                          Skelent(
-                            width: 65,
-                            height: 65,
-                          ),
-                          SizedBox(height: 10),
-                          Skelent(
-                            width: 65,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        children: [
-                          Skelent(
-                            width: 65,
-                            height: 65,
-                          ),
-                          SizedBox(height: 10),
-                          Skelent(
-                            width: 65,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        children: [
-                          Skelent(
-                            width: 65,
-                            height: 65,
-                          ),
-                          SizedBox(height: 10),
-                          Skelent(
-                            width: 65,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        children: [
-                          Skelent(
-                            width: 65,
-                            height: 65,
-                          ),
-                          SizedBox(height: 10),
-                          Skelent(
-                            width: 65,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              )
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            children: [
-              Skelent(
-                width: 150,
-              )
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Column(
-            children: [
-              ShimLoad(),
-              SizedBox(
-                height: 20,
-              ),
-              ShimLoad(),
-              SizedBox(
-                height: 20,
-              ),
-              ShimLoad(),
-              SizedBox(
-                height: 20,
-              ),
-              ShimLoad(),
-              SizedBox(
-                height: 20,
-              ),
-              ShimLoad(),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class ShimLoad extends StatelessWidget {
-  const ShimLoad({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Skelent(
-          width: 65,
-          height: 65,
-        ),
-        SizedBox(
-          width: 20,
-        ),
-        Column(
-          children: [
-            Row(
-              children: [
-                Skelent(
-                  width: 100,
-                ),
-                SizedBox(
-                  width: 50,
-                ),
-                Skelent(
-                  width: 100,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Skelent(
-                  width: 100,
-                ),
-                SizedBox(
-                  width: 50,
-                ),
-                Skelent(
-                  width: 100,
-                ),
-              ],
-            ),
-          ],
-        )
-      ],
-    );
-  }
-}
-
-class Skelent extends StatelessWidget {
-  const Skelent({
-    super.key,
-    this.height,
-    this.width,
-  });
-  final double? height, width;
-  @override
-  Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[500]!,
-      highlightColor: Colors.grey[100]!,
-      child: Container(
-        height: height,
-        width: width,
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.1),
-            borderRadius: BorderRadius.all(Radius.circular(16))),
       ),
     );
   }

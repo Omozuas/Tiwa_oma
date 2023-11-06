@@ -75,209 +75,264 @@ class _AdminCustormersDetailsState extends State<AdminCustormersDetails> {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<ScaffoldState> _drawer = GlobalKey();
     return Scaffold(
+      key: _drawer,
+      backgroundColor: Colors.white,
+      drawer: SizedBox(
+        width: 150,
+        child: NavigationDrawer(
+          widget: widget,
+        ),
+      ),
+      appBar: !Responsive.isMobile(context)
+          ? PreferredSize(preferredSize: Size.zero, child: SizedBox())
+          : AppBar(
+              elevation: 0,
+              backgroundColor: Colors.white10,
+              leading: IconButton(
+                onPressed: () {
+                  _drawer.currentState!.openDrawer();
+                },
+                icon: Icon(
+                  Icons.menu,
+                  color: GlobalColors.gray,
+                ),
+              )),
       body: SafeArea(
           child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (Responsive.isDeskTop(context))
-            Expanded(
-              child: Drawer(
-                child: ListView(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      width: 40,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/image-3.png'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+          !Responsive.isMobile(context)
+              ? Expanded(
+                  child: NavigationDrawer(
+                    widget: widget,
                   ),
-                  DreawerList(
-                    title: "Dashboard",
-                    svgSrc: Icons.dashboard,
-                    tap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AdminDashboard(
-                          token: widget.token,
-                        );
-                      }));
-                    },
-                    color: Colors.black,
-                    color3: GlobalColors.white,
-                    color2: GlobalColors.darkshadeblack,
-                  ),
-                  DreawerList(
-                    title: "Bookings",
-                    svgSrc: FontAwesomeIcons.book,
-                    tap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AdminBooking(
-                          token: widget.token,
-                        );
-                      }));
-                    },
-                    color: Colors.black,
-                    color2: GlobalColors.darkshadeblack,
-                    color3: GlobalColors.white,
-                  ),
-                  DreawerList(
-                    title: "Customers",
-                    svgSrc: Icons.people_outline_outlined,
-                    tap: () {},
-                    color: Colors.white,
-                    color2: Colors.white,
-                    color3: GlobalColors.yellow,
-                  ),
-                  DreawerList(
-                    title: "Stylist",
-                    svgSrc: Icons.people_outline_outlined,
-                    tap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AdminStylist(
-                          token: widget.token,
-                        );
-                      }));
-                    },
-                    color: Colors.black,
-                    color2: GlobalColors.darkshadeblack,
-                    color3: GlobalColors.white,
-                  ),
-                  DreawerList(
-                    title: "Logout",
-                    svgSrc: Icons.logout_outlined,
-                    tap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
-                    },
-                    color: Colors.black,
-                    color2: GlobalColors.darkshadeblack,
-                    color3: GlobalColors.white,
-                  ),
-                ]),
-              ),
-            ),
+                )
+              : PreferredSize(preferredSize: Size.zero, child: SizedBox()),
           Expanded(
               flex: 6,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Container(
-                                width: 405,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  color: GlobalColors.gray2,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                    !Responsive.isMobile(context)
+                        ? Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
                                   children: [
-                                    Expanded(
-                                      child: TextFormField(
-                                          decoration: InputDecoration(
-                                              hintText: 'Search here......',
-                                              hintStyle: TextStyle(
-                                                  color:
-                                                      GlobalColors.lightblack,
-                                                  fontSize: 12),
-                                              fillColor: GlobalColors.gray2,
-                                              filled: true,
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide.none,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)))),
+                                    SizedBox(
+                                      width: 20,
                                     ),
+                                    Container(
+                                      width: 405,
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        color: GlobalColors.gray2,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    hintText:
+                                                        'Search here......',
+                                                    hintStyle: TextStyle(
+                                                        color: GlobalColors
+                                                            .lightblack,
+                                                        fontSize: 12),
+                                                    fillColor:
+                                                        GlobalColors.gray2,
+                                                    filled: true,
+                                                    border: OutlineInputBorder(
+                                                        borderSide:
+                                                            BorderSide.none,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    10)))),
+                                          ),
+                                          InkWell(
+                                            onTap: () {},
+                                            child: Icon(
+                                              Icons.search,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
                                     InkWell(
                                       onTap: () {},
-                                      child: Icon(
-                                        Icons.search,
-                                        size: 20,
+                                      child: Stack(
+                                        children: [
+                                          Icon(
+                                            Icons.notifications_none_rounded,
+                                            size: 30,
+                                          ),
+                                          Positioned(
+                                            right: 0,
+                                            top: 0,
+                                            child: Container(
+                                              margin: const EdgeInsets.all(5),
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.white,
+                                                    width: 1),
+                                                color: const Color(0XFFFF2F08),
+                                                shape: BoxShape.circle,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 20,
-                                    )
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.purple.shade300,
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        "A",
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 17),
+                                      )),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("$username"),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () {},
-                                child: Stack(
+                              ],
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
                                   children: [
-                                    Icon(
-                                      Icons.notifications_none_rounded,
-                                      size: 30,
-                                    ),
-                                    Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: Container(
-                                        margin: const EdgeInsets.all(5),
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.white, width: 1),
-                                          color: const Color(0XFFFF2F08),
-                                          shape: BoxShape.circle,
-                                        ),
+                                    Container(
+                                      width: 170,
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        color: GlobalColors.gray2,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    hintText:
+                                                        'Search here......',
+                                                    hintStyle: TextStyle(
+                                                        color: GlobalColors
+                                                            .lightblack,
+                                                        fontSize: 12),
+                                                    fillColor:
+                                                        GlobalColors.gray2,
+                                                    filled: true,
+                                                    border: OutlineInputBorder(
+                                                        borderSide:
+                                                            BorderSide.none,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    10)))),
+                                          ),
+                                          InkWell(
+                                            onTap: () {},
+                                            child: Icon(
+                                              Icons.search,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.purple.shade300,
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Stack(
+                                        children: [
+                                          Icon(
+                                            Icons.notifications_none_rounded,
+                                            size: 30,
+                                          ),
+                                          Positioned(
+                                            right: 0,
+                                            top: 0,
+                                            child: Container(
+                                              margin: const EdgeInsets.all(5),
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.white,
+                                                    width: 1),
+                                                color: const Color(0XFFFF2F08),
+                                                shape: BoxShape.circle,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.purple.shade300,
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        "A",
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 17),
+                                      )),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("$username"),
+                                  ],
                                 ),
-                                child: Center(
-                                    child: Text(
-                                  "A",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 17),
-                                )),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text("$username"),
-                              SizedBox(
-                                width: 50,
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -301,361 +356,710 @@ class _AdminCustormersDetailsState extends State<AdminCustormersDetails> {
                               SizedBox(
                                 height: 20,
                               ),
-                              Row(
-                                  children: userBooking
-                                      .map((data) => Card(
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.all(30.0),
-                                              width: 1104,
-                                              child: Center(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Column(
+                              !Responsive.isMobile(context)
+                                  ? Row(
+                                      children: userBooking
+                                          .map((data) => Card(
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(
+                                                      30.0),
+                                                  width: 1104,
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
                                                       children: [
-                                                        data.userId.profileImg ==
-                                                                null
-                                                            ? Center(
-                                                                child:
-                                                                    Container(
-                                                                  width: 93,
-                                                                  height: 93,
+                                                        Column(
+                                                          children: [
+                                                            data.userId.profileImg ==
+                                                                    null
+                                                                ? Center(
+                                                                    child:
+                                                                        Container(
+                                                                      width: 93,
+                                                                      height:
+                                                                          93,
 
-                                                                  // padding: EdgeInsets.all(0),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    // shape: BoxShape.circle,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            54),
-                                                                    image:
-                                                                        DecorationImage(
-                                                                      image:
-                                                                          AssetImage(
-                                                                        "assets/images/rectangle-1041.jpg",
+                                                                      // padding: EdgeInsets.all(0),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        // shape: BoxShape.circle,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(54),
+                                                                        image:
+                                                                            DecorationImage(
+                                                                          image:
+                                                                              AssetImage(
+                                                                            "assets/images/rectangle-1041.jpg",
+                                                                          ),
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
                                                                       ),
-                                                                      fit: BoxFit
-                                                                          .cover,
+                                                                    ),
+                                                                  )
+                                                                : Center(
+                                                                    child:
+                                                                        Container(
+                                                                      width: 93,
+                                                                      height:
+                                                                          93,
+
+                                                                      // padding: EdgeInsets.all(0),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        // shape: BoxShape.circle,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(54),
+                                                                        image:
+                                                                            DecorationImage(
+                                                                          image:
+                                                                              NetworkImage(
+                                                                            "${data.userId.profileImg}",
+                                                                          ),
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                              )
-                                                            : Center(
-                                                                child:
-                                                                    Container(
-                                                                  width: 93,
-                                                                  height: 93,
-
-                                                                  // padding: EdgeInsets.all(0),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    // shape: BoxShape.circle,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            54),
-                                                                    image:
-                                                                        DecorationImage(
-                                                                      image:
-                                                                          NetworkImage(
-                                                                        "${data.userId.profileImg}",
-                                                                      ),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                        SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        Text(
-                                                          "${data.userId.username}",
-                                                          style: TextStyle(
-                                                              color: GlobalColors
-                                                                  .darkshadeblack,
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Text(
-                                                          "${data.userId.email}",
-                                                          style: TextStyle(
-                                                              color: GlobalColors
-                                                                  .darkshadeblack,
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 30,
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) =>
-                                                                        DeactivatUser());
-                                                            print(
-                                                                data.userId.id);
-                                                          },
-                                                          child: Container(
-                                                            width: 83,
-                                                            height: 30,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              border: Border.all(
-                                                                  color: const Color
-                                                                      .fromARGB(
-                                                                      255,
-                                                                      243,
-                                                                      33,
-                                                                      33)),
-                                                              shape: BoxShape
-                                                                  .rectangle,
-                                                              borderRadius: BorderRadius.vertical(
-                                                                  top: Radius
-                                                                      .circular(
-                                                                          5),
-                                                                  bottom: Radius
-                                                                      .circular(
-                                                                          5)),
+                                                            SizedBox(
+                                                              height: 20,
                                                             ),
-                                                            child: Center(
-                                                              child: Text(
-                                                                "Deactivate",
-                                                                style: TextStyle(
-                                                                    color: Color
-                                                                        .fromARGB(
+                                                            Text(
+                                                              "${data.userId.username}",
+                                                              style: TextStyle(
+                                                                  color: GlobalColors
+                                                                      .darkshadeblack,
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Text(
+                                                              "${data.userId.email}",
+                                                              style: TextStyle(
+                                                                  color: GlobalColors
+                                                                      .darkshadeblack,
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 30,
+                                                            ),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (context) =>
+                                                                            DeactivatUser());
+                                                                print(data
+                                                                    .userId.id);
+                                                              },
+                                                              child: Container(
+                                                                width: 83,
+                                                                height: 30,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color: const Color
+                                                                          .fromARGB(
+                                                                          255,
+                                                                          243,
+                                                                          33,
+                                                                          33)),
+                                                                  shape: BoxShape
+                                                                      .rectangle,
+                                                                  borderRadius: BorderRadius.vertical(
+                                                                      top: Radius
+                                                                          .circular(
+                                                                              5),
+                                                                      bottom: Radius
+                                                                          .circular(
+                                                                              5)),
+                                                                ),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "Deactivate",
+                                                                    style: TextStyle(
+                                                                        color: Color.fromARGB(
                                                                             255,
                                                                             227,
                                                                             27,
                                                                             27),
-                                                                    fontSize:
-                                                                        13),
+                                                                        fontSize:
+                                                                            13),
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
+                                                          ],
                                                         ),
-                                                      ],
-                                                    ),
-                                                    Divider(
-                                                      thickness: 1244,
-                                                      color: GlobalColors.gray,
-                                                      height: 222,
-                                                    ),
-                                                    Column(
-                                                      children: [
-                                                        Row(
+                                                        Divider(
+                                                          thickness: 1244,
+                                                          color:
+                                                              GlobalColors.gray,
+                                                          height: 222,
+                                                        ),
+                                                        Column(
                                                           children: [
-                                                            Column(
+                                                            Row(
                                                               children: [
-                                                                Text(
-                                                                  "Name",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
+                                                                Column(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Name",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
                                                                               .w400,
-                                                                      color: GlobalColors
-                                                                          .gray3),
-                                                                ),
-                                                                Text(
-                                                                  "${data.userId.username}",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          17,
-                                                                      fontWeight:
-                                                                          FontWeight
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.username}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              17,
+                                                                          fontWeight: FontWeight
                                                                               .w600,
-                                                                      color: GlobalColors
-                                                                          .gray),
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Text(
+                                                                      "Email Address",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.email}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              17,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Text(
+                                                                      "Phone Number",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.number}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              17,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Text(
+                                                                      "Gender",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.gender}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              17,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                                 SizedBox(
-                                                                  height: 20,
+                                                                  width: 20,
                                                                 ),
-                                                                Text(
-                                                                  "Email Address",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
+                                                                Column(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Country",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
                                                                               .w400,
-                                                                      color: GlobalColors
-                                                                          .gray3),
-                                                                ),
-                                                                Text(
-                                                                  "${data.userId.email}",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          17,
-                                                                      fontWeight:
-                                                                          FontWeight
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.country}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              17,
+                                                                          fontWeight: FontWeight
                                                                               .w600,
-                                                                      color: GlobalColors
-                                                                          .gray),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 20,
-                                                                ),
-                                                                Text(
-                                                                  "Phone Number",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Text(
+                                                                      "Address",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
                                                                               .w400,
-                                                                      color: GlobalColors
-                                                                          .gray3),
-                                                                ),
-                                                                Text(
-                                                                  "${data.userId.number}",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          17,
-                                                                      fontWeight:
-                                                                          FontWeight
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.address}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              17,
+                                                                          fontWeight: FontWeight
                                                                               .w600,
-                                                                      color: GlobalColors
-                                                                          .gray),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 20,
-                                                                ),
-                                                                Text(
-                                                                  "Gender",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Text(
+                                                                      "Total No of bookings",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
                                                                               .w400,
-                                                                      color: GlobalColors
-                                                                          .gray3),
-                                                                ),
-                                                                Text(
-                                                                  "${data.userId.gender}",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          17,
-                                                                      fontWeight:
-                                                                          FontWeight
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.bookingCount}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              17,
+                                                                          fontWeight: FontWeight
                                                                               .w600,
-                                                                      color: GlobalColors
-                                                                          .gray),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 20,
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ],
-                                                            ),
-                                                            SizedBox(
-                                                              width: 20,
-                                                            ),
-                                                            Column(
-                                                              children: [
-                                                                Text(
-                                                                  "Country",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      color: GlobalColors
-                                                                          .gray3),
-                                                                ),
-                                                                Text(
-                                                                  "${data.userId.country}",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          17,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      color: GlobalColors
-                                                                          .gray),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 20,
-                                                                ),
-                                                                Text(
-                                                                  "Address",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      color: GlobalColors
-                                                                          .gray3),
-                                                                ),
-                                                                Text(
-                                                                  "${data.userId.address}",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          17,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      color: GlobalColors
-                                                                          .gray),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 20,
-                                                                ),
-                                                                Text(
-                                                                  "Total No of bookings",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      color: GlobalColors
-                                                                          .gray3),
-                                                                ),
-                                                                Text(
-                                                                  "${data.bookingCount}",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          17,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      color: GlobalColors
-                                                                          .gray),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 20,
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 20,
-                                                                ),
-                                                              ],
-                                                            ),
+                                                            )
                                                           ],
                                                         )
                                                       ],
-                                                    )
-                                                  ],
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          ))
-                                      .toList())
+                                              ))
+                                          .toList())
+                                  : Column(
+                                      children: userBooking
+                                          .map((data) => Card(
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
+                                                  width: 1104,
+                                                  child: Center(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        Column(
+                                                          children: [
+                                                            data.userId.profileImg ==
+                                                                    null
+                                                                ? Center(
+                                                                    child:
+                                                                        Container(
+                                                                      width: 93,
+                                                                      height:
+                                                                          93,
+
+                                                                      // padding: EdgeInsets.all(0),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        // shape: BoxShape.circle,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(54),
+                                                                        image:
+                                                                            DecorationImage(
+                                                                          image:
+                                                                              AssetImage(
+                                                                            "assets/images/rectangle-1041.jpg",
+                                                                          ),
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                : Center(
+                                                                    child:
+                                                                        Container(
+                                                                      width: 93,
+                                                                      height:
+                                                                          93,
+
+                                                                      // padding: EdgeInsets.all(0),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        // shape: BoxShape.circle,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(54),
+                                                                        image:
+                                                                            DecorationImage(
+                                                                          image:
+                                                                              NetworkImage(
+                                                                            "${data.userId.profileImg}",
+                                                                          ),
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                            SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            Text(
+                                                              "${data.userId.username}",
+                                                              style: TextStyle(
+                                                                  color: GlobalColors
+                                                                      .darkshadeblack,
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Text(
+                                                              "${data.userId.email}",
+                                                              style: TextStyle(
+                                                                  color: GlobalColors
+                                                                      .darkshadeblack,
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 30,
+                                                            ),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (context) =>
+                                                                            DeactivatUser());
+                                                                print(data
+                                                                    .userId.id);
+                                                              },
+                                                              child: Container(
+                                                                width: 83,
+                                                                height: 30,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color: const Color
+                                                                          .fromARGB(
+                                                                          255,
+                                                                          243,
+                                                                          33,
+                                                                          33)),
+                                                                  shape: BoxShape
+                                                                      .rectangle,
+                                                                  borderRadius: BorderRadius.vertical(
+                                                                      top: Radius
+                                                                          .circular(
+                                                                              5),
+                                                                      bottom: Radius
+                                                                          .circular(
+                                                                              5)),
+                                                                ),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "Deactivate",
+                                                                    style: TextStyle(
+                                                                        color: Color.fromARGB(
+                                                                            255,
+                                                                            227,
+                                                                            27,
+                                                                            27),
+                                                                        fontSize:
+                                                                            13),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Divider(
+                                                          thickness: 1,
+                                                          color:
+                                                              GlobalColors.gray,
+                                                          height: 2,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Column(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Name",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.username}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Text(
+                                                                      "Email Address",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.email}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Text(
+                                                                      "Phone Number",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.number}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Text(
+                                                                      "Gender",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.gender}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 20,
+                                                                ),
+                                                                Column(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Country",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.country}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Text(
+                                                                      "Address",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.userId.address}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Text(
+                                                                      "Total No of bookings",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          color:
+                                                                              GlobalColors.gray3),
+                                                                    ),
+                                                                    Text(
+                                                                      "${data.bookingCount}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              GlobalColors.gray),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList())
                             ]),
                       ),
                     )
@@ -664,6 +1068,98 @@ class _AdminCustormersDetailsState extends State<AdminCustormersDetails> {
               ))
         ],
       )),
+    );
+  }
+}
+
+class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({
+    super.key,
+    required this.widget,
+  });
+
+  final AdminCustormersDetails widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(children: [
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            width: 40,
+            height: 70,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              image: DecorationImage(
+                image: AssetImage('assets/images/image-3.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        DreawerList(
+          title: "Dashboard",
+          svgSrc: Icons.dashboard,
+          tap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AdminDashboard(
+                token: widget.token,
+              );
+            }));
+          },
+          color: Colors.black,
+          color3: GlobalColors.white,
+          color2: GlobalColors.darkshadeblack,
+        ),
+        DreawerList(
+          title: "Bookings",
+          svgSrc: FontAwesomeIcons.book,
+          tap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AdminBooking(
+                token: widget.token,
+              );
+            }));
+          },
+          color: Colors.black,
+          color2: GlobalColors.darkshadeblack,
+          color3: GlobalColors.white,
+        ),
+        DreawerList(
+          title: "Customers",
+          svgSrc: Icons.people_outline_outlined,
+          tap: () {},
+          color: Colors.white,
+          color2: Colors.white,
+          color3: GlobalColors.yellow,
+        ),
+        DreawerList(
+          title: "Stylist",
+          svgSrc: Icons.people_outline_outlined,
+          tap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AdminStylist(
+                token: widget.token,
+              );
+            }));
+          },
+          color: Colors.black,
+          color2: GlobalColors.darkshadeblack,
+          color3: GlobalColors.white,
+        ),
+        DreawerList(
+          title: "Logout",
+          svgSrc: Icons.logout_outlined,
+          tap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Login()));
+          },
+          color: Colors.black,
+          color2: GlobalColors.darkshadeblack,
+          color3: GlobalColors.white,
+        ),
+      ]),
     );
   }
 }
