@@ -35,10 +35,11 @@ class _StylistDashboardState extends State<StylistDashboard> {
   String email = '';
   String username = '';
   String? profileImg = '';
+
   late final id;
   late String fcmToken = '';
   late SharedPreferences prefsDevice;
-
+  bool activation = false;
   @override
   void initState() {
     super.initState();
@@ -111,6 +112,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
         email = res.data['email'];
         username = res.data['username'];
         profileImg = res.data['profileImg'];
+        activation = res.data['active'];
       });
     });
   }
@@ -245,21 +247,30 @@ class _StylistDashboardState extends State<StylistDashboard> {
                                 const SizedBox(
                                   width: 5,
                                 ), // Add some spacing
-                                const Expanded(
+                                Expanded(
                                   // Expand to fill available space
                                   child: Row(
                                     children: [
                                       SizedBox(
                                         height: 35,
                                       ),
-                                      Text(
-                                        "Discover Amazing Braids",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
+                                      activation == false
+                                          ? Text(
+                                              "Your Account has Been DeActivated",
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            )
+                                          : Text(
+                                              "Discover Amazing Braids",
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
                                     ],
                                   ),
                                 ),
@@ -268,21 +279,32 @@ class _StylistDashboardState extends State<StylistDashboard> {
                             const SizedBox(
                               height: 6,
                             ),
-                            const Row(
+                            Row(
                               children: [
                                 SizedBox(
                                   width: 30,
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    "Complete your profile set up to have full access to the system",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
+                                activation == false
+                                    ? Expanded(
+                                        child: Text(
+                                          "Send An Email To IyanuOmozua@gmail.com",
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      )
+                                    : Expanded(
+                                        child: Text(
+                                          "Complete your profile set up to have full access to the system",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
                               ],
                             ),
                             const SizedBox(height: 7),

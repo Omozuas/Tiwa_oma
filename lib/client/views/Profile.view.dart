@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:Tiwa_Oma/view/Login.view.dart';
+import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
 import 'package:flutter_credit_card/extension.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -336,8 +337,10 @@ class _MyProfileState extends State<MyProfile> {
                     icon: Ionicons.log_out_outline,
                     text: 'Log Out',
                     press: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterAsView()));
                     },
                   ),
                 ],

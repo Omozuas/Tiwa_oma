@@ -106,3 +106,16 @@ class GetreviewpresopnsMole {
     success = json['success'];
   }
 }
+
+DeactivateUserresopnsMole dactivateUserresopnsMole(String str) =>
+    DeactivateUserresopnsMole.fromJson(json.decode(str));
+
+class DeactivateUserresopnsMole {
+  DeactivateUserresopnsMole({required this.message});
+
+  late final String message;
+
+  DeactivateUserresopnsMole.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+  }
+}

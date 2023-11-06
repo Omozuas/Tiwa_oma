@@ -13,6 +13,7 @@ import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
+import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -131,7 +132,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       key: _drawer,
       backgroundColor: Colors.white,
       drawer: SizedBox(
-        width: 150,
+        width: 200,
         child: NavigationDrawer(
           widget: widget,
         ),
@@ -1365,72 +1366,79 @@ class NavigationDrawer extends StatelessWidget {
             ),
           ),
         ),
-        DreawerList(
-          title: "Dashboard",
-          svgSrc: Icons.dashboard,
-          tap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return AdminDashboard(
-                token: widget.token,
-              );
-            }));
-          },
-          color: Colors.white,
-          color2: Colors.white,
-          color3: GlobalColors.yellow,
-        ),
-        DreawerList(
-          title: "Bookings",
-          svgSrc: FontAwesomeIcons.book,
-          tap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return AdminBooking(
-                token: widget.token,
-              );
-            }));
-          },
-          color: Colors.black,
-          color2: GlobalColors.darkshadeblack,
-          color3: GlobalColors.white,
-        ),
-        DreawerList(
-          title: "Customers",
-          svgSrc: Icons.people_outline_outlined,
-          tap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return AdminCustormers(
-                token: widget.token,
-              );
-            }));
-          },
-          color: Colors.black,
-          color3: GlobalColors.white,
-          color2: GlobalColors.darkshadeblack,
-        ),
-        DreawerList(
-          title: "Stylist",
-          svgSrc: Icons.people_outline_outlined,
-          tap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return AdminStylist(
-                token: widget.token,
-              );
-            }));
-          },
-          color: Colors.black,
-          color2: GlobalColors.darkshadeblack,
-          color3: GlobalColors.white,
-        ),
-        DreawerList(
-          title: "Logout",
-          svgSrc: Icons.logout_outlined,
-          tap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Login()));
-          },
-          color: Colors.black,
-          color2: GlobalColors.darkshadeblack,
-          color3: GlobalColors.white,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              DreawerList(
+                title: "Dashboard",
+                svgSrc: Icons.dashboard,
+                tap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AdminDashboard(
+                      token: widget.token,
+                    );
+                  }));
+                },
+                color: Colors.white,
+                color2: Colors.white,
+                color3: GlobalColors.yellow,
+              ),
+              DreawerList(
+                title: "Bookings",
+                svgSrc: FontAwesomeIcons.book,
+                tap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AdminBooking(
+                      token: widget.token,
+                    );
+                  }));
+                },
+                color: Colors.black,
+                color2: GlobalColors.darkshadeblack,
+                color3: GlobalColors.white,
+              ),
+              DreawerList(
+                title: "Customers",
+                svgSrc: Icons.people_outline_outlined,
+                tap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AdminCustormers(
+                      token: widget.token,
+                    );
+                  }));
+                },
+                color: Colors.black,
+                color3: GlobalColors.white,
+                color2: GlobalColors.darkshadeblack,
+              ),
+              DreawerList(
+                title: "Stylist",
+                svgSrc: Icons.people_outline_outlined,
+                tap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AdminStylist(
+                      token: widget.token,
+                    );
+                  }));
+                },
+                color: Colors.black,
+                color2: GlobalColors.darkshadeblack,
+                color3: GlobalColors.white,
+              ),
+              DreawerList(
+                title: "Logout",
+                svgSrc: Icons.logout_outlined,
+                tap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
+                color: Colors.black,
+                color2: GlobalColors.darkshadeblack,
+                color3: GlobalColors.white,
+              ),
+            ],
+          ),
         ),
       ]),
     );

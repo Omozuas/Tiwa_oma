@@ -3,13 +3,16 @@ import 'package:Tiwa_Oma/admin/adminDashboard.dart';
 import 'package:Tiwa_Oma/admin/adminStylist.dart';
 import 'package:Tiwa_Oma/admin/components/drawer_list_title.dart';
 import 'package:Tiwa_Oma/admin/controllers/responsive.dart';
+import 'package:Tiwa_Oma/services/Api_service.dart';
 import 'package:Tiwa_Oma/services/bookApi.dart';
 import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
+import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AdminCustormersDetails extends StatefulWidget {
@@ -80,7 +83,7 @@ class _AdminCustormersDetailsState extends State<AdminCustormersDetails> {
       key: _drawer,
       backgroundColor: Colors.white,
       drawer: SizedBox(
-        width: 150,
+        width: 200,
         child: NavigationDrawer(
           widget: widget,
         ),
@@ -460,7 +463,61 @@ class _AdminCustormersDetailsState extends State<AdminCustormersDetails> {
                                                                         context,
                                                                     builder:
                                                                         (context) =>
-                                                                            DeactivatUser());
+                                                                            DeactivatUser(
+                                                                              onTap: () {
+                                                                                var id = {
+                                                                                  "userId": widget.userID
+                                                                                };
+                                                                                APIService.deActivateUser(id, widget.token).then((value) {
+                                                                                  if (value.message == "User account deactivated successfully") {
+                                                                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                      content: Container(
+                                                                                        padding: const EdgeInsets.all(8),
+                                                                                        height: 80,
+                                                                                        decoration: BoxDecoration(
+                                                                                          color: GlobalColors.green,
+                                                                                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                                                                        ),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Icon(
+                                                                                              Icons.check_circle,
+                                                                                              color: Colors.white,
+                                                                                              size: 40,
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              width: 20,
+                                                                                            ),
+                                                                                            Expanded(
+                                                                                                child: Column(
+                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                              children: [
+                                                                                                Text(
+                                                                                                  'success',
+                                                                                                  style: TextStyle(
+                                                                                                    fontSize: 18,
+                                                                                                    color: Colors.white,
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Spacer(),
+                                                                                                Text(value.message,
+                                                                                                    style: TextStyle(
+                                                                                                      fontSize: 18,
+                                                                                                      color: Colors.white,
+                                                                                                    ))
+                                                                                              ],
+                                                                                            ))
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      behavior: SnackBarBehavior.floating,
+                                                                                      backgroundColor: Colors.transparent,
+                                                                                      elevation: 0,
+                                                                                    ));
+                                                                                  }
+                                                                                });
+                                                                              },
+                                                                            ));
                                                                 print(data
                                                                     .userId.id);
                                                               },
@@ -809,7 +866,61 @@ class _AdminCustormersDetailsState extends State<AdminCustormersDetails> {
                                                                         context,
                                                                     builder:
                                                                         (context) =>
-                                                                            DeactivatUser());
+                                                                            DeactivatUser(
+                                                                              onTap: () {
+                                                                                var id = {
+                                                                                  "userId": widget.userID
+                                                                                };
+                                                                                APIService.deActivateUser(id, widget.token).then((value) {
+                                                                                  if (value.message == "User account deactivated successfully") {
+                                                                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                      content: Container(
+                                                                                        padding: const EdgeInsets.all(8),
+                                                                                        height: 80,
+                                                                                        decoration: BoxDecoration(
+                                                                                          color: GlobalColors.green,
+                                                                                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                                                                        ),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Icon(
+                                                                                              Icons.check_circle,
+                                                                                              color: Colors.white,
+                                                                                              size: 40,
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              width: 20,
+                                                                                            ),
+                                                                                            Expanded(
+                                                                                                child: Column(
+                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                              children: [
+                                                                                                Text(
+                                                                                                  'success',
+                                                                                                  style: TextStyle(
+                                                                                                    fontSize: 18,
+                                                                                                    color: Colors.white,
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Spacer(),
+                                                                                                Text(value.message,
+                                                                                                    style: TextStyle(
+                                                                                                      fontSize: 18,
+                                                                                                      color: Colors.white,
+                                                                                                    ))
+                                                                                              ],
+                                                                                            ))
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      behavior: SnackBarBehavior.floating,
+                                                                                      backgroundColor: Colors.transparent,
+                                                                                      elevation: 0,
+                                                                                    ));
+                                                                                  }
+                                                                                });
+                                                                              },
+                                                                            ));
                                                                 print(data
                                                                     .userId.id);
                                                               },
@@ -1098,66 +1209,73 @@ class NavigationDrawer extends StatelessWidget {
             ),
           ),
         ),
-        DreawerList(
-          title: "Dashboard",
-          svgSrc: Icons.dashboard,
-          tap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return AdminDashboard(
-                token: widget.token,
-              );
-            }));
-          },
-          color: Colors.black,
-          color3: GlobalColors.white,
-          color2: GlobalColors.darkshadeblack,
-        ),
-        DreawerList(
-          title: "Bookings",
-          svgSrc: FontAwesomeIcons.book,
-          tap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return AdminBooking(
-                token: widget.token,
-              );
-            }));
-          },
-          color: Colors.black,
-          color2: GlobalColors.darkshadeblack,
-          color3: GlobalColors.white,
-        ),
-        DreawerList(
-          title: "Customers",
-          svgSrc: Icons.people_outline_outlined,
-          tap: () {},
-          color: Colors.white,
-          color2: Colors.white,
-          color3: GlobalColors.yellow,
-        ),
-        DreawerList(
-          title: "Stylist",
-          svgSrc: Icons.people_outline_outlined,
-          tap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return AdminStylist(
-                token: widget.token,
-              );
-            }));
-          },
-          color: Colors.black,
-          color2: GlobalColors.darkshadeblack,
-          color3: GlobalColors.white,
-        ),
-        DreawerList(
-          title: "Logout",
-          svgSrc: Icons.logout_outlined,
-          tap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Login()));
-          },
-          color: Colors.black,
-          color2: GlobalColors.darkshadeblack,
-          color3: GlobalColors.white,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              DreawerList(
+                title: "Dashboard",
+                svgSrc: Icons.dashboard,
+                tap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AdminDashboard(
+                      token: widget.token,
+                    );
+                  }));
+                },
+                color: Colors.black,
+                color3: GlobalColors.white,
+                color2: GlobalColors.darkshadeblack,
+              ),
+              DreawerList(
+                title: "Bookings",
+                svgSrc: FontAwesomeIcons.book,
+                tap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AdminBooking(
+                      token: widget.token,
+                    );
+                  }));
+                },
+                color: Colors.black,
+                color2: GlobalColors.darkshadeblack,
+                color3: GlobalColors.white,
+              ),
+              DreawerList(
+                title: "Customers",
+                svgSrc: Icons.people_outline_outlined,
+                tap: () {},
+                color: Colors.white,
+                color2: Colors.white,
+                color3: GlobalColors.yellow,
+              ),
+              DreawerList(
+                title: "Stylist",
+                svgSrc: Icons.people_outline_outlined,
+                tap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AdminStylist(
+                      token: widget.token,
+                    );
+                  }));
+                },
+                color: Colors.black,
+                color2: GlobalColors.darkshadeblack,
+                color3: GlobalColors.white,
+              ),
+              DreawerList(
+                title: "Logout",
+                svgSrc: Icons.logout_outlined,
+                tap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
+                color: Colors.black,
+                color2: GlobalColors.darkshadeblack,
+                color3: GlobalColors.white,
+              ),
+            ],
+          ),
         ),
       ]),
     );
@@ -1165,8 +1283,8 @@ class NavigationDrawer extends StatelessWidget {
 }
 
 class DeactivatUser extends StatelessWidget {
-  const DeactivatUser({super.key});
-
+  DeactivatUser({super.key, required this.onTap});
+  final onTap;
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -1246,7 +1364,7 @@ class DeactivatUser extends StatelessWidget {
                     width: 10,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: onTap,
                     child: Container(
                       width: 83,
                       height: 30,

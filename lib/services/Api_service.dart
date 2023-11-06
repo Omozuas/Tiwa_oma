@@ -148,4 +148,29 @@ class APIService {
     }
     return bookingresopnsMole(respons.body);
   }
+
+  static Future<DeactivateUserresopnsMole> deActivateUser(
+      updateBookings, String token) async {
+    const url = 'https://tiwa-oma-api.onrender.com/';
+    var updateBooking = "${url}auth/deactivate-user";
+
+    var respons = await client.post(Uri.parse(updateBooking),
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": "Bearer ${token}",
+        },
+        body: jsonEncode(updateBookings));
+    print(respons);
+    if (respons.statusCode == 200) {
+      Map<String, dynamic> jsonres = jsonDecode(respons.body);
+      print(jsonres['success']);
+      // print(jsonres['token']);
+      // print(registerBody);
+      print(jsonres);
+    } else {
+      var jsonres = jsonDecode(respons.body);
+      print('failed to book Appoinmewnt');
+    }
+    return dactivateUserresopnsMole(respons.body);
+  }
 }

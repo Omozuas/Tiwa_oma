@@ -60,18 +60,17 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home:
           // Dashboard(token: token),
-          // (token != null && !JwtDecoder.isExpired(token) == false)
-          //     ?
-          //     // AdminBooking(
-          //     //     token: token,
-          //     //   )
-          //     Dashboard(token: token)
-          //     :
-          // Login(),
-          AdminDashboard(
-        token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDc5Nzc0NzAzOTJjMTU1ZmZiZWY3NyIsImlhdCI6MTY5OTE5MDY0NCwiZXhwIjoxNjk5ODgxODQ0fQ.9yYWMWqKVbsHnZrTp_TAGo9rP_P2hKh7_09yNjewWwU',
-      ),
+          (token != null && !JwtDecoder.isExpired(token) == false)
+              ?
+              // AdminBooking(
+              //     token: token,
+              //   )
+              SplashView()
+              : SplashView(),
+      //     AdminDashboard(
+      //   token:
+      //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDc5Nzc0NzAzOTJjMTU1ZmZiZWY3NyIsImlhdCI6MTY5OTE5MDY0NCwiZXhwIjoxNjk5ODgxODQ0fQ.9yYWMWqKVbsHnZrTp_TAGo9rP_P2hKh7_09yNjewWwU',
+      // ),
       routes: {
         ClientNotification.route: (context) => ClientNotification(
               token: token,

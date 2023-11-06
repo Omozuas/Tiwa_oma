@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
+import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
 import 'package:flutter_credit_card/extension.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -335,8 +336,10 @@ class _StylistProfileState extends State<StylistProfile> {
                     icon: Ionicons.log_out_outline,
                     text: 'Log Out',
                     press: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterAsView()));
                     },
                   ),
                 ],
