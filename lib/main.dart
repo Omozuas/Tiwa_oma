@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
                               token: widget.token,
                             )
                           : RegisterAsView()
-          : const RegisterAsView(),
+          : const SplashView(),
       routes: {
         ClientNotification.route: (context) => ClientNotification(
               token: widget.token,
