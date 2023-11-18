@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:Tiwa_Oma/services/booking_respons_service.dart';
-import 'package:Tiwa_Oma/services/model/stylist_model.dart';
 import 'package:http/http.dart' as http;
 
 class GetUsers {

@@ -9,10 +9,8 @@ import 'package:Tiwa_Oma/services/model/book_model.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
-import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AdminCustormersDetails extends StatefulWidget {

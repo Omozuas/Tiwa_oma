@@ -17,7 +17,6 @@ import 'package:ionicons/ionicons.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shimmer/shimmer.dart';
 
 class StylistDashboard extends StatefulWidget {
   const StylistDashboard({

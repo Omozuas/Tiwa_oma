@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:Tiwa_Oma/view/config.dart';
 import 'package:Tiwa_Oma/services/model/review_model.dart';
 import 'package:http/http.dart' as http;
 

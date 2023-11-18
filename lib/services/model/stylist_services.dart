@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:Tiwa_Oma/services/model/review_model.dart';
 
 class Stylistddetailinfo {

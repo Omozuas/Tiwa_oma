@@ -1,12 +1,8 @@
-import 'package:Tiwa_Oma/admin/adminBooking.dart';
-import 'package:Tiwa_Oma/admin/adminCostormers.dart';
 import 'package:Tiwa_Oma/admin/adminDashboard.dart';
 import 'package:Tiwa_Oma/client/views/clientNotification.dart';
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
 import 'package:Tiwa_Oma/client/views/seeStylistLocation.view.dart';
-import 'package:Tiwa_Oma/firebase_options.dart';
 import 'package:Tiwa_Oma/services/firebasApi.dart';
-import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
@@ -37,6 +33,7 @@ void main() async {
     await FirebaseApi().initNotification();
     final fcmToken = await FirebaseMessaging.instance.getToken();
     print("fcmtoken $fcmToken");
+    print("myToken ${prefs.getString('token')}");
     prefsDevice.setString('deviceToken', fcmToken!);
     runApp(MyApp(
       token: prefs.getString('token'),
@@ -44,7 +41,7 @@ void main() async {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   final token;
 
   MyApp({
@@ -53,27 +50,38 @@ class MyApp extends StatelessWidget {
   });
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
+    String? accountType = '';
+    if (widget.token != null) {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+      accountType = jwtDecodedToken['accountType'];
+      print(accountType);
+    }
     return GetMaterialApp(
       title: 'Tiwa Oma',
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      home:
-          // Dashboard(token: token),
-          (token != null && !JwtDecoder.isExpired(token) == false)
-              ?
-              // AdminBooking(
-              //     token: token,
-              //   )
-              SplashView()
-              : SplashView(),
-      //     AdminDashboard(
-      //   token:
-      //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDc5Nzc0NzAzOTJjMTU1ZmZiZWY3NyIsImlhdCI6MTY5OTE5MDY0NCwiZXhwIjoxNjk5ODgxODQ0fQ.9yYWMWqKVbsHnZrTp_TAGo9rP_P2hKh7_09yNjewWwU',
-      // ),
+      home: (widget.token != null && !JwtDecoder.isExpired(widget.token))
+          ? (widget.token == null)
+              ? RegisterAsView()
+              : (accountType == 'client')
+                  ? Dashboard(token: widget.token)
+                  : (accountType == 'stylist')
+                      ? StylistDashboard(token: widget.token)
+                      : (accountType == 'admin')
+                          ? AdminDashboard(
+                              token: widget.token,
+                            )
+                          : RegisterAsView()
+          : const RegisterAsView(),
       routes: {
         ClientNotification.route: (context) => ClientNotification(
-              token: token,
+              token: widget.token,
             )
       },
     );

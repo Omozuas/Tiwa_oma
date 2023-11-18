@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:Tiwa_Oma/client/views/clientNotification.dart';
 import 'package:Tiwa_Oma/main.dart';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 

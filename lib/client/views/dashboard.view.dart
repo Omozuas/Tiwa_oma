@@ -1,6 +1,4 @@
 import 'package:Tiwa_Oma/client/views/clientNotification.dart';
-import 'package:Tiwa_Oma/services/Api_service.dart';
-import 'package:Tiwa_Oma/services/api.dart';
 import 'package:Tiwa_Oma/services/model/stylist_model.dart';
 import 'package:Tiwa_Oma/services/model/vendo_Model.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
@@ -30,7 +28,7 @@ class Dashboard extends StatefulWidget {
   });
   final token;
   var id;
-
+  static const route = '/Dashboard';
   @override
   State<Dashboard> createState() => _dashboardState();
 }
@@ -52,11 +50,11 @@ class _dashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
 
-    fetchStylistData();
-    fetchStylistDataId();
-    if (widget.token.isEmpty) {
+    if (widget.token == null) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
     } else {
+      fetchStylistData();
+      fetchStylistDataId();
       Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
       widget.id = jwtDecodedToken['id'];
       try {
@@ -223,8 +221,7 @@ class _dashboardState extends State<Dashboard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          // 'Welcome Back'
-                          email,
+                          'Welcome Back',
                           style: const TextStyle(color: Colors.grey),
                         ),
                         const SizedBox(height: 5),

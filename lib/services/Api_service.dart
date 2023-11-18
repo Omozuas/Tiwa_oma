@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:Tiwa_Oma/services/booking_respons_service.dart';
 import 'package:Tiwa_Oma/services/signUpOTp.dart';
 import 'package:Tiwa_Oma/view/config.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class APIService {
@@ -170,6 +169,56 @@ class APIService {
     } else {
       var jsonres = jsonDecode(respons.body);
       print('failed to book Appoinmewnt');
+    }
+    return dactivateUserresopnsMole(respons.body);
+  }
+
+  static Future<DeactivateUserresopnsMole> deleteUser(
+      updateBookings, String token) async {
+    const url = 'https://tiwa-oma-api.onrender.com/';
+    var updateBooking = "${url}auth/delete/users/$updateBookings";
+
+    var respons = await client.post(Uri.parse(updateBooking),
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": "Bearer ${token}",
+        },
+        body: jsonEncode(updateBookings));
+    print(respons);
+    if (respons.statusCode == 200) {
+      Map<String, dynamic> jsonres = jsonDecode(respons.body);
+      print(jsonres['success']);
+      // print(jsonres['token']);
+      // print(registerBody);
+      print(jsonres);
+    } else {
+      var jsonres = jsonDecode(respons.body);
+      print('failed to delete user');
+    }
+    return dactivateUserresopnsMole(respons.body);
+  }
+
+  static Future<DeactivateUserresopnsMole> deletestylist(
+      updateBookings, String token) async {
+    const url = 'https://tiwa-oma-api.onrender.com/';
+    var updateBooking = "${url}auth/delete/users/$updateBookings";
+
+    var respons = await client.post(Uri.parse(updateBooking),
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": "Bearer ${token}",
+        },
+        body: jsonEncode(updateBookings));
+    print(respons);
+    if (respons.statusCode == 200) {
+      Map<String, dynamic> jsonres = jsonDecode(respons.body);
+      print(jsonres['success']);
+      // print(jsonres['token']);
+      // print(registerBody);
+      print(jsonres);
+    } else {
+      var jsonres = jsonDecode(respons.body);
+      print('failed to delete');
     }
     return dactivateUserresopnsMole(respons.body);
   }

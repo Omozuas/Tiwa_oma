@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/updateApi.dart';
+import 'package:Tiwa_Oma/stylist/StylistSettingsView.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
 import 'package:flutter_credit_card/extension.dart';
@@ -18,6 +19,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // import '../client/views/accountInfo.dart';
 import '../utils/global.colors.dart';
@@ -306,10 +308,12 @@ class _StylistProfileState extends State<StylistProfile> {
                     icon: Ionicons.cog_outline,
                     text: 'Settings',
                     press: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const AccountInfo()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StylistSettingView(
+                                    token: widget.token,
+                                  )));
                     },
                   ),
                   StylistprofileMenue(
@@ -335,7 +339,10 @@ class _StylistProfileState extends State<StylistProfile> {
                   StylistprofileMenue(
                     icon: Ionicons.log_out_outline,
                     text: 'Log Out',
-                    press: () {
+                    press: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      await prefs.clear();
                       Navigator.push(
                           context,
                           MaterialPageRoute(

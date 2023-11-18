@@ -22,28 +22,28 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
   String username = '';
   late String fcmToken = '';
   late final id;
-  String profileImg = '';
-
+  String? profileImg = '';
+  Map<PolylineId, Polyline> polyLines = {};
   @override
   void initState() {
     super.initState();
-    _generateMarkers().then((_) => getPolylinePionts()
-        .then((coordinates) => {print(coordinates..printError())}));
+    _generateMarkers().then(
+        (_) => getPolylinePionts().then((coordinates) => {print(coordinates)}));
 
-    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-    id = jwtDecodedToken['id'];
-    try {
-      email = jwtDecodedToken['email'];
-      token = jwtDecodedToken['token'];
+    // Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    // id = jwtDecodedToken['id'];
+    // try {
+    //   email = jwtDecodedToken['email'];
+    //   token = jwtDecodedToken['token'];
 
-      getuserById(id);
+    //   getuserById(id);
 
-      print("see $id");
-      print(widget.token);
-    } catch (e) {
-      // Handle token decoding errors here, e.g., log the error or show an error message.
-      print('Error decoding token: $e');
-    }
+    //   print("see $id");
+    //   print(widget.token);
+    // } catch (e) {
+    //   // Handle token decoding errors here, e.g., log the error or show an error message.
+    //   print('Error decoding token: $e');
+    // }
   }
 
   Future<void> getuserById(id) async {
@@ -116,6 +116,7 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
                           BitmapDescriptor.hueBlue),
                     ),
                   },
+                  polylines: Set<Polyline>.of(polyLines.values),
                 ),
                 // Positioned(
                 //   left: 0,
@@ -331,5 +332,17 @@ class _SeeLocationOfStylistState extends State<SeeLocationOfStylist> {
       print(result.errorMessage);
     }
     return polylineCoordinate;
+  }
+
+  void drawPolylines(List<LatLng> polylineCoordinates) async {
+    PolylineId id1 = PolylineId('poly');
+    Polyline _polyline = Polyline(
+        polylineId: id1,
+        color: Colors.black,
+        points: polylineCoordinates,
+        width: 8);
+    setState(() {
+      polyLines[id1] = _polyline;
+    });
   }
 }

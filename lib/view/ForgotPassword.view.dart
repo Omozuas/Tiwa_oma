@@ -1,6 +1,5 @@
 import 'package:Tiwa_Oma/services/Api_service.dart';
 import 'package:Tiwa_Oma/services/api.dart';
-import 'package:Tiwa_Oma/services/pushNotificationApi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';

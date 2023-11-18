@@ -1,10 +1,7 @@
 import 'dart:convert';
-
 import 'package:Tiwa_Oma/services/booking_respons_service.dart';
-import 'package:Tiwa_Oma/services/model/review_model.dart';
 import 'package:Tiwa_Oma/services/model/stylist_model.dart';
 import 'package:Tiwa_Oma/services/model/vendo_Model.dart';
-import 'package:Tiwa_Oma/view/config.dart';
 import 'package:http/http.dart' as http;
 
 class VendorApi {

@@ -1,6 +1,5 @@
 import 'package:Tiwa_Oma/client/views/TransactionReview.dart';
 import 'package:Tiwa_Oma/services/Api_service.dart';
-import 'package:Tiwa_Oma/services/api.dart';
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/pushNotificationApi.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
@@ -8,7 +7,6 @@ import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:Tiwa_Oma/services/Api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class payWithCardPin extends StatefulWidget {

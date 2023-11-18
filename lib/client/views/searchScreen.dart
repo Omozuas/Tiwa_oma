@@ -1,7 +1,6 @@
 import 'package:Tiwa_Oma/services/model/vendo_Model.dart';
 import 'package:Tiwa_Oma/services/providers/searchApi.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key, this.searchQuery, this.token});

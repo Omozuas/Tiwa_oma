@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
 import 'package:flutter_credit_card/extension.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,6 +17,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/profileMenue.dart';
 import 'Bookings.view.dart';
 
@@ -38,6 +38,7 @@ class _MyProfileState extends State<MyProfile> {
   late final id;
   File? _pickedImage;
   final double profileHeiht = 120;
+
   @override
   void initState() {
     super.initState();
@@ -336,7 +337,10 @@ class _MyProfileState extends State<MyProfile> {
                   profileMenue(
                     icon: Ionicons.log_out_outline,
                     text: 'Log Out',
-                    press: () {
+                    press: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      await prefs.clear();
                       Navigator.push(
                           context,
                           MaterialPageRoute(

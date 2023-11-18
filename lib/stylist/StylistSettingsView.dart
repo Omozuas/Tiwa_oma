@@ -1,28 +1,26 @@
 import 'package:Tiwa_Oma/client/views/clientNotification.dart';
 import 'package:Tiwa_Oma/services/Api_service.dart';
+import 'package:Tiwa_Oma/stylist/AllAppointment.dart';
+import 'package:Tiwa_Oma/stylist/Clients.dart';
+import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
+import 'package:Tiwa_Oma/stylist/stylistProfile.dart';
+import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 
-import '../../utils/global.colors.dart';
-import 'Bookings.view.dart';
-import 'Profile.view.dart';
-import 'dashboard.view.dart';
-
-class SettingsView extends StatefulWidget {
+class StylistSettingView extends StatefulWidget {
+  const StylistSettingView({super.key, this.token});
   final token;
-  SettingsView({super.key, this.token});
-
   @override
-  State<SettingsView> createState() => _SettingsViewState();
+  State<StylistSettingView> createState() => _StylistSettingViewState();
 }
 
-class _SettingsViewState extends State<SettingsView> {
+class _StylistSettingViewState extends State<StylistSettingView> {
   late String email;
   late final token;
   late String username;
@@ -99,7 +97,7 @@ class _SettingsViewState extends State<SettingsView> {
                       context: context,
                       builder: (context) => DeactivatUser(
                             onTap: () {
-                              APIService.deleteUser(id, widget.token)
+                              APIService.deletestylist(id, widget.token)
                                   .then((value) {
                                 if (value.message ==
                                     "User account deactivated successfully") {
@@ -171,7 +169,7 @@ class _SettingsViewState extends State<SettingsView> {
         shape: const CircularNotchedRectangle(),
         elevation: 0,
         child: SizedBox(
-          height: 69,
+          height: 65,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -183,17 +181,18 @@ class _SettingsViewState extends State<SettingsView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Dashboard(
+                              builder: (context) => StylistDashboard(
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    icon: const FaIcon(
                       LineIcons.home,
-                      size: 32,
+                      size: 30,
                     ),
                   ),
                   const Text(
                     'Home',
+                    style: TextStyle(color: Colors.black),
                   ),
                 ],
               ),
@@ -205,15 +204,16 @@ class _SettingsViewState extends State<SettingsView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  Bookings(token: widget.token)));
+                              builder: (context) => AllAppointment(
+                                    token: widget.token,
+                                  )));
                     },
-                    icon: const Icon(
+                    icon: const FaIcon(
                       LineIcons.book,
                       size: 30,
                     ),
                   ),
-                  const Text('Bookings'),
+                  const Text('Appointment'),
                 ],
               ),
               Column(
@@ -224,16 +224,19 @@ class _SettingsViewState extends State<SettingsView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Stylist(
+                              builder: (context) => Clients(
                                     token: widget.token,
                                   )));
                     },
                     icon: const Icon(
-                      Ionicons.cut_outline,
-                      size: 30,
+                      Ionicons.people_outline,
+                      size: 32,
                     ),
                   ),
-                  const Text('stylist'),
+                  Text(
+                    'client',
+                    style: TextStyle(color: GlobalColors.darkshadeblack),
+                  ),
                 ],
               ),
               Column(
@@ -244,8 +247,9 @@ class _SettingsViewState extends State<SettingsView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  MyProfile(token: widget.token)));
+                              builder: (context) => StylistProfile(
+                                    token: widget.token,
+                                  )));
                     },
                     icon: Icon(
                       Ionicons.person_outline,

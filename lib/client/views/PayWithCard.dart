@@ -1,27 +1,17 @@
 import 'package:Tiwa_Oma/client/views/payWithCardPin.dart';
 import 'package:Tiwa_Oma/services/Api_service.dart';
-import 'package:Tiwa_Oma/services/api.dart';
-import 'package:Tiwa_Oma/services/pushNotificationApi.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/utils/global.colors.dart';
-
 import 'package:Tiwa_Oma/client/views/Profile.view.dart';
-
-// import 'package:Tiwa_Oma/view/TransactionReview.view.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'package:Tiwa_Oma/widgets/FormCardText.dart';
-// import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Bookings.view.dart';
-import 'TransactionReview.dart';
 import 'dashboard.view.dart';
 
 class payWithCard extends StatefulWidget {

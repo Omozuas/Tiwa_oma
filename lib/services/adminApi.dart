@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:Tiwa_Oma/services/model/admin_model.dart';
 import 'package:Tiwa_Oma/services/signUpOTp.dart';
 import 'package:http/http.dart' as http;
 
