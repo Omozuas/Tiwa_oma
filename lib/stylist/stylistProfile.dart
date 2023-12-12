@@ -5,7 +5,6 @@ import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:Tiwa_Oma/stylist/StylistSettingsView.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
-import 'package:flutter_credit_card/extension.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -194,7 +193,7 @@ class _StylistProfileState extends State<StylistProfile> {
                                 onTap: () {
                                   _imagePicker();
                                 },
-                                child: profileImg.isNullOrEmpty
+                                child: profileImg!.isEmpty
                                     ? Container(
                                         decoration: BoxDecoration(
                                           color: GlobalColors.yellow,
@@ -366,8 +365,8 @@ class _StylistProfileState extends State<StylistProfile> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -375,7 +374,7 @@ class _StylistProfileState extends State<StylistProfile> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const FaIcon(
+                    child: const FaIcon(
                       LineIcons.home,
                       size: 30,
                     ),
@@ -389,8 +388,8 @@ class _StylistProfileState extends State<StylistProfile> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -398,7 +397,7 @@ class _StylistProfileState extends State<StylistProfile> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const FaIcon(
+                    child: const FaIcon(
                       LineIcons.book,
                       size: 30,
                     ),
@@ -409,8 +408,8 @@ class _StylistProfileState extends State<StylistProfile> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -418,7 +417,7 @@ class _StylistProfileState extends State<StylistProfile> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       Ionicons.people_outline,
                       size: 32,
                     ),
@@ -432,8 +431,8 @@ class _StylistProfileState extends State<StylistProfile> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -441,7 +440,7 @@ class _StylistProfileState extends State<StylistProfile> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: Icon(
+                    child: Icon(
                       Ionicons.person_outline,
                       size: 30,
                       color: GlobalColors.yellow,

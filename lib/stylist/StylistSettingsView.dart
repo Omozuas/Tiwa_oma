@@ -176,8 +176,8 @@ class _StylistSettingViewState extends State<StylistSettingView> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -185,7 +185,7 @@ class _StylistSettingViewState extends State<StylistSettingView> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const FaIcon(
+                    child: const FaIcon(
                       LineIcons.home,
                       size: 30,
                     ),
@@ -199,8 +199,8 @@ class _StylistSettingViewState extends State<StylistSettingView> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -208,7 +208,7 @@ class _StylistSettingViewState extends State<StylistSettingView> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const FaIcon(
+                    child: const FaIcon(
                       LineIcons.book,
                       size: 30,
                     ),
@@ -219,8 +219,8 @@ class _StylistSettingViewState extends State<StylistSettingView> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -228,7 +228,7 @@ class _StylistSettingViewState extends State<StylistSettingView> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       Ionicons.people_outline,
                       size: 32,
                     ),
@@ -242,8 +242,8 @@ class _StylistSettingViewState extends State<StylistSettingView> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -251,7 +251,7 @@ class _StylistSettingViewState extends State<StylistSettingView> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: Icon(
+                    child: Icon(
                       Ionicons.person_outline,
                       size: 30,
                       color: GlobalColors.yellow,

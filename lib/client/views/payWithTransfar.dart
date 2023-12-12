@@ -191,8 +191,8 @@ class _payWithTranfarState extends State<payWithTranfar> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -200,7 +200,7 @@ class _payWithTranfarState extends State<payWithTranfar> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       LineIcons.book,
                       size: 30,
                     ),

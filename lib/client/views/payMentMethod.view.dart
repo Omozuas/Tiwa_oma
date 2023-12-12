@@ -257,17 +257,17 @@ class _payMenthodState extends State<payMenthod> {
       )),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        elevation: 8,
+        elevation: 0,
+        color: GlobalColors.white,
         child: SizedBox(
-          height: 69,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -275,21 +275,18 @@ class _payMenthodState extends State<payMenthod> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: Icon(
                       LineIcons.home,
-                      size: 32,
+                      size: 30,
                     ),
-                  ),
-                  const Text(
-                    'Home',
                   ),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -297,19 +294,18 @@ class _payMenthodState extends State<payMenthod> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       LineIcons.book,
                       size: 30,
                     ),
                   ),
-                  const Text('Bookings'),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -317,20 +313,19 @@ class _payMenthodState extends State<payMenthod> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: Icon(
+                    child: Icon(
                       Ionicons.cut_outline,
                       size: 30,
                       color: GlobalColors.yellow,
                     ),
                   ),
-                  Text('stylist', style: TextStyle(color: GlobalColors.yellow)),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -338,12 +333,11 @@ class _payMenthodState extends State<payMenthod> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       Ionicons.person_outline,
                       size: 30,
                     ),
                   ),
-                  const Text('Profile'),
                 ],
               ),
             ],

@@ -187,8 +187,8 @@ class _AllAppointmentState extends State<AllAppointment> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -196,7 +196,7 @@ class _AllAppointmentState extends State<AllAppointment> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const FaIcon(
+                    child: const FaIcon(
                       LineIcons.home,
                       size: 30,
                       color: Colors.black,
@@ -211,15 +211,15 @@ class _AllAppointmentState extends State<AllAppointment> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
                                   AllAppointment(token: widget.token)));
                     },
-                    icon: FaIcon(
+                    child: FaIcon(
                       LineIcons.book,
                       size: 30,
                       color: GlobalColors.yellow,
@@ -234,15 +234,15 @@ class _AllAppointmentState extends State<AllAppointment> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
                                   Clients(token: widget.token)));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       Ionicons.people_outline,
                       size: 32,
                     ),
@@ -253,8 +253,8 @@ class _AllAppointmentState extends State<AllAppointment> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -262,7 +262,7 @@ class _AllAppointmentState extends State<AllAppointment> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(Ionicons.person_outline, size: 30),
+                    child: const Icon(Ionicons.person_outline, size: 30),
                   ),
                   const Text('Profile'),
                 ],

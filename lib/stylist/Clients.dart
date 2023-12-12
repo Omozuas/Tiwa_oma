@@ -90,8 +90,8 @@ class _ClientsState extends State<Clients> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -99,7 +99,7 @@ class _ClientsState extends State<Clients> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const FaIcon(
+                    child: const FaIcon(
                       LineIcons.home,
                       size: 30,
                     ),
@@ -113,8 +113,8 @@ class _ClientsState extends State<Clients> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -122,7 +122,7 @@ class _ClientsState extends State<Clients> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const FaIcon(
+                    child: const FaIcon(
                       LineIcons.book,
                       size: 30,
                     ),
@@ -133,8 +133,8 @@ class _ClientsState extends State<Clients> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -142,7 +142,7 @@ class _ClientsState extends State<Clients> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: Icon(
+                    child: Icon(
                       Ionicons.people_outline,
                       size: 32,
                       color: GlobalColors.yellow,
@@ -157,15 +157,15 @@ class _ClientsState extends State<Clients> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
                                   StylistProfile(token: widget.token)));
                     },
-                    icon: const Icon(Ionicons.person_outline, size: 30),
+                    child: const Icon(Ionicons.person_outline, size: 30),
                   ),
                   const Text('Profile'),
                 ],

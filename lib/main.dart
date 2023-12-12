@@ -1,10 +1,8 @@
 import 'package:Tiwa_Oma/admin/adminDashboard.dart';
 import 'package:Tiwa_Oma/client/views/clientNotification.dart';
 import 'package:Tiwa_Oma/client/views/dashboard.view.dart';
-import 'package:Tiwa_Oma/client/views/seeStylistLocation.view.dart';
 import 'package:Tiwa_Oma/services/firebasApi.dart';
 import 'package:Tiwa_Oma/stylist/StylistDashboard.dart';
-import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
 import 'package:Tiwa_Oma/view/Splash.view.dart';
 import 'package:firebase_core/firebase_core.dart';

@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:Tiwa_Oma/view/RegisterAs.view.dart';
-import 'package:flutter_credit_card/extension.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
@@ -216,7 +215,7 @@ class _MyProfileState extends State<MyProfile> {
                                   onTap: () {
                                     _imagePicker();
                                   },
-                                  child: profileImg.isNullOrEmpty
+                                  child: profileImg!.isEmpty
                                       ? Container(
                                           decoration: BoxDecoration(
                                             color: GlobalColors.yellow,
@@ -356,16 +355,16 @@ class _MyProfileState extends State<MyProfile> {
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         elevation: 0,
+        color: GlobalColors.white,
         child: SizedBox(
-          height: 69,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -373,12 +372,12 @@ class _MyProfileState extends State<MyProfile> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: Icon(
                       LineIcons.home,
-                      size: 32,
+                      size: 30,
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Home',
                   ),
                 ],
@@ -386,8 +385,8 @@ class _MyProfileState extends State<MyProfile> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -395,19 +394,21 @@ class _MyProfileState extends State<MyProfile> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: Icon(
                       LineIcons.book,
                       size: 30,
                     ),
                   ),
-                  const Text('Bookings'),
+                  Text(
+                    'Bookings',
+                  ),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -415,19 +416,21 @@ class _MyProfileState extends State<MyProfile> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: Icon(
                       Ionicons.cut_outline,
                       size: 30,
                     ),
                   ),
-                  const Text('stylist'),
+                  Text(
+                    'stylist',
+                  ),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -435,16 +438,10 @@ class _MyProfileState extends State<MyProfile> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: Icon(
-                      Ionicons.person_outline,
-                      size: 30,
-                      color: GlobalColors.yellow,
-                    ),
+                    child: Icon(Ionicons.person_outline,
+                        size: 30, color: GlobalColors.yellow),
                   ),
-                  Text(
-                    'Profile',
-                    style: TextStyle(color: GlobalColors.yellow),
-                  ),
+                  Text('Profile', style: TextStyle(color: GlobalColors.yellow)),
                 ],
               ),
             ],

@@ -6,7 +6,6 @@ import 'package:Tiwa_Oma/services/updateApi.dart';
 import 'package:Tiwa_Oma/stylist/ClientsDetails.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/extension.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/stylist/AllAppointment.dart';
 import 'package:Tiwa_Oma/stylist/Clients.dart';
@@ -144,7 +143,7 @@ class _StylistDashboardState extends State<StylistDashboard> {
                             //   return MyProfile();
                             // }));
                           },
-                          child: profileImg.isNullOrEmpty
+                          child: profileImg!.isEmpty
                               ? Container(
                                   width: 40,
                                   height: 40,
@@ -453,94 +452,91 @@ class _StylistDashboardState extends State<StylistDashboard> {
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         elevation: 0,
-        child: SizedBox(
-          height: 65,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StylistDashboard(
-                                    token: widget.token,
-                                  )));
-                    },
-                    icon: FaIcon(
-                      LineIcons.home,
-                      size: 30,
-                      color: GlobalColors.yellow,
-                    ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StylistDashboard(
+                                  token: widget.token,
+                                )));
+                  },
+                  child: FaIcon(
+                    LineIcons.home,
+                    size: 30,
+                    color: GlobalColors.yellow,
                   ),
-                  Text(
-                    'Home',
-                    style: TextStyle(color: GlobalColors.yellow),
+                ),
+                Text(
+                  'Home',
+                  style: TextStyle(color: GlobalColors.yellow),
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AllAppointment(
+                                  token: widget.token,
+                                )));
+                  },
+                  child: const FaIcon(
+                    LineIcons.book,
+                    size: 30,
                   ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AllAppointment(
-                                    token: widget.token,
-                                  )));
-                    },
-                    icon: const FaIcon(
-                      LineIcons.book,
-                      size: 30,
-                    ),
+                ),
+                const Text('Appointment'),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Clients(
+                                  token: widget.token,
+                                )));
+                  },
+                  child: const Icon(
+                    Ionicons.people_outline,
+                    size: 32,
                   ),
-                  const Text('Appointment'),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Clients(
-                                    token: widget.token,
-                                  )));
-                    },
-                    icon: const Icon(
-                      Ionicons.people_outline,
-                      size: 32,
-                    ),
-                  ),
-                  const Text('client'),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StylistProfile(
-                                    token: widget.token,
-                                  )));
-                    },
-                    icon: const Icon(Ionicons.person_outline, size: 30),
-                  ),
-                  const Text('Profile'),
-                ],
-              ),
-            ],
-          ),
+                ),
+                const Text('client'),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StylistProfile(
+                                  token: widget.token,
+                                )));
+                  },
+                  child: const Icon(Ionicons.person_outline, size: 30),
+                ),
+                const Text('Profile'),
+              ],
+            ),
+          ],
         ),
       ),
     );

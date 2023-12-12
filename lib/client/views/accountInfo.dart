@@ -1,5 +1,6 @@
 import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/updateApi.dart';
+import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:flutter/material.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
@@ -309,16 +310,16 @@ class _AccountInfoState extends State<AccountInfo> {
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         elevation: 0,
+        color: GlobalColors.white,
         child: SizedBox(
-          height: 69,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -326,12 +327,12 @@ class _AccountInfoState extends State<AccountInfo> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: Icon(
                       LineIcons.home,
-                      size: 32,
+                      size: 30,
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Home',
                   ),
                 ],
@@ -339,8 +340,8 @@ class _AccountInfoState extends State<AccountInfo> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -348,19 +349,21 @@ class _AccountInfoState extends State<AccountInfo> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: Icon(
                       LineIcons.book,
                       size: 30,
                     ),
                   ),
-                  const Text('Bookings'),
+                  Text(
+                    'Bookings',
+                  ),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -368,19 +371,21 @@ class _AccountInfoState extends State<AccountInfo> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: Icon(
                       Ionicons.cut_outline,
                       size: 30,
                     ),
                   ),
-                  const Text('stylist'),
+                  Text(
+                    'stylist',
+                  ),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -388,16 +393,10 @@ class _AccountInfoState extends State<AccountInfo> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
-                      Ionicons.person_outline,
-                      size: 30,
-                      color: Colors.yellow,
-                    ),
+                    child: Icon(Ionicons.person_outline,
+                        size: 30, color: GlobalColors.yellow),
                   ),
-                  const Text(
-                    'Profile',
-                    style: TextStyle(color: Colors.yellow),
-                  ),
+                  Text('Profile', style: TextStyle(color: GlobalColors.yellow)),
                 ],
               ),
             ],

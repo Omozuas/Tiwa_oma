@@ -1,5 +1,6 @@
 import 'package:Tiwa_Oma/services/bookApi.dart';
 import 'package:Tiwa_Oma/services/model/book_model.dart';
+import 'package:Tiwa_Oma/stylist/stylistProfile.dart';
 import 'package:Tiwa_Oma/stylist/widgets/clientsInfoItemAndCard.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -277,8 +278,8 @@ class _ClientsDetailsState extends State<ClientsDetails> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -286,7 +287,7 @@ class _ClientsDetailsState extends State<ClientsDetails> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const FaIcon(
+                    child: const FaIcon(
                       LineIcons.home,
                       size: 30,
                     ),
@@ -300,8 +301,8 @@ class _ClientsDetailsState extends State<ClientsDetails> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -309,7 +310,7 @@ class _ClientsDetailsState extends State<ClientsDetails> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const FaIcon(
+                    child: const FaIcon(
                       LineIcons.book,
                       size: 30,
                     ),
@@ -320,8 +321,8 @@ class _ClientsDetailsState extends State<ClientsDetails> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -329,7 +330,7 @@ class _ClientsDetailsState extends State<ClientsDetails> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: Icon(
+                    child: Icon(
                       Ionicons.people_outline,
                       size: 32,
                       color: GlobalColors.yellow,
@@ -344,16 +345,16 @@ class _ClientsDetailsState extends State<ClientsDetails> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyProfile(
+                              builder: (context) => StylistProfile(
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(Ionicons.person_outline, size: 30),
+                    child: const Icon(Ionicons.person_outline, size: 30),
                   ),
                   const Text('Profile'),
                 ],

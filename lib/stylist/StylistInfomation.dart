@@ -4,7 +4,6 @@ import 'package:Tiwa_Oma/services/providers/components/getUsersApi.dart';
 import 'package:Tiwa_Oma/services/providers/reviewApi.dart';
 import 'package:Tiwa_Oma/services/providers/vendorApi.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/extension.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Tiwa_Oma/stylist/AllAppointment.dart';
 import 'package:Tiwa_Oma/stylist/Clients.dart';
@@ -173,7 +172,7 @@ class _StylistInfomationState extends State<StylistInfomation>
                           children: [
                             InkWell(
                               onTap: () {},
-                              child: profileImg.isNullOrEmpty
+                              child: profileImg!.isEmpty
                                   ? Container(
                                       decoration: BoxDecoration(
                                         color: GlobalColors.yellow,
@@ -396,8 +395,8 @@ class _StylistInfomationState extends State<StylistInfomation>
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -405,7 +404,7 @@ class _StylistInfomationState extends State<StylistInfomation>
                                     token: widget.token,
                                   )));
                     },
-                    icon: const FaIcon(
+                    child: const FaIcon(
                       LineIcons.home,
                       size: 30,
                     ),
@@ -419,8 +418,8 @@ class _StylistInfomationState extends State<StylistInfomation>
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -428,7 +427,7 @@ class _StylistInfomationState extends State<StylistInfomation>
                                     token: widget.token,
                                   )));
                     },
-                    icon: const FaIcon(
+                    child: const FaIcon(
                       LineIcons.book,
                       size: 30,
                     ),
@@ -439,8 +438,8 @@ class _StylistInfomationState extends State<StylistInfomation>
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -448,7 +447,7 @@ class _StylistInfomationState extends State<StylistInfomation>
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       Ionicons.people_outline,
                       size: 32,
                     ),
@@ -462,8 +461,8 @@ class _StylistInfomationState extends State<StylistInfomation>
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -471,7 +470,7 @@ class _StylistInfomationState extends State<StylistInfomation>
                                     token: widget.token,
                                   )));
                     },
-                    icon: Icon(
+                    child: Icon(
                       Ionicons.person_outline,
                       size: 30,
                       color: GlobalColors.yellow,

@@ -10,7 +10,6 @@ import 'package:Tiwa_Oma/utils/global.colors.dart';
 import 'package:Tiwa_Oma/view/Login.view.dart';
 import 'package:Tiwa_Oma/widgets/stylistItemListAndItemCard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/extension.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:Tiwa_Oma/client/views/stylist.view.dart';
 import 'package:Tiwa_Oma/client/views/stylistReviews.view.dart';
@@ -177,7 +176,7 @@ class _dashboardState extends State<Dashboard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Row(
@@ -191,7 +190,7 @@ class _dashboardState extends State<Dashboard> {
                           );
                         }));
                       },
-                      child: profileImg.isNullOrEmpty
+                      child: profileImg!.isEmpty
                           ? Container(
                               width: 40,
                               height: 40,
@@ -357,7 +356,7 @@ class _dashboardState extends State<Dashboard> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 17, horizontal: 18),
+                                  vertical: 7, horizontal: 18),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -427,7 +426,7 @@ class _dashboardState extends State<Dashboard> {
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w500),
                         ),
-                        const SizedBox(width: 163),
+                        const SizedBox(width: 150),
                         TextButton(
                           onPressed: () {},
                           child: const Text(
@@ -467,7 +466,7 @@ class _dashboardState extends State<Dashboard> {
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w500),
                         ),
-                        const SizedBox(width: 160),
+                        const SizedBox(width: 150),
                         TextButton(
                           onPressed: () {},
                           child: const Text(
@@ -484,11 +483,15 @@ class _dashboardState extends State<Dashboard> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 10,
+              ),
               GridView.builder(
                 itemCount: nameStylist2.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 itemBuilder: (context, int index) {
                   final item = nameStylist2[index];
@@ -564,17 +567,17 @@ class _dashboardState extends State<Dashboard> {
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        elevation: 8,
+        elevation: 0,
+        color: GlobalColors.white,
         child: SizedBox(
-          height: 69,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -582,9 +585,9 @@ class _dashboardState extends State<Dashboard> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: Icon(
+                    child: Icon(
                       LineIcons.home,
-                      size: 32,
+                      size: 30,
                       color: GlobalColors.yellow,
                     ),
                   ),
@@ -597,8 +600,8 @@ class _dashboardState extends State<Dashboard> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -606,7 +609,7 @@ class _dashboardState extends State<Dashboard> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       LineIcons.book,
                       size: 30,
                     ),
@@ -617,8 +620,8 @@ class _dashboardState extends State<Dashboard> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -626,7 +629,7 @@ class _dashboardState extends State<Dashboard> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       Ionicons.cut_outline,
                       size: 30,
                     ),
@@ -637,8 +640,8 @@ class _dashboardState extends State<Dashboard> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -646,7 +649,7 @@ class _dashboardState extends State<Dashboard> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       Ionicons.person_outline,
                       size: 30,
                     ),

@@ -170,16 +170,16 @@ class _SettingsViewState extends State<SettingsView> {
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         elevation: 0,
+        color: GlobalColors.white,
         child: SizedBox(
-          height: 69,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -187,12 +187,12 @@ class _SettingsViewState extends State<SettingsView> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: Icon(
                       LineIcons.home,
-                      size: 32,
+                      size: 30,
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Home',
                   ),
                 ],
@@ -200,27 +200,30 @@ class _SettingsViewState extends State<SettingsView> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  Bookings(token: widget.token)));
+                              builder: (context) => Bookings(
+                                    token: widget.token,
+                                  )));
                     },
-                    icon: const Icon(
+                    child: Icon(
                       LineIcons.book,
                       size: 30,
                     ),
                   ),
-                  const Text('Bookings'),
+                  Text(
+                    'Bookings',
+                  ),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -228,35 +231,32 @@ class _SettingsViewState extends State<SettingsView> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: Icon(
                       Ionicons.cut_outline,
                       size: 30,
                     ),
                   ),
-                  const Text('stylist'),
+                  Text(
+                    'stylist',
+                  ),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  MyProfile(token: widget.token)));
+                              builder: (context) => MyProfile(
+                                    token: widget.token,
+                                  )));
                     },
-                    icon: Icon(
-                      Ionicons.person_outline,
-                      size: 30,
-                      color: GlobalColors.yellow,
-                    ),
+                    child: Icon(Ionicons.person_outline,
+                        size: 30, color: GlobalColors.yellow),
                   ),
-                  Text(
-                    'Profile',
-                    style: TextStyle(color: GlobalColors.yellow),
-                  ),
+                  Text('Profile', style: TextStyle(color: GlobalColors.yellow)),
                 ],
               ),
             ],

@@ -80,17 +80,17 @@ class _BookingsState extends State<Bookings> {
               SingleChildScrollView(child: BookingList(bookings2: bookings2))),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        elevation: 8,
+        elevation: 0,
+        color: GlobalColors.white,
         child: SizedBox(
-          height: 69,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -98,12 +98,12 @@ class _BookingsState extends State<Bookings> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: Icon(
                       LineIcons.home,
-                      size: 32,
+                      size: 30,
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Home',
                   ),
                 ],
@@ -111,8 +111,8 @@ class _BookingsState extends State<Bookings> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -120,7 +120,7 @@ class _BookingsState extends State<Bookings> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: Icon(
+                    child: Icon(
                       LineIcons.book,
                       size: 30,
                       color: GlobalColors.yellow,
@@ -135,8 +135,8 @@ class _BookingsState extends State<Bookings> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -144,7 +144,7 @@ class _BookingsState extends State<Bookings> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       Ionicons.cut_outline,
                       size: 30,
                     ),
@@ -155,8 +155,8 @@ class _BookingsState extends State<Bookings> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -164,7 +164,7 @@ class _BookingsState extends State<Bookings> {
                                     token: widget.token,
                                   )));
                     },
-                    icon: const Icon(
+                    child: const Icon(
                       Ionicons.person_outline,
                       size: 30,
                     ),
