@@ -1,0 +1,142 @@
+[
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xhdpi_image3.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xhdpi/image3.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/drawable-xhdpi_splash.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/drawable-xhdpi/splash.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/drawable-xxxhdpi_splash.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/drawable-xxxhdpi/splash.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/drawable-v21_capture.PNG.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/drawable-v21/capture.PNG"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-hdpi_launcher_icon.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-hdpi/launcher_icon.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xxxhdpi_image.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xxxhdpi/image.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xxhdpi_image3.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xxhdpi/image3.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xxhdpi_image.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xxhdpi/image.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xhdpi_capture.PNG.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xhdpi/capture.PNG"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xhdpi_launcher_icon.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xhdpi/launcher_icon.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xxxhdpi_launcher_icon.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xxxhdpi/launcher_icon.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-mdpi_image3.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-mdpi/image3.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/drawable-v21_launch_background.xml.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/drawable-v21/launch_background.xml"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xxhdpi_launcher_icon.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xxhdpi/launcher_icon.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xhdpi_image.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xhdpi/image.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-mdpi_launcher_icon.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-mdpi/launcher_icon.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/drawable-xxhdpi_splash.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/drawable-xxhdpi/splash.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xxxhdpi_capture.PNG.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xxxhdpi/capture.PNG"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-hdpi_image3.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-hdpi/image3.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/drawable-hdpi_splash.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/drawable-hdpi/splash.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-mdpi_image.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-mdpi/image.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/drawable-mdpi_splash.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/drawable-mdpi/splash.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-mdpi_capture.PNG.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-mdpi/capture.PNG"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/drawable-v21_image.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/drawable-v21/image.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-hdpi_image.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-hdpi/image.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xxxhdpi_image3.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xxxhdpi/image3.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-xxhdpi_capture.PNG.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-xxhdpi/capture.PNG"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/mipmap-hdpi_capture.PNG.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/mipmap-hdpi/capture.PNG"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/drawable-v21_image3.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/drawable-v21/image3.png"
+    },
+    {
+        "merged": "com.example.Tiwa_Oma.app-merged_res-32:/drawable-v21_background.png.flat",
+        "source": "com.example.Tiwa_Oma.app-main-26:/drawable-v21/background.png"
+    }
+]

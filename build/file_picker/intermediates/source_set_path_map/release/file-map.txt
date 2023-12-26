@@ -1,0 +1,12 @@
+com.mr.flutter.plugin.filepicker.file_picker-core-1.6.0-0 C:\Users\omozua judah\.gradle\caches\transforms-3\15b0b4cbc74092f109129814573ec0ae\transformed\core-1.6.0\res
+com.mr.flutter.plugin.filepicker.file_picker-jetified-annotation-experimental-1.1.0-1 C:\Users\omozua judah\.gradle\caches\transforms-3\2dafecde057399b2be08c9c13dd789b4\transformed\jetified-annotation-experimental-1.1.0\res
+com.mr.flutter.plugin.filepicker.file_picker-jetified-window-java-1.0.0-beta04-2 C:\Users\omozua judah\.gradle\caches\transforms-3\7b444092425300affc1f51415b105756\transformed\jetified-window-java-1.0.0-beta04\res
+com.mr.flutter.plugin.filepicker.file_picker-jetified-window-1.0.0-beta04-3 C:\Users\omozua judah\.gradle\caches\transforms-3\f5a9b22f5437b5e1634eb799cdf70ee0\transformed\jetified-window-1.0.0-beta04\res
+com.mr.flutter.plugin.filepicker.file_picker-main-4 C:\Users\omozua judah\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-6.1.1\android\src\main\res
+com.mr.flutter.plugin.filepicker.file_picker-release-5 C:\Users\omozua judah\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-6.1.1\android\src\release\res
+com.mr.flutter.plugin.filepicker.file_picker-pngs-6 C:\flutter\hairapp\build\file_picker\generated\res\pngs\release
+com.mr.flutter.plugin.filepicker.file_picker-resValues-7 C:\flutter\hairapp\build\file_picker\generated\res\resValues\release
+com.mr.flutter.plugin.filepicker.file_picker-mergeReleaseResources-8 C:\flutter\hairapp\build\file_picker\intermediates\incremental\release\mergeReleaseResources\merged.dir
+com.mr.flutter.plugin.filepicker.file_picker-mergeReleaseResources-9 C:\flutter\hairapp\build\file_picker\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+com.mr.flutter.plugin.filepicker.file_picker-merged_res-10 C:\flutter\hairapp\build\file_picker\intermediates\merged_res\release
+com.mr.flutter.plugin.filepicker.file_picker-packaged_res-11 C:\flutter\hairapp\build\flutter_plugin_android_lifecycle\intermediates\packaged_res\release

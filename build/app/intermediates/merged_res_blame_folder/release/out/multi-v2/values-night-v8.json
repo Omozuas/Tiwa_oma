@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.Tiwa_Oma.app-mergeReleaseResources-30:/values-night-v8/values-night-v8.xml",
+            "map": [
+                {
+                    "source": "C:\\flutter\\hairapp\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "from": {
+                        "startLines": "3,18",
+                        "startColumns": "4,4",
+                        "startOffsets": "175,1094",
+                        "endLines": "11,20",
+                        "endColumns": "12,12",
+                        "endOffsets": "745,1260"
+                    },
+                    "to": {
+                        "startLines": "2,10",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,495",
+                        "endLines": "9,12",
+                        "endColumns": "12,12",
+                        "endOffsets": "490,659"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+com.lyokone.location-jetified-window-java-1.0.0-beta04-0 C:\Users\omozua judah\.gradle\caches\transforms-3\7b444092425300affc1f51415b105756\transformed\jetified-window-java-1.0.0-beta04\res
+com.lyokone.location-lifecycle-runtime-2.3.1-1 C:\Users\omozua judah\.gradle\caches\transforms-3\94a102a77247ec22215624c431d2ea6b\transformed\lifecycle-runtime-2.3.1\res
+com.lyokone.location-jetified-play-services-basement-18.1.0-2 C:\Users\omozua judah\.gradle\caches\transforms-3\98ba2223c817a209cbd1361c521867c2\transformed\jetified-play-services-basement-18.1.0\res
+com.lyokone.location-jetified-annotation-experimental-1.3.0-3 C:\Users\omozua judah\.gradle\caches\transforms-3\e96010635c7d1c2b8740f121bdff111c\transformed\jetified-annotation-experimental-1.3.0\res
+com.lyokone.location-jetified-core-ktx-1.10.1-4 C:\Users\omozua judah\.gradle\caches\transforms-3\e9a153fa481e850e3d04f0f034d85e48\transformed\jetified-core-ktx-1.10.1\res
+com.lyokone.location-jetified-play-services-base-18.1.0-5 C:\Users\omozua judah\.gradle\caches\transforms-3\f1dff1f23d8baaa005723517fcd60005\transformed\jetified-play-services-base-18.1.0\res
+com.lyokone.location-core-1.10.1-6 C:\Users\omozua judah\.gradle\caches\transforms-3\f3a369ae6339d5b2910c8423cb17def8\transformed\core-1.10.1\res
+com.lyokone.location-jetified-window-1.0.0-beta04-7 C:\Users\omozua judah\.gradle\caches\transforms-3\f5a9b22f5437b5e1634eb799cdf70ee0\transformed\jetified-window-1.0.0-beta04\res
+com.lyokone.location-main-8 C:\Users\omozua judah\AppData\Local\Pub\Cache\hosted\pub.dev\location-5.0.3\android\src\main\res
+com.lyokone.location-release-9 C:\Users\omozua judah\AppData\Local\Pub\Cache\hosted\pub.dev\location-5.0.3\android\src\release\res
+com.lyokone.location-pngs-10 C:\flutter\hairapp\build\location\generated\res\pngs\release
+com.lyokone.location-resValues-11 C:\flutter\hairapp\build\location\generated\res\resValues\release
+com.lyokone.location-mergeReleaseResources-12 C:\flutter\hairapp\build\location\intermediates\incremental\release\mergeReleaseResources\merged.dir
+com.lyokone.location-mergeReleaseResources-13 C:\flutter\hairapp\build\location\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+com.lyokone.location-merged_res-14 C:\flutter\hairapp\build\location\intermediates\merged_res\release

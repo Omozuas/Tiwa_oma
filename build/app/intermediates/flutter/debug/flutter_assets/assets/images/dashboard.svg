@@ -1,0 +1,10 @@
+<svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="lucide:layout-dashboard">
+<g id="Group">
+<path id="Vector" d="M10.125 3.375H4.5C3.87868 3.375 3.375 3.87868 3.375 4.5V12.375C3.375 12.9963 3.87868 13.5 4.5 13.5H10.125C10.7463 13.5 11.25 12.9963 11.25 12.375V4.5C11.25 3.87868 10.7463 3.375 10.125 3.375Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M22.5 3.375H16.875C16.2537 3.375 15.75 3.87868 15.75 4.5V7.875C15.75 8.49632 16.2537 9 16.875 9H22.5C23.1213 9 23.625 8.49632 23.625 7.875V4.5C23.625 3.87868 23.1213 3.375 22.5 3.375Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M22.5 13.5H16.875C16.2537 13.5 15.75 14.0037 15.75 14.625V22.5C15.75 23.1213 16.2537 23.625 16.875 23.625H22.5C23.1213 23.625 23.625 23.1213 23.625 22.5V14.625C23.625 14.0037 23.1213 13.5 22.5 13.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M10.125 18H4.5C3.87868 18 3.375 18.5037 3.375 19.125V22.5C3.375 23.1213 3.87868 23.625 4.5 23.625H10.125C10.7463 23.625 11.25 23.1213 11.25 22.5V19.125C11.25 18.5037 10.7463 18 10.125 18Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,13 @@
+io.flutter.plugins.firebase.core.firebase_core-core-1.6.0-0 C:\Users\omozua judah\.gradle\caches\transforms-3\15b0b4cbc74092f109129814573ec0ae\transformed\core-1.6.0\res
+io.flutter.plugins.firebase.core.firebase_core-jetified-annotation-experimental-1.1.0-1 C:\Users\omozua judah\.gradle\caches\transforms-3\2dafecde057399b2be08c9c13dd789b4\transformed\jetified-annotation-experimental-1.1.0\res
+io.flutter.plugins.firebase.core.firebase_core-jetified-firebase-common-20.4.2-2 C:\Users\omozua judah\.gradle\caches\transforms-3\2fcefb93ed1050d507ae08af85d4a53c\transformed\jetified-firebase-common-20.4.2\res
+io.flutter.plugins.firebase.core.firebase_core-jetified-window-java-1.0.0-beta04-3 C:\Users\omozua judah\.gradle\caches\transforms-3\7b444092425300affc1f51415b105756\transformed\jetified-window-java-1.0.0-beta04\res
+io.flutter.plugins.firebase.core.firebase_core-jetified-play-services-basement-18.1.0-4 C:\Users\omozua judah\.gradle\caches\transforms-3\98ba2223c817a209cbd1361c521867c2\transformed\jetified-play-services-basement-18.1.0\res
+io.flutter.plugins.firebase.core.firebase_core-jetified-window-1.0.0-beta04-5 C:\Users\omozua judah\.gradle\caches\transforms-3\f5a9b22f5437b5e1634eb799cdf70ee0\transformed\jetified-window-1.0.0-beta04\res
+io.flutter.plugins.firebase.core.firebase_core-main-6 C:\Users\omozua judah\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-2.22.0\android\src\main\res
+io.flutter.plugins.firebase.core.firebase_core-release-7 C:\Users\omozua judah\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-2.22.0\android\src\release\res
+io.flutter.plugins.firebase.core.firebase_core-pngs-8 C:\flutter\hairapp\build\firebase_core\generated\res\pngs\release
+io.flutter.plugins.firebase.core.firebase_core-resValues-9 C:\flutter\hairapp\build\firebase_core\generated\res\resValues\release
+io.flutter.plugins.firebase.core.firebase_core-mergeReleaseResources-10 C:\flutter\hairapp\build\firebase_core\intermediates\incremental\release\mergeReleaseResources\merged.dir
+io.flutter.plugins.firebase.core.firebase_core-mergeReleaseResources-11 C:\flutter\hairapp\build\firebase_core\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+io.flutter.plugins.firebase.core.firebase_core-merged_res-12 C:\flutter\hairapp\build\firebase_core\intermediates\merged_res\release

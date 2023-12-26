@@ -1,0 +1,11 @@
+net.jonhanson.flutter_native_splash-core-1.6.0-0 C:\Users\omozua judah\.gradle\caches\transforms-3\15b0b4cbc74092f109129814573ec0ae\transformed\core-1.6.0\res
+net.jonhanson.flutter_native_splash-jetified-annotation-experimental-1.1.0-1 C:\Users\omozua judah\.gradle\caches\transforms-3\2dafecde057399b2be08c9c13dd789b4\transformed\jetified-annotation-experimental-1.1.0\res
+net.jonhanson.flutter_native_splash-jetified-window-java-1.0.0-beta04-2 C:\Users\omozua judah\.gradle\caches\transforms-3\7b444092425300affc1f51415b105756\transformed\jetified-window-java-1.0.0-beta04\res
+net.jonhanson.flutter_native_splash-jetified-window-1.0.0-beta04-3 C:\Users\omozua judah\.gradle\caches\transforms-3\f5a9b22f5437b5e1634eb799cdf70ee0\transformed\jetified-window-1.0.0-beta04\res
+net.jonhanson.flutter_native_splash-main-4 C:\Users\omozua judah\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_native_splash-2.3.5\android\src\main\res
+net.jonhanson.flutter_native_splash-release-5 C:\Users\omozua judah\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_native_splash-2.3.5\android\src\release\res
+net.jonhanson.flutter_native_splash-pngs-6 C:\flutter\hairapp\build\flutter_native_splash\generated\res\pngs\release
+net.jonhanson.flutter_native_splash-resValues-7 C:\flutter\hairapp\build\flutter_native_splash\generated\res\resValues\release
+net.jonhanson.flutter_native_splash-mergeReleaseResources-8 C:\flutter\hairapp\build\flutter_native_splash\intermediates\incremental\release\mergeReleaseResources\merged.dir
+net.jonhanson.flutter_native_splash-mergeReleaseResources-9 C:\flutter\hairapp\build\flutter_native_splash\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+net.jonhanson.flutter_native_splash-merged_res-10 C:\flutter\hairapp\build\flutter_native_splash\intermediates\merged_res\release
